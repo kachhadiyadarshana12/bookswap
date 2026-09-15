@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>BookSwap - Exchange Books</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              surface: '#fcf9f8',
+              background: '#fcf9f8',
+      
+              'surface-bright': '#fcf9f8',
+              'surface-dim': '#dcd9d9',
+      
+              'surface-container-lowest': '#ffffff',
+              'surface-container-low': '#f6f3f2',
+              'surface-container': '#f0eded',
+              'surface-container-high': '#eae7e7',
+              'surface-container-highest': '#e4e2e1',
+              'surface-variant': '#e4e2e1',
+      
+              primary: '#570013',
+              'primary-container': '#800020',
+              'primary-fixed': '#ffdada',
+              'primary-fixed-dim': '#ffb3b5',
+      
+              'on-primary': '#ffffff',
+              'on-primary-container': '#ff828a',
+      
+              secondary: '#516353',
+              'secondary-container': '#d4e8d4',
+              'on-secondary-container': '#576959',
+      
+              tertiary: '#735c00',
+              'tertiary-container': '#cca730',
+              'tertiary-fixed': '#ffe088',
+              'tertiary-fixed-dim': '#e9c349',
+      
+              error: '#ba1a1a',
+              'error-container': '#ffdad6',
+      
+              'on-error': '#ffffff',
+              'on-error-container': '#93000a',
+      
+              'on-surface': '#1b1c1c',
+              'on-surface-variant': '#584141',
+              'on-background': '#1b1c1c',
+      
+              outline: '#8c7071',
+              'outline-variant': '#e0bfbf'
+            },
+      
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px'
+            },
+      
+            spacing: {
+              'margin-mobile': '16px',
+              'margin-desktop': '48px',
+              gutter: '24px'
+            },
+      
+            fontFamily: {
+              'headline-sm': ['Playfair Display'],
+              'headline-md': ['Playfair Display'],
+              'display-lg': ['Playfair Display'],
+      
+              'body-sm': ['Inter'],
+              'body-md': ['Inter'],
+              'body-lg': ['Inter'],
+      
+              'label-caps': ['Inter']
+            },
+      
+            fontSize: {
+              'headline-sm': [
+                '24px',
+                {
+                  lineHeight: '1.3',
+                  fontWeight: '600'
+                }
+              ],
+      
+              'headline-md': [
+                '32px',
+                {
+                  lineHeight: '1.2',
+                  fontWeight: '600'
+                }
+              ],
+      
+              'display-lg': [
+                '48px',
+                {
+                  lineHeight: '1.1',
+                  letterSpacing: '-0.02em',
+                  fontWeight: '700'
+                }
+              ],
+      
+              'body-sm': [
+                '14px',
+                {
+                  lineHeight: '1.4',
+                  fontWeight: '400'
+                }
+              ],
+      
+              'body-md': [
+                '16px',
+                {
+                  lineHeight: '1.5',
+                  fontWeight: '400'
+                }
+              ],
+      
+              'label-caps': [
+                '12px',
+                {
+                  lineHeight: '1',
+                  letterSpacing: '0.08em',
+                  fontWeight: '600'
+                }
+              ]
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      /* =========================================================
+                                   BODY
+                                ========================================================= */
+      
+      body {
+        background: #fcf9f8;
+        color: #1b1c1c;
+        font-family: 'Inter', sans-serif;
+      
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+      }
+      
+      ::-webkit-scrollbar {
+        width: 7px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #d5c5c5;
+        border-radius: 999px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: #8c7071;
+      }
+      
+      /* =========================================================
+                                   BOOK ROW
+                                ========================================================= */
+      
+      .book-row {
+        transition: background-color 0.2s ease;
+      }
+      
+      .book-row:hover {
+        background: #f6f3f2;
+      }
+      
+      /* =========================================================
+                                   BOOK IMAGE
+                                ========================================================= */
+      
+      .book-cover {
+        transition: transform 0.25s ease;
+      }
+      
+      .book-row:hover .book-cover {
+        transform: scale(1.03);
+      }
+      
+      /* =========================================================
+                                   MODAL
+                                ========================================================= */
+      
+      .modal-box {
+        animation: modalShow 0.2s ease;
+      }
+      
+      @keyframes modalShow {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.97);
+        }
+      
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      
+      /* =========================================================
+                                   MOBILE
+                                ========================================================= */
+      
+      @media (max-width: 1023px) {
+        .book-scroll-area {
+          max-height: none !important;
+          overflow: visible !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-surface text-on-surface font-body-md min-h-screen">
+    {% include 'seller/seller_header.html' %}
+    <!--     =========================================================
+         SIDEBAR
+    =========================================================     -->
+
+    {% include 'seller/seller_sidebar.html' %}
+
+    <!--     =========================================================
+         MAIN
+    =========================================================     -->
+
+    <main class="flex-1 md:ml-64 w-full min-w-0 max-w-5xl mx-auto p-margin-mobile md:p-margin-desktop">
+      <!--     =========================================================
+             PAGE HEADER
+        =========================================================     -->
+
+      <section class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-7 h-0.5 bg-secondary"></span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-secondary">Exchange Library</span>
+          </div>
+
+          <h1 class="font-display-lg text-display-lg text-primary max-lg:text-[36px]">Exchange Books</h1>
+
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-3 max-w-2xl leading-6">Manage books that are available for exchange. Update exchange information, review your listings, or remove an exchange book.</p>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+
+        <div class="flex items-center gap-3 shrink-0">
+          <a href="{% url 'seller_add_exchange' %}" class="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-md bg-primary-container text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90 transition-all shadow-[0_6px_18px_rgba(128,0,32,0.12)]">
+            <span class="material-symbols-outlined text-[20px]">swap_horiz</span>
+
+            ADD EXCHANGE BOOK
+          </a>
+        </div>
+      </section>
+
+      <!--     =========================================================
+             MESSAGES
+        =========================================================     -->
+
+      {% if messages %}
+        <div class="space-y-3 mb-8">
+          {% for message in messages %}
+            <div class="flex items-center gap-3 px-5 py-4 rounded-lg border
+                {% if message.tags == 'error' %}
+                
+                
+                
+                
+                    bg-error-container border-error/20 text-error
+
+
+
+
+              {% else %}
+                
+                
+                
+                
+                    bg-secondary-container border-secondary/20 text-secondary
+
+
+
+
+              {% endif %}">
+              <span class="material-symbols-outlined text-[21px]">
+                {% if message.tags == 'error' %}
+                  error
+                {% else %}
+                  check_circle
+                {% endif %}
+              </span>
+
+              <span class="font-body-sm text-body-sm font-medium">{{ message }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!--     =========================================================
+             SUMMARY CARDS
+        =========================================================     -->
+
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <!-- TOTAL EXCHANGE BOOKS -->
+
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-[0_4px_12px_rgba(128,0,32,0.02)]">
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <p class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant mb-2">Exchange Books</p>
+
+              <p class="font-headline-md text-headline-md text-primary">{{ exchange_books|length }}</p>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Books available for exchange</p>
+            </div>
+
+            <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-secondary text-[24px]">swap_horiz</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIVE -->
+
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-[0_4px_12px_rgba(128,0,32,0.02)]">
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <p class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant mb-2">Active Listings</p>
+
+              <p class="font-headline-md text-headline-md text-secondary">{{ active_exchange_count|default:0 }}</p>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Active exchange listings</p>
+            </div>
+
+            <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-secondary text-[24px]">check_circle</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DRAFT -->
+
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-[0_4px_12px_rgba(128,0,32,0.02)]">
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <p class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant mb-2">Drafts</p>
+
+              <p class="font-headline-md text-headline-md text-tertiary">{{ draft_exchange_count|default:0 }}</p>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Exchange listings in draft</p>
+            </div>
+
+            <div class="w-12 h-12 rounded-full bg-tertiary/10 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-tertiary text-[24px]">edit_note</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--     =========================================================
+             EXCHANGE BOOKS
+        =========================================================     -->
+
+      {% if exchange_books %}
+        <!-- SEARCH -->
+
+        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 mb-5 shadow-[0_4px_12px_rgba(128,0,32,0.02)]">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="relative w-full md:max-w-xl">
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-[21px]">search</span>
+
+              <input id="exchangeSearch" type="text" onkeyup="searchExchangeBooks()" placeholder="Search title, author, ISBN, condition..." class="w-full h-12 pl-12 pr-12 rounded-md border border-outline-variant bg-surface-container-low text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+              <button id="clearSearch" onclick="clearExchangeSearch()" type="button" class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full items-center justify-center hover:bg-surface-container"><span class="material-symbols-outlined text-outline text-[18px]">close</span></button>
+            </div>
+
+            <div class="font-body-sm text-body-sm shrink-0">
+              <span class="text-on-surface-variant">Showing</span>
+
+              <strong id="resultCount" class="text-primary mx-1">{{ exchange_books|length }}</strong>
+
+              <span class="text-on-surface-variant">exchange books</span>
+            </div>
+          </div>
+        </section>
+
+        <!--     =========================================================
+             TABLE
+        =========================================================     -->
+
+        <section id="exchangeTable" class="w-full max-w-full bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_4px_12px_rgba(128,0,32,0.02)] overflow-hidden">
+          <!-- DESKTOP HEADER -->
+
+          <div class="hidden lg:grid grid-cols-[minmax(0,2.6fr)_minmax(100px,1.2fr)_minmax(110px,1fr)_minmax(120px,1.2fr)_150px] gap-4 px-5 py-4 bg-surface-container-low border-b border-outline-variant">
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Book</span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Condition</span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Exchange Status</span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Exchange Type</span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant text-right">Actions</span>
+          </div>
+
+          <!-- BOOK LIST -->
+
+          <div class="book-scroll-area max-h-155 overflow-y-auto overflow-x-hidden">
+            <div id="exchangeBookList" class="w-full">
+              {% for exchange in exchange_books %}
+                {% with book=exchange.book %}
+                  <!-- BOOK ROW -->
+
+                  <div class="book-row w-full grid grid-cols-1 lg:grid-cols-[minmax(0,2.6fr)_minmax(100px,1.2fr)_minmax(110px,1fr)_minmax(120px,1.2fr)_150px] gap-4 px-5 py-6 border-b border-outline-variant last:border-b-0" data-search="{{ book.title }} {{ book.author }} {{ book.isbn }} {{ book.publisher }} {{ book.category }} {{ book.language }} {{ exchange.condition }} {{ exchange.status }} {{ exchange.selling_price }}">
+                    <!--     =================================================
+                             BOOK
+                        ==================================================     -->
+
+                    <div class="flex items-start gap-4 min-w-0">
+                      <!-- COVER -->
+
+                      <div class="book-cover w-16 h-24 shrink-0 rounded-md overflow-hidden bg-surface-container border border-outline-variant shadow-sm">
+                        {% if book.cover_image %}
+                          <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="w-full h-full object-cover" />
+                        {% else %}
+                          <div class="w-full h-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-outline text-[30px]">menu_book</span>
+                          </div>
+                        {% endif %}
+                      </div>
+
+                      <!-- DETAILS -->
+
+                      <div class="min-w-0 flex-1">
+                        <!-- STATUS -->
+
+                        <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                          <!-- EXCHANGE -->
+
+                          {% if exchange.status == 'published' %}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">Published</span>
+                          {% else %}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">Draft</span>
+                          {% endif %}
+                        </div>
+
+                        <h3 class="font-headline-sm text-headline-sm text-primary leading-snug truncate" title="{{ book.title }}">{{ book.title }}</h3>
+
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 truncate" title="{{ book.author }}">by {{ book.author }}</p>
+
+                        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-3">
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">
+                            ISBN:
+
+                            <span class="text-on-surface">{{ book.isbn }}</span>
+                          </span>
+
+                          <span class="hidden sm:block w-1 h-1 rounded-full bg-outline"></span>
+
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">{{ book.page_count }} pages</span>
+                        </div>
+
+                        <!-- MOBILE PUBLISHER -->
+
+                        <div class="lg:hidden mt-2">
+                          <span class="font-body-sm text-body-sm text-outline">Publisher:</span>
+
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">{{ book.publisher }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!--     =================================================
+                             CONDITION
+                        ==================================================     -->
+
+                    <div class="flex lg:items-center min-w-0">
+                      <div class="min-w-0">
+                        <span class="lg:hidden block font-label-caps text-label-caps uppercase tracking-wider text-outline mb-2">Condition</span>
+
+                        <span class="inline-flex max-w-full px-3 py-1.5 rounded-full bg-primary/10 text-primary font-label-caps text-label-caps uppercase tracking-wider truncate">
+                          {% if exchange.condition %}
+                            {{ exchange.get_condition_display }}
+                          {% else %}
+                            Not Set
+                          {% endif %}
+                        </span>
+                      </div>
+                    </div>
+
+                    <!--     =================================================
+                             EXCHANGE STATUS
+                        ==================================================     -->
+
+                    <div class="flex lg:items-center min-w-0">
+                      <div>
+                        <span class="lg:hidden block font-label-caps text-label-caps uppercase tracking-wider text-outline mb-2">Exchange Status</span>
+
+                        {% if exchange.status == 'draft' %}
+                          <span class="inline-flex items-center gap-2 text-tertiary font-body-sm text-body-sm font-semibold">
+                            <span class="w-2 h-2 rounded-full bg-tertiary"></span>
+
+                            Draft
+                          </span>
+                        {% else %}
+                          <span class="inline-flex items-center gap-2 text-secondary font-body-sm text-body-sm font-semibold">
+                            <span class="w-2 h-2 rounded-full bg-secondary"></span>
+
+                            Active
+                          </span>
+                        {% endif %}
+                      </div>
+                    </div>
+
+                    <!--     =================================================
+                          EXCHANGE TYPE
+                        ==================================================     -->
+
+                    <div class="flex lg:items-center min-w-0">
+                      <div class="min-w-0">
+                        <span class="lg:hidden block font-label-caps text-label-caps uppercase tracking-wider text-outline mb-2">Exchange Type</span>
+                        <p class="font-body-md text-body-md font-semibold text-secondary">Book for book</p>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">No cash offer</p>
+                      </div>
+                    </div>
+
+                    <!-- ACTIONS -->
+
+                    <!-- ACTIONS -->
+
+                    <div class="flex lg:items-center lg:justify-end gap-2 flex-wrap">
+                      <!-- EDIT -->
+                      <a href="{% url 'seller_edit_exchange' exchange.id %}" title="Edit Exchange Book" class="h-10 px-3 shrink-0 rounded-md border border-secondary/30 bg-secondary/5 flex items-center gap-1 text-secondary font-label-caps text-label-caps hover:bg-secondary hover:text-on-primary transition-all">
+                        <span class="material-symbols-outlined text-[17px]">edit</span>
+
+                        <span class="hidden xl:inline"></span>
+                      </a>
+
+                      <!-- VIEW / REVIEW -->
+
+                      <a href="{% url 'seller_exchange_review' book.id %}" title="View Exchange Details" class="w-10 h-10 shrink-0 rounded-md border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all"><span class="material-symbols-outlined text-[19px]">visibility</span></a>
+
+                      <!-- DELETE -->
+
+                      <button type="button" title="Delete Exchange Listing" onclick="openDeleteExchangeModal(
+            '{{ exchange.id }}',
+            '{{ book.title|escapejs }}'
+        )" class="w-10 h-10 shrink-0 rounded-md border border-outline-variant flex items-center justify-center text-error hover:bg-error hover:text-on-error hover:border-error transition-all"><span class="material-symbols-outlined text-[19px]">delete</span></button>
+                    </div>
+                  </div>
+                {% endwith %}
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+
+        <!--     =========================================================
+             NO SEARCH RESULT
+        =========================================================     -->
+
+        <div id="noSearchResult" class="hidden mt-5 bg-surface-container-lowest border border-outline-variant rounded-xl py-16 px-6 text-center">
+          <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5">
+            <span class="material-symbols-outlined text-primary text-[30px]">search_off</span>
+          </div>
+
+          <h3 class="font-headline-sm text-headline-sm text-primary">No exchange books found</h3>
+
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Try searching with another title, author, ISBN or condition.</p>
+
+          <button onclick="clearExchangeSearch()" class="mt-6 px-5 h-10 rounded-md bg-primary-container text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90">CLEAR SEARCH</button>
+        </div>
+      {% else %}
+        <!--     =========================================================
+             EMPTY EXCHANGE LIBRARY
+        =========================================================     -->
+
+        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl py-20 px-6 text-center shadow-[0_4px_12px_rgba(128,0,32,0.02)]">
+          <div class="w-20 h-20 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-outlined text-secondary text-[38px]">swap_horiz</span>
+          </div>
+
+          <h2 class="font-headline-md text-headline-md text-primary">No exchange books</h2>
+
+          <p class="font-body-sm text-body-sm text-on-surface-variant max-w-lg mx-auto mt-3 leading-6">You haven't added any books for exchange yet. Add an exchange book to make it available to other BookSwap users.</p>
+
+          <a href="{% url 'seller_add_exchange' %}" class="inline-flex items-center justify-center gap-2 mt-8 px-7 h-12 rounded-md bg-primary-container text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90 transition-colors">
+            <span class="material-symbols-outlined text-[19px]">swap_horiz</span>
+
+            ADD EXCHANGE BOOK
+          </a>
+        </section>
+      {% endif %}
+    </main>
+    {% include 'seller/seller_footer.html' %}
+    <!--     
+         EXCHANGE DETAILS MODAL     -->
+
+    <div id="exchangeDetailsModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm items-center justify-center p-4">
+      <div class="modal-box w-full max-w-2xl max-h-[90vh] bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden">
+        <!-- HEADER -->
+
+        <div class="px-6 py-5 border-b border-outline-variant flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-secondary/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-secondary text-[22px]">swap_horiz</span>
+            </div>
+
+            <div>
+              <h3 class="font-headline-sm text-headline-sm text-primary">Exchange Book Details</h3>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Complete exchange information</p>
+            </div>
+          </div>
+
+          <button type="button" onclick="closeExchangeDetailsModal()" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+
+        <!-- BODY -->
+
+        <div class="px-6 py-6 overflow-y-auto max-h-[65vh]">
+          <!-- BOOK HEADER -->
+
+          <div class="flex items-center gap-6 mb-6">
+            <!-- IMAGE -->
+
+            <div class="w-32 h-40 shrink-0 rounded-xl overflow-hidden bg-surface-container-lowest border border-outline-variant shadow-sm flex items-center justify-center">
+              <img id="exchangeDetailsImage" src="" alt="Book Cover" class="hidden w-full h-full object-cover object-center" />
+
+              <span id="noExchangeDetailsImage" class="material-symbols-outlined text-4xl text-on-surface-variant">menu_book</span>
+            </div>
+
+            <!-- TITLE -->
+
+            <div class="flex-1 text-left">
+              <p class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant mb-2">Book Title</p>
+
+              <h2 id="exchangeDetailsTitle" class="font-headline-md text-headline-md text-primary"></h2>
+            </div>
+          </div>
+
+          <!-- DETAILS GRID -->
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- AUTHOR -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">person</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Author</span>
+              </div>
+
+              <p id="exchangeDetailsAuthor" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- ISBN -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">qr_code_2</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">ISBN</span>
+              </div>
+
+              <p id="exchangeDetailsISBN" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- CONDITION -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-secondary text-[20px]">fact_check</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Condition</span>
+              </div>
+
+              <p id="exchangeDetailsCondition" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- STATUS -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-secondary text-[20px]">swap_horiz</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Exchange Status</span>
+              </div>
+
+              <p id="exchangeDetailsStatus" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- EXCHANGE TYPE -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-secondary text-[20px]">sync_alt</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Exchange Type</span>
+              </div>
+
+              <p id="exchangeDetailsType" class="font-body-md text-body-md font-medium text-on-surface">Book for book</p>
+            </div>
+
+            <!-- CATEGORY -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">category</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Category</span>
+              </div>
+
+              <p id="exchangeDetailsCategory" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- LANGUAGE -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-secondary text-[20px]">language</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Language</span>
+              </div>
+
+              <p id="exchangeDetailsLanguage" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- PUBLISHER -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">business</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Publisher</span>
+              </div>
+
+              <p id="exchangeDetailsPublisher" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- YEAR -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">calendar_month</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Publication Year</span>
+              </div>
+
+              <p id="exchangeDetailsYear" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- PAGES -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">auto_stories</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Pages</span>
+              </div>
+
+              <p id="exchangeDetailsPages" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+          </div>
+
+          <!-- DESCRIPTION -->
+
+          <div class="mt-4 p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="material-symbols-outlined text-primary text-[20px]">description</span>
+
+              <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Description</span>
+            </div>
+
+            <p id="exchangeDetailsDescription" class="font-body-md text-body-md leading-6 text-on-surface-variant whitespace-pre-line"></p>
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex justify-end">
+          <button type="button" onclick="closeExchangeDetailsModal()" class="px-5 h-11 rounded-md bg-primary-container text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90">CLOSE</button>
+        </div>
+      </div>
+    </div>
+
+    <!--     =========================================================
+         DELETE EXCHANGE MODAL
+    =========================================================     -->
+
+    <div id="deleteExchangeModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm items-center justify-center p-4">
+      <div class="modal-box w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden">
+        <!-- HEADER -->
+
+        <div class="px-6 py-5 border-b border-outline-variant flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-error-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-error text-[22px]">delete</span>
+            </div>
+
+            <div>
+              <h3 class="font-headline-sm text-headline-sm text-primary">Delete Exchange Book</h3>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Permanent action</p>
+            </div>
+          </div>
+
+          <button type="button" onclick="closeDeleteExchangeModal()" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+
+        <!-- BODY -->
+
+        <div class="px-6 py-7">
+          <p class="font-body-sm text-body-sm leading-6 text-on-surface-variant">
+            Are you sure you want to delete
+
+            <strong id="deleteExchangeBookName" class="text-on-surface"></strong>
+
+            from exchange listings?
+          </p>
+
+          <div class="flex gap-3 mt-5 p-4 rounded-lg bg-error-container">
+            <span class="material-symbols-outlined text-error text-[19px]">warning</span>
+
+            <p class="font-body-sm text-body-sm leading-5 text-error">This action cannot be undone. The exchange listing will be permanently deleted.</p>
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex justify-end gap-3">
+          <button type="button" onclick="closeDeleteExchangeModal()" class="px-5 h-11 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface font-label-caps text-label-caps uppercase tracking-widest hover:bg-surface-container">CANCEL</button>
+
+          <form id="deleteExchangeForm" method="POST">
+            {% csrf_token %}
+
+            <button type="submit" class="px-5 h-11 rounded-md bg-error text-on-error font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90 flex items-center gap-2">
+              <span class="material-symbols-outlined text-[17px]">delete</span>
+
+              DELETE
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!--     =========================================================
+         JAVASCRIPT
+    =========================================================     -->
+
+    <script>
+      /* =========================================================
+                                   SEARCH EXCHANGE BOOKS
+                                ========================================================= */
+      
+      function searchExchangeBooks() {
+        const input = document.getElementById('exchangeSearch')
+      
+        const value = input.value.toLowerCase().trim()
+      
+        const rows = document.querySelectorAll('.book-row')
+      
+        const resultCount = document.getElementById('resultCount')
+      
+        const noResult = document.getElementById('noSearchResult')
+      
+        const exchangeTable = document.getElementById('exchangeTable')
+      
+        const clearButton = document.getElementById('clearSearch')
+      
+        let count = 0
+      
+        if (value !== '') {
+          clearButton.classList.remove('hidden')
+      
+          clearButton.classList.add('flex')
+        } else {
+          clearButton.classList.add('hidden')
+      
+          clearButton.classList.remove('flex')
+        }
+      
+        rows.forEach(function (row) {
+          const searchData = row.dataset.search.toLowerCase()
+      
+          if (searchData.includes(value)) {
+            row.style.display = ''
+      
+            count++
+          } else {
+            row.style.display = 'none'
+          }
+        })
+      
+        resultCount.textContent = count
+      
+        if (count === 0) {
+          noResult.classList.remove('hidden')
+      
+          exchangeTable.classList.add('hidden')
+        } else {
+          noResult.classList.add('hidden')
+      
+          exchangeTable.classList.remove('hidden')
+        }
+      }
+      
+      /* =========================================================
+                                   CLEAR SEARCH
+                                ========================================================= */
+      
+      function clearExchangeSearch() {
+        const input = document.getElementById('exchangeSearch')
+      
+        input.value = ''
+      
+        searchExchangeBooks()
+      
+        input.focus()
+      }
+      
+      /* =========================================================
+                                   OPEN EXCHANGE DETAILS MODAL
+                                ========================================================= */
+      
+      function openExchangeDetailsModal(button) {
+        const modal = document.getElementById('exchangeDetailsModal')
+      
+        const title = button.dataset.title || 'N/A'
+      
+        const author = button.dataset.author || 'N/A'
+      
+        const isbn = button.dataset.isbn || 'N/A'
+      
+        const category = button.dataset.category || 'N/A'
+      
+        const language = button.dataset.language || 'N/A'
+      
+        const publisher = button.dataset.publisher || 'N/A'
+      
+        const year = button.dataset.year || 'N/A'
+      
+        const pages = button.dataset.pages || 'N/A'
+      
+        const condition = button.dataset.condition || 'Not Set'
+      
+        const status = button.dataset.status || 'Not Set'
+      
+        const description = button.dataset.description || 'No description available'
+      
+        const image = button.dataset.image || ''
+      
+        document.getElementById('exchangeDetailsTitle').textContent = title
+      
+        document.getElementById('exchangeDetailsAuthor').textContent = author
+      
+        document.getElementById('exchangeDetailsISBN').textContent = isbn
+      
+        document.getElementById('exchangeDetailsCategory').textContent = category
+      
+        document.getElementById('exchangeDetailsLanguage').textContent = language
+      
+        document.getElementById('exchangeDetailsPublisher').textContent = publisher
+      
+        document.getElementById('exchangeDetailsYear').textContent = year
+      
+        document.getElementById('exchangeDetailsPages').textContent = pages
+      
+        document.getElementById('exchangeDetailsCondition').textContent = condition
+      
+        document.getElementById('exchangeDetailsStatus').textContent = status
+      
+        document.getElementById('exchangeDetailsDescription').textContent = description
+      
+        const detailsImage = document.getElementById('exchangeDetailsImage')
+      
+        const noDetailsImage = document.getElementById('noExchangeDetailsImage')
+      
+        if (image.trim() !== '') {
+          detailsImage.src = image
+      
+          detailsImage.alt = title
+      
+          detailsImage.classList.remove('hidden')
+      
+          noDetailsImage.classList.add('hidden')
+      
+          detailsImage.onerror = function () {
+            detailsImage.src = ''
+      
+            detailsImage.classList.add('hidden')
+      
+            noDetailsImage.classList.remove('hidden')
+          }
+        } else {
+          detailsImage.src = ''
+      
+          detailsImage.classList.add('hidden')
+      
+          noDetailsImage.classList.remove('hidden')
+        }
+      
+        modal.classList.remove('hidden')
+      
+        modal.classList.add('flex')
+      
+        document.body.classList.add('overflow-hidden')
+      }
+      
+      /* =========================================================
+                                   CLOSE DETAILS MODAL
+                                ========================================================= */
+      
+      function closeExchangeDetailsModal() {
+        const modal = document.getElementById('exchangeDetailsModal')
+      
+        modal.classList.add('hidden')
+      
+        modal.classList.remove('flex')
+      
+        document.body.classList.remove('overflow-hidden')
+      }
+      
+      /* =========================================================
+                                   OPEN DELETE MODAL
+                                ========================================================= */
+      
+      function openDeleteExchangeModal(exchangeId, bookName) {
+        const modal = document.getElementById('deleteExchangeModal')
+      
+        const bookNameElement = document.getElementById('deleteExchangeBookName')
+      
+        const form = document.getElementById('deleteExchangeForm')
+      
+        bookNameElement.textContent = '"' + bookName + '"'
+      
+        /*
+         * IMPORTANT:
+         *
+         * Change 'seller_delete_exchange' if
+         * your URL name is different.
+         */
+      
+        form.action = "{% url 'seller_delete_exchange' 0 %}".replace('/0/', '/' + exchangeId + '/')
+      
+        modal.classList.remove('hidden')
+      
+        modal.classList.add('flex')
+      
+        document.body.classList.add('overflow-hidden')
+      }
+      
+      /* =========================================================
+                                   CLOSE DELETE MODAL
+                                ========================================================= */
+      
+      function closeDeleteExchangeModal() {
+        const modal = document.getElementById('deleteExchangeModal')
+      
+        modal.classList.add('hidden')
+      
+        modal.classList.remove('flex')
+      
+        document.body.classList.remove('overflow-hidden')
+      }
+      
+      /* =========================================================
+                                   CLICK OUTSIDE DETAILS MODAL
+                                ========================================================= */
+      
+      document.getElementById('exchangeDetailsModal').addEventListener('click', function (event) {
+        if (event.target === this) {
+          closeExchangeDetailsModal()
+        }
+      })
+      
+      /* =========================================================
+                                   CLICK OUTSIDE DELETE MODAL
+                                ========================================================= */
+      
+      document.getElementById('deleteExchangeModal').addEventListener('click', function (event) {
+        if (event.target === this) {
+          closeDeleteExchangeModal()
+        }
+      })
+      
+      /* =========================================================
+                                   ESCAPE KEY
+                                ========================================================= */
+      
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          closeExchangeDetailsModal()
+      
+          closeDeleteExchangeModal()
+        }
+      })
+    </script>
+  </body>
+</html>

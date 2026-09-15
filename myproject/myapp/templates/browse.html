@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Browse Books | BookSwap</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'inverse-primary': '#ffb3b5',
+              'on-surface': '#1b1c1c',
+              tertiary: '#735c00',
+              'surface-container-low': '#f6f3f2',
+              primary: '#570013',
+              'on-secondary-container': '#576959',
+              'on-error': '#ffffff',
+              'primary-container': '#800020',
+              'secondary-fixed-dim': '#b8ccb8',
+              'tertiary-fixed-dim': '#e9c349',
+              'surface-container-lowest': '#ffffff',
+              'on-primary-fixed': '#40000b',
+              'on-tertiary-container': '#4f3d00',
+              'on-secondary': '#ffffff',
+              'secondary-container': '#d4e8d4',
+              surface: '#fcf9f8',
+              secondary: '#516353',
+              'on-primary-container': '#ff828a',
+              'primary-fixed': '#ffdada',
+              'on-error-container': '#93000a',
+              'outline-variant': '#e0bfbf',
+              error: '#ba1a1a',
+              'on-surface-variant': '#584141',
+              'on-tertiary-fixed': '#241a00',
+              'surface-container-high': '#eae7e7',
+              'surface-container': '#f0eded',
+              'on-primary': '#ffffff',
+              'tertiary-container': '#cca730',
+              'tertiary-fixed': '#ffe088',
+              'on-secondary-fixed-variant': '#3a4b3c',
+              'on-secondary-fixed': '#0f1f13',
+              'secondary-fixed': '#d4e8d4',
+              'primary-fixed-dim': '#ffb3b5',
+              'on-primary-fixed-variant': '#8e0f28',
+              'surface-dim': '#dcd9d9',
+              'on-background': '#1b1c1c',
+              'surface-container-highest': '#e4e2e1',
+              'on-tertiary-fixed-variant': '#574500',
+              outline: '#8c7071',
+              'on-tertiary': '#ffffff',
+              background: '#fcf9f8',
+              'surface-bright': '#fcf9f8',
+              'surface-tint': '#af2b3e',
+              'surface-variant': '#e4e2e1',
+              'inverse-on-surface': '#f3f0f0',
+              'inverse-surface': '#303030',
+              'error-container': '#ffdad6'
+            },
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px'
+            },
+            spacing: {
+              gutter: '24px',
+              'margin-mobile': '16px',
+              'container-max': '1280px',
+              base: '8px',
+              'margin-desktop': '48px'
+            },
+            fontFamily: {
+              'label-caps': ['Inter'],
+              'headline-sm': ['Playfair Display'],
+              'headline-md': ['Playfair Display'],
+              'display-lg': ['Playfair Display'],
+              'body-lg': ['Inter'],
+              'body-sm': ['Inter'],
+              'body-md': ['Inter'],
+              'display-lg-mobile': ['Playfair Display']
+            },
+            fontSize: {
+              'label-caps': [
+                '12px',
+                {
+                  lineHeight: '1',
+                  letterSpacing: '0.08em',
+                  fontWeight: '600'
+                }
+              ],
+              'headline-sm': [
+                '24px',
+                {
+                  lineHeight: '1.3',
+                  fontWeight: '600'
+                }
+              ],
+              'headline-md': [
+                '32px',
+                {
+                  lineHeight: '1.2',
+                  fontWeight: '600'
+                }
+              ],
+              'display-lg': [
+                '48px',
+                {
+                  lineHeight: '1.1',
+                  letterSpacing: '-0.02em',
+                  fontWeight: '700'
+                }
+              ],
+              'body-lg': [
+                '18px',
+                {
+                  lineHeight: '1.6',
+                  fontWeight: '400'
+                }
+              ],
+              'body-sm': [
+                '14px',
+                {
+                  lineHeight: '1.4',
+                  fontWeight: '400'
+                }
+              ],
+              'body-md': [
+                '16px',
+                {
+                  lineHeight: '1.5',
+                  fontWeight: '400'
+                }
+              ],
+              'display-lg-mobile': [
+                '32px',
+                {
+                  lineHeight: '1.2',
+                  fontWeight: '700'
+                }
+              ]
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #fcf9f;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        color: #ffffff;
+      }
+      
+      .book-card-shadow {
+        box-shadow: 0px 12px 24px rgba(128, 0, 32, 0.04);
+      }
+      
+      .premium-border {
+        border: 1px solid #e5e2db;
+      }
+      
+      .filter-section-divider {
+        border-bottom: 1px solid #e0bfbf;
+      }
+      
+      /* Custom Checkbox */
+      .premium-checkbox {
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border: 1px solid #8c7071;
+        border-radius: 2px;
+        display: inline-grid;
+        place-content: center;
+        background-color: transparent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .premium-checkbox::before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em #570013;
+        transform-origin: center;
+        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+      }
+      .premium-checkbox:checked::before {
+        transform: scale(1);
+      }
+      .premium-checkbox:checked {
+        border-color: #570013;
+      }
+    </style>
+  </head>
+  
+  <body class="min-h-screen flex flex-col font-body-md text-body-md">
+    <!-- Top Navigation -->
+    {% include "navbar.html" %}
+    <!-- Main Content -->
+    <main class="grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12 flex flex-col md:flex-row gap-8 lg:gap-12">
+      <!-- Sidebar Filters -->
+      <aside class="hidden md:block w-64 shrink-0">
+        <div class="sticky top-28 space-y-8">
+          <!-- Search within results -->
+          <div class="border-b border-outline focus-within:border-primary transition-colors pb-2">
+            <div class="flex items-center text-on-surface-variant">
+              <span class="material-symbols-outlined mr-2" style="font-size: 20px;">search</span>
+              <form method="get" action="{% url 'browse' %}" class="w-full">
+                <input name="search" value="{{ search }}" class="bg-transparent border-none outline-none focus:ring-0 p-0 w-full text-body-sm font-body-sm" placeholder="Filter results..." type="search" onchange="this.form.submit()" />
+                <input type="hidden" name="category" value="{{ selected_category }}" />
+                <input type="hidden" name="language" value="{{ selected_language }}" />
+                <input type="hidden" name="sort" value="{{ selected_sort }}" />
+              </form>
+            </div>
+          </div>
+          <!-- Categories -->
+          <div class="filter-section-divider pb-6">
+            <h3 class="font-label-caps text-label-caps text-on-surface mb-4 uppercase tracking-widest">Categories</h3>
+            <form method="get" action="{% url 'browse' %}" class="space-y-3 font-body-sm text-body-sm text-on-surface-variant">
+              <input type="hidden" name="search" value="{{ search }}" />
+              <input type="hidden" name="sort" value="{{ selected_sort }}" />
+              <label class="flex items-center cursor-pointer group">
+                <input class="premium-checkbox mr-3" type="radio" name="category" value="" onchange="this.form.submit()" {% if not selected_category %}checked{% endif %} />
+                <span class="group-hover:text-primary transition-colors">All Categories</span>
+              </label>
+              {% for value, label in category_choices %}
+                <label class="flex items-center cursor-pointer group">
+                  <input class="premium-checkbox mr-3" type="radio" name="category" value="{{ value }}" onchange="this.form.submit()" {% if selected_category == value %}checked{% endif %} />
+                  <span class="group-hover:text-primary transition-colors">{{ label }}</span>
+                </label>
+              {% endfor %}
+            </form>
+          </div>
+          <div class="filter-section-divider pb-6">
+            <h3 class="font-label-caps text-label-caps text-on-surface mb-4 uppercase tracking-widest">Language</h3>
+            <form method="get" action="{% url 'browse' %}" class="space-y-3 font-body-sm text-body-sm text-on-surface-variant">
+              <input type="hidden" name="search" value="{{ search }}" />
+              <input type="hidden" name="category" value="{{ selected_category }}" />
+              <input type="hidden" name="sort" value="{{ selected_sort }}" />
+              <label class="flex items-center cursor-pointer group">
+                <input class="premium-checkbox mr-3" type="radio" name="language" value="" onchange="this.form.submit()" {% if not selected_language %}checked{% endif %} />
+                <span class="group-hover:text-primary transition-colors">All Languages</span>
+              </label>
+              {% for value, label in language_choices %}
+                <label class="flex items-center cursor-pointer group">
+                  <input class="premium-checkbox mr-3" type="radio" name="language" value="{{ value }}" onchange="this.form.submit()" {% if selected_language == value %}checked{% endif %} />
+                  <span class="group-hover:text-primary transition-colors">{{ label }}</span>
+                </label>
+              {% endfor %}
+            </form>
+            <ul class="hidden space-y-3 font-body-sm text-body-sm text-on-surface-variant">
+              <li>
+                <label class="flex items-center cursor-pointer group">
+                  <input checked="" class="premium-checkbox mr-3" type="checkbox" />
+                  <span class="group-hover:text-primary transition-colors">Fiction (342)</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center cursor-pointer group">
+                  <input class="premium-checkbox mr-3" type="checkbox" />
+                  <span class="group-hover:text-primary transition-colors">Non-Fiction (215)</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center cursor-pointer group">
+                  <input class="premium-checkbox mr-3" type="checkbox" />
+                  <span class="group-hover:text-primary transition-colors">Classic Literature (180)</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center cursor-pointer group">
+                  <input class="premium-checkbox mr-3" type="checkbox" />
+                  <span class="group-hover:text-primary transition-colors">Science Fiction (124)</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center cursor-pointer group">
+                  <input class="premium-checkbox mr-3" type="checkbox" />
+                  <span class="group-hover:text-primary transition-colors">History (98)</span>
+                </label>
+              </li>
+              <li>
+                <a class="text-primary hover:underline text-xs mt-2 inline-block" href="#">View all categories</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+      <!-- Main Results Canvas -->
+      <section class="grow w-full max-w-full min-w-0">
+        <!-- Header & Breadcrumbs -->
+        <div class="mb-8">
+          <nav class="font-body-sm text-body-sm text-on-surface-variant mb-4 flex items-center space-x-2">
+            <a class="hover:text-primary transition-colors" href="#">Home</a>
+            <span class="material-symbols-outlined text-xs">chevron_right</span>
+            <span class="text-on-surface">Browse Books</span>
+          </nav>
+          <h1 class="font-display-lg text-display-lg text-on-surface mb-6">Find Your Next Read</h1>
+          <!-- Results Toolbar -->
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 border-y border-outline-variant gap-4">
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Showing <span class="text-on-surface font-semibold">{{ book_count }}</span> books available
+            </p>
+            <div class="flex items-center space-x-4">
+              <button class="md:hidden flex items-center space-x-2 border border-outline px-4 py-2 rounded text-body-sm hover:bg-surface-container-low">
+                <span class="material-symbols-outlined" style="font-size: 18px;">filter_list</span>
+                <span>Filters</span>
+              </button>
+              <div class="flex items-center space-x-2 font-body-sm text-body-sm">
+                <span class="text-on-surface-variant">Sort by:</span>
+                <form method="get" action="{% url 'browse' %}">
+                  <input type="hidden" name="search" value="{{ search }}" />
+                  <input type="hidden" name="category" value="{{ selected_category }}" />
+                  <input type="hidden" name="language" value="{{ selected_language }}" />
+                  <select name="sort" onchange="this.form.submit()" class="bg-transparent border-none outline-none text-on-surface font-semibold focus:ring-0 p-0 cursor-pointer pr-4">
+                    <option value="recommended" {% if selected_sort == 'recommended' %}selected{% endif %}>Recommended</option>
+                    <option value="newest" {% if selected_sort == 'newest' %}selected{% endif %}>Newest Added</option>
+                    <option value="offer" {% if selected_sort == 'offer' %}selected{% endif %}>Offers</option>
+                  </select>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Book Grid Layout -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {% for book in books %}
+            <article class="bg-[#F2EFE9] rounded premium-border flex flex-col overflow-hidden relative group hover:-translate-y-1 transition-transform duration-300 book-card-shadow">
+
+    <!-- Fixed Same Image Size -->
+    <div class="w-full h-80 shrink-0 overflow-hidden bg-surface-container">
+        {% if book.cover_image %}
+            <img
+                src="{{ book.cover_image.url }}"
+                alt="{{ book.title }}"
+                class="block w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            />
+        {% else %}
+            <div class="w-full h-full flex items-center justify-center text-on-surface-variant">
+                No cover image
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="p-5 flex flex-col grow">
+
+        <div class="flex items-center space-x-2 mb-3">
+            <span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider">
+                {{ book.get_category_display }}
+            </span>
+        </div>
+
+        <h3 class="font-headline-sm text-[20px] leading-tight text-on-surface mb-1 line-clamp-2">
+            {{ book.title }}
+        </h3>
+
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-4">
+            by {{ book.author }}
+        </p>
+
+        {% if book.price %}
+            {% if book.offer_percentage %}
+                <span class="mb-2 inline-flex w-fit rounded-full bg-primary-fixed px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
+                    Offer sale
+                </span>
+            {% endif %}
+
+            <p class="mb-1 {% if book.offer_percentage %}text-on-surface-variant line-through{% else %}text-primary font-semibold{% endif %}">
+                {% if book.offer_percentage %}
+                    Original price
+                {% else %}
+                    Selling price
+                {% endif %}
+                : ₹{{ book.price }}
+            </p>
+
+            {% if book.offer_percentage %}
+                <p class="text-primary font-semibold mb-4">
+                    Offer price: ₹{{ book.offer_price }} ({{ book.offer_percentage }}% off)
+                </p>
+            {% endif %}
+        {% endif %}
+
+        <div class="pt-4 border-t border-outline-variant flex justify-between items-center mt-auto gap-3">
+
+            <span class="font-body-sm text-[12px] text-on-surface-variant">
+                {{ book.seller.store_name|default:book.seller.full_name }}
+            </span>
+
+            <div class="flex items-center gap-2 shrink-0">
+
+                <a
+                    href="{% url 'sell_book_detail' book.id %}"
+                    class="bg-primary-container text-on-primary px-3 py-2 rounded text-xs font-semibold uppercase tracking-wider hover:bg-primary"
+                >
+                    View
+                </a>
+
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'add_to_wishlist' %}">
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="book_id"
+                            value="{{ book.id }}"
+                        >
+
+                        <input
+                            type="hidden"
+                            name="next"
+                            value="{{ request.get_full_path }}"
+                        >
+
+                        <button
+                            type="submit"
+                            aria-label="Add {{ book.title }} to wishlist"
+                            class="border border-primary text-primary px-2 py-2 rounded hover:bg-primary hover:text-white"
+                        >
+                            <span class="material-symbols-outlined text-[18px]">
+                                favorite
+                            </span>
+                        </button>
+                    </form>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+</article>
+          {% empty %}
+            <div class="col-span-full rounded border border-outline-variant bg-white p-12 text-center">
+              <h2 class="font-headline-md text-headline-md text-primary">No books found</h2>
+              <p class="mt-2 text-on-surface-variant">Try another search or category.</p>
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+          <nav class="mt-10 flex justify-center items-center gap-2" aria-label="Book pages">
+            {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}&search={{ search|urlencode }}&category={{ selected_category|urlencode }}&language={{ selected_language|urlencode }}&sort={{ selected_sort|urlencode }}" class="flex h-10 w-10 items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary" aria-label="Previous page">&laquo;</a>
+            {% endif %}
+
+            {% for page_number in page_obj.paginator.page_range %}
+              <a href="?page={{ page_number }}&search={{ search|urlencode }}&category={{ selected_category|urlencode }}&language={{ selected_language|urlencode }}&sort={{ selected_sort|urlencode }}" class="flex h-10 w-10 items-center justify-center rounded {% if page_obj.number == page_number %}bg-primary text-on-primary{% else %}border border-outline-variant text-on-surface hover:border-primary hover:text-primary{% endif %}">{{ page_number }}</a>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}&search={{ search|urlencode }}&category={{ selected_category|urlencode }}&language={{ selected_language|urlencode }}&sort={{ selected_sort|urlencode }}" class="flex h-10 w-10 items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary" aria-label="Next page">&raquo;</a>
+            {% endif %}
+          </nav>
+        {% endif %}
+      </section>
+    </main>
+    <!-- Footer -->
+    {% include "footer.html" %}
+  </body>
+</html>

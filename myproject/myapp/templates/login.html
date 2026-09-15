@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>BookSwap - Login</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'surface-dim': '#dcd9d9',
+              'on-primary': '#ffffff',
+              'inverse-on-surface': '#f3f0f0',
+              'surface-container-low': '#f6f3f2',
+              'on-surface': '#1b1c1c',
+              'surface-container-lowest': '#ffffff',
+              'on-tertiary-fixed-variant': '#574500',
+              primary: '#570013',
+              'inverse-surface': '#303030',
+              'on-secondary-container': '#576959',
+              surface: '#fcf9f8',
+              'surface-container-highest': '#e4e2e1',
+              secondary: '#516353',
+              'inverse-primary': '#ffb3b5',
+              'tertiary-fixed': '#ffe088',
+              'tertiary-container': '#cca730',
+              'on-background': '#1b1c1c',
+              'on-tertiary': '#ffffff',
+              'on-tertiary-fixed': '#241a00',
+              'surface-variant': '#e4e2e1',
+              'primary-fixed': '#ffdada',
+              'outline-variant': '#e0bfbf',
+              'secondary-fixed': '#d4e8d4',
+              'surface-container-high': '#eae7e7',
+              background: '#fcf9f8',
+              'surface-tint': '#af2b3e',
+              'on-secondary-fixed': '#0f1f13',
+              'secondary-container': '#d4e8d4',
+              'on-surface-variant': '#584141',
+              'primary-fixed-dim': '#ffb3b5',
+              'on-primary-fixed-variant': '#8e0f28',
+              'on-primary-container': '#ff828a',
+              'primary-container': '#800020',
+              'on-secondary-fixed-variant': '#3a4b3c',
+              'on-primary-fixed': '#40000b',
+              tertiary: '#735c00',
+              'surface-container': '#f0eded',
+              'tertiary-fixed-dim': '#e9c349',
+              'on-tertiary-container': '#4f3d00',
+              'error-container': '#ffdad6',
+              error: '#ba1a1a',
+              outline: '#8c7071',
+              'on-secondary': '#ffffff',
+              'surface-bright': '#fcf9f8',
+              'on-error-container': '#93000a',
+              'on-error': '#ffffff',
+              'secondary-fixed-dim': '#b8ccb8'
+            },
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px'
+            },
+            spacing: {
+              'margin-mobile': '16px',
+              gutter: '24px',
+              'margin-desktop': '48px',
+              base: '8px',
+              'container-max': '1280px'
+            },
+            fontFamily: {
+              'display-lg-mobile': ['Playfair Display'],
+              'label-caps': ['Inter'],
+              'headline-md': ['Playfair Display'],
+              'headline-sm': ['Playfair Display'],
+              'body-sm': ['Inter'],
+              'display-lg': ['Playfair Display'],
+              'body-md': ['Inter'],
+              'body-lg': ['Inter']
+            },
+            fontSize: {
+              'display-lg-mobile': ['32px', { lineHeight: '1.2', fontWeight: '700' }],
+              'label-caps': ['12px', { lineHeight: '1', letterSpacing: '0.08em', fontWeight: '600' }],
+              'headline-md': ['32px', { lineHeight: '1.2', fontWeight: '600' }],
+              'headline-sm': ['24px', { lineHeight: '1.3', fontWeight: '600' }],
+              'body-sm': ['14px', { lineHeight: '1.4', fontWeight: '400' }],
+              'display-lg': ['48px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+              'body-md': ['16px', { lineHeight: '1.5', fontWeight: '400' }],
+              'body-lg': ['18px', { lineHeight: '1.6', fontWeight: '400' }]
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      .texture-bg {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+      }
+      
+      .soft-shadow {
+        box-shadow: 0px 12px 24px rgba(128, 0, 32, 0.04);
+      }
+      
+      .input-underline {
+        border: none;
+        border-bottom: 1px solid #e0bfbf;
+        background: transparent;
+        padding-left: 0;
+        padding-right: 0;
+      }
+      
+      .input-underline:focus {
+        outline: none;
+        box-shadow: none;
+        border-bottom-color: #800020;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- TopNavBar -->
+    {% include 'navbar.html' %}
+
+    <div class="bg-background texture-bg min-h-screen flex items-center justify-center p-0 md:p-margin-desktop text-on-surface">
+      <div class="w-full max-w-container-max min-h-screen md:min-h-[80vh] flex flex-col md:flex-row bg-surface md:bg-surface-container-low rounded-none md:rounded-xl overflow-hidden soft-shadow relative border-0 md:border border-surface-variant">
+        <!-- LEFT: Editorial Image Column -->
+        <div class="hidden md:flex md:w-1/2 relative bg-surface-dim">
+          <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=85');"></div>
+
+          <div class="absolute inset-0 bg-linear-to-t from-primary/80 via-primary/30 to-transparent"></div>
+
+          <div class="absolute bottom-12 left-12 right-12 text-on-primary">
+            <span class="font-headline-md text-headline-md font-bold mb-4 block">BookSwap</span>
+
+            <h1 class="font-display-lg text-display-lg">Your Next Story Might Be Someone Else's.</h1>
+          </div>
+        </div>
+
+        <!-- RIGHT: Authentication Container -->
+        <div class="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 bg-surface relative">
+          <!-- Mobile Brand Header (Hidden on Desktop) -->
+          <div class="md:hidden text-center mb-6">
+            <span class="font-headline-md text-headline-md font-bold text-primary">BookSwap</span>
+          </div>
+
+          <div class="max-w-md w-full mx-auto">
+            <!-- Form Header -->
+            <div class="mb-5">
+              <h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Welcome Back</h2>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Please enter your details to continue your literary journey.</p>
+            </div>
+
+            <!-- Secure Session Indicator (Hidden by default, shown for Admin) -->
+            <div class="hidden items-center gap-2 mb-6 bg-secondary/10 text-secondary px-3 py-2 rounded" id="secure-indicator">
+              <span class="material-symbols-outlined text-[16px]">lock</span>
+              <span class="font-body-sm text-body-sm">Secure Session Active</span>
+            </div>
+
+            <!-- Login Form -->
+            <form class="space-y-3" method="POST" action="{% url 'login' %}">
+              {% csrf_token %}
+
+              <div>
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-1" for="email">Email or Username</label>
+
+                <input class="w-full input-underline font-body-md text-body-md text-on-surface py-2" id="email" placeholder="e.g. j.austen@example.com" type="text" name="username" />
+              </div>
+
+              <div class="relative">
+                <label class="block font-label-caps text-label-caps text-on-surface-variant mb-1" for="password">Password</label>
+
+                <input class="w-full input-underline font-body-md text-body-md text-on-surface py-2 pr-10" id="password" placeholder="••••••••" type="password" name="password" />
+
+                <button class="absolute right-0 bottom-2 text-on-surface-variant hover:text-primary transition-colors" type="button"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">visibility</span></button>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <label class="flex items-center cursor-pointer">
+                  <input class="rounded border-outline-variant text-primary focus:ring-primary focus:ring-offset-0 bg-transparent w-4 h-4 mr-2 cursor-pointer" type="checkbox" />
+
+                  <span class="font-body-sm text-body-sm text-on-surface">Remember Me</span>
+                </label>
+
+                <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline decoration-transparent hover:decoration-primary transition-all" href="#">Forgot Password?</a>
+              </div>
+
+              <button class="w-full bg-primary-container hover:bg-primary text-on-primary font-label-caps text-label-caps py-4 rounded-DEFAULT transition-colors duration-200 uppercase tracking-wider" type="submit">Login</button>
+            </form>
+
+            <!-- Footer -->
+            <p class="mt-3 text-center font-body-sm text-body-sm text-on-surface-variant">
+              New to BookSwap?
+              <a class="text-primary hover:text-primary-container font-medium underline transition-colors" href="{% url 'registration' %}">Create an account</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Simple tab switching logic for UI demonstration
+      const tabs = document.querySelectorAll('[role="tab"]')
+      const secureIndicator = document.getElementById('secure-indicator')
+      
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          // Reset all tabs
+          tabs.forEach((t) => {
+            t.setAttribute('aria-selected', 'false')
+            t.classList.remove('border-primary', 'text-primary')
+            t.classList.add('border-transparent', 'text-on-surface-variant')
+          })
+      
+          // Set active tab
+          tab.setAttribute('aria-selected', 'true')
+          tab.classList.remove('border-transparent', 'text-on-surface-variant')
+          tab.classList.add('border-primary', 'text-primary')
+      
+          // Toggle secure indicator based on Admin tab
+          if (tab.id === 'tab-admin') {
+            secureIndicator.classList.remove('hidden')
+            secureIndicator.classList.add('flex')
+          } else {
+            secureIndicator.classList.add('hidden')
+            secureIndicator.classList.remove('flex')
+          }
+        })
+      })
+    </script>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+  </body>
+</html>

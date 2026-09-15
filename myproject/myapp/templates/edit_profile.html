@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BookSwap - Edit Profile</title>
+
+    <!-- =========================================================
+         GOOGLE FONTS
+    ========================================================== -->
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         MATERIAL SYMBOLS
+    ========================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         TAILWIND CSS
+    ========================================================== -->
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- =========================================================
+         TAILWIND CONFIG
+    ========================================================== -->
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: 'class',
+
+            theme: {
+                extend: {
+
+                    colors: {
+                        'surface-container-highest': '#e4e2e1',
+                        'on-secondary': '#ffffff',
+                        'tertiary-fixed': '#ffe088',
+
+                        error: '#ba1a1a',
+
+                        primary: '#570013',
+                        'primary-container': '#800020',
+
+                        'surface-bright': '#fcf9f8',
+
+                        'secondary-container': '#d4e8d4',
+                        'on-secondary-container': '#576959',
+
+                        'primary-fixed': '#ffdada',
+
+                        background: '#fcf9f8',
+                        'on-background': '#1b1c1c',
+
+                        'secondary-fixed': '#d4e8d4',
+
+                        'on-error': '#ffffff',
+
+                        outline: '#8c7071',
+
+                        'inverse-on-surface': '#f3f0f0',
+
+                        'on-secondary-fixed-variant': '#3a4b3c',
+
+                        'on-primary-fixed-variant': '#8e0f28',
+
+                        'surface-container': '#f0eded',
+                        'surface-container-high': '#eae7e7',
+                        'surface-container-low': '#f6f3f2',
+                        'surface-container-lowest': '#ffffff',
+
+                        'primary-fixed-dim': '#ffb3b5',
+
+                        'on-tertiary-fixed-variant': '#574500',
+
+                        secondary: '#516353',
+
+                        'on-primary-container': '#ff828a',
+
+                        'tertiary-fixed-dim': '#e9c349',
+
+                        'on-surface-variant': '#584141',
+                        'on-surface': '#1b1c1c',
+
+                        'on-error-container': '#93000a',
+
+                        'on-tertiary': '#ffffff',
+
+                        'tertiary-container': '#cca730',
+
+                        'surface-dim': '#dcd9d9',
+
+                        'inverse-primary': '#ffb3b5',
+
+                        'error-container': '#ffdad6',
+
+                        'on-primary-fixed': '#40000b',
+
+                        'on-primary': '#ffffff',
+
+                        'surface-tint': '#af2b3e',
+
+                        surface: '#fcf9f8',
+
+                        tertiary: '#735c00',
+
+                        'on-tertiary-fixed': '#241a00',
+
+                        'on-tertiary-container': '#4f3d00',
+
+                        'outline-variant': '#e0bfbf',
+
+                        'surface-variant': '#e4e2e1',
+
+                        'secondary-fixed-dim': '#b8ccb8',
+
+                        'on-secondary-fixed': '#0f1f13',
+
+                        'inverse-surface': '#303030'
+                    },
+
+                    borderRadius: {
+                        DEFAULT: '0.25rem',
+                        lg: '0.5rem',
+                        xl: '0.75rem',
+                        full: '9999px'
+                    },
+
+                    spacing: {
+                        gutter: '24px',
+                        'margin-mobile': '16px',
+                        'container-max': '1280px',
+                        base: '8px',
+                        'margin-desktop': '48px'
+                    },
+
+                    fontFamily: {
+                        'display-lg-mobile': ['Playfair Display'],
+                        'display-lg': ['Playfair Display'],
+                        'headline-sm': ['Playfair Display'],
+                        'body-lg': ['Inter'],
+                        'body-md': ['Inter'],
+                        'headline-md': ['Playfair Display'],
+                        'label-caps': ['Inter'],
+                        'body-sm': ['Inter']
+                    },
+
+                    fontSize: {
+
+                        'display-lg-mobile': [
+                            '32px',
+                            {
+                                lineHeight: '1.2',
+                                fontWeight: '700'
+                            }
+                        ],
+
+                        'display-lg': [
+                            '48px',
+                            {
+                                lineHeight: '1.1',
+                                letterSpacing: '-0.02em',
+                                fontWeight: '700'
+                            }
+                        ],
+
+                        'headline-sm': [
+                            '24px',
+                            {
+                                lineHeight: '1.3',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'body-lg': [
+                            '18px',
+                            {
+                                lineHeight: '1.6',
+                                fontWeight: '400'
+                            }
+                        ],
+
+                        'body-md': [
+                            '16px',
+                            {
+                                lineHeight: '1.5',
+                                fontWeight: '400'
+                            }
+                        ],
+
+                        'headline-md': [
+                            '32px',
+                            {
+                                lineHeight: '1.2',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'label-caps': [
+                            '12px',
+                            {
+                                lineHeight: '1',
+                                letterSpacing: '0.08em',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'body-sm': [
+                            '14px',
+                            {
+                                lineHeight: '1.4',
+                                fontWeight: '400'
+                            }
+                        ]
+                    }
+                }
+            }
+        };
+    </script>
+
+
+    <!-- =========================================================
+         GLOBAL DESIGN SYSTEM
+    ========================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background-color: #fcf9f8;
+            color: #1b1c1c;
+            font-family: 'Inter', sans-serif;
+
+            /* Subtle grain texture */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+        }
+
+        /* Headings */
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Form elements */
+
+        input,
+        select,
+        textarea {
+            font-family: 'Inter', sans-serif;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #8c7071;
+            opacity: 0.75;
+        }
+
+        /* Selection */
+
+        ::selection {
+            background: #800020;
+            color: #ffffff;
+        }
+
+        /* Scrollbar */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e4e2e1;
+            border-radius: 9999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8c7071;
+        }
+
+        /* File input */
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Input focus */
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #570013 !important;
+
+            box-shadow:
+                0 0 0 2px rgba(87, 0, 19, 0.08) !important;
+
+            outline: none;
+        }
+
+        /* Smooth transitions */
+
+        input,
+        select,
+        textarea,
+        button,
+        a {
+            transition:
+                border-color 0.2s ease,
+                background-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        /* File upload label */
+
+        .file-upload-label {
+            cursor: pointer;
+        }
+
+        .file-upload-label:hover {
+            border-color: #570013;
+            background-color: #f6f3f2;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 1024px) {
+
+            main {
+                margin-left: 0 !important;
+            }
+
+        }
+
+        @media (max-width: 768px) {
+
+            form {
+                padding: 24px !important;
+            }
+
+        }
+
+        @media (max-width: 640px) {
+
+            form {
+                padding: 16px !important;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="min-h-screen bg-[#fcf9f8] text-[#1b1c1c]">
+
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================== -->
+
+    {% include 'navbar.html' %}
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main class="mx-auto max-w-2xl px-4 py-10">
+
+
+        <!-- =====================================================
+             PAGE HEADER
+        ====================================================== -->
+
+        <div class="mb-6">
+
+            <a
+                href="{% url 'user_profile' %}"
+                class="inline-flex items-center gap-1 text-sm font-semibold text-[#570013] hover:text-[#800020]"
+            >
+
+                <span class="material-symbols-outlined text-lg">
+                    arrow_back
+                </span>
+
+                Back to profile
+
+            </a>
+
+
+            <h1
+                class="mt-3 font-['Playfair_Display'] text-4xl font-semibold text-[#570013]"
+            >
+                Edit contact details
+            </h1>
+
+
+            <p
+                class="mt-2 text-sm leading-relaxed text-[#584141]"
+            >
+                These details are shared with your exchange partner only
+                after a request is accepted.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================================
+             DJANGO MESSAGES
+        ====================================================== -->
+
+        {% if messages %}
+
+            <div class="mb-5 space-y-2">
+
+                {% for message in messages %}
+
+                    <p
+                        class="rounded border border-[#e0bfbf] bg-[#fff4f3] px-4 py-3 text-sm text-[#800020]"
+                    >
+                        {{ message }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- =====================================================
+             EDIT PROFILE FORM
+        ====================================================== -->
+
+        <form
+            method="post"
+            enctype="multipart/form-data"
+            class="space-y-5 rounded-xl border border-[#e0bfbf] bg-white p-6 shadow-sm"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- =================================================
+                 FULL NAME
+            ================================================== -->
+
+            <div>
+
+                <label
+                    for="full_name"
+                    class="mb-2 block text-sm font-semibold text-[#1b1c1c]"
+                >
+                    Full name
+                </label>
+
+                <input
+                    id="full_name"
+                    name="full_name"
+                    value="{{ profile.full_name }}"
+                    maxlength="100"
+                    required
+                    autocomplete="name"
+                    class="w-full rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 PHONE
+            ================================================== -->
+
+            <div>
+
+                <label
+                    for="phone"
+                    class="mb-2 block text-sm font-semibold text-[#1b1c1c]"
+                >
+                    Phone number
+                </label>
+
+                <input
+                    id="phone"
+                    name="phone"
+                    value="{{ profile.phone }}"
+                    inputmode="numeric"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                    required
+                    autocomplete="tel"
+                    placeholder="Enter 10-digit phone number"
+                    class="w-full rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]"
+                >
+
+                <p class="mt-1 text-xs text-[#8c7071]">
+                    Enter a valid 10-digit phone number.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 ADDRESS / CITY
+            ================================================== -->
+
+            <div>
+
+                <label
+                    for="location"
+                    class="mb-2 block text-sm font-semibold text-[#1b1c1c]"
+                >
+                    Address / city
+                </label>
+
+                <textarea
+                    id="location"
+                    name="location"
+                    maxlength="100"
+                    rows="3"
+                    required
+                    autocomplete="street-address"
+                    placeholder="Enter your address or city"
+                    class="w-full resize-none rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]"
+                >{{ profile.location }}</textarea>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROFILE PHOTO
+            ================================================== -->
+
+            <div>
+
+                <label
+                    class="mb-2 block text-sm font-semibold text-[#1b1c1c]"
+                >
+                    Profile photo
+                </label>
+
+
+                <label
+                    for="profile_photo"
+                    class="file-upload-label flex w-full items-center gap-3 rounded border border-dashed border-[#e0bfbf] bg-[#f6f3f2] px-4 py-4"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-2xl text-[#570013]"
+                    >
+                        upload
+                    </span>
+
+                    <div>
+
+                        <p
+                            class="text-sm font-semibold text-[#570013]"
+                        >
+                            Choose profile photo
+                        </p>
+
+                        <p
+                            class="mt-1 text-xs text-[#8c7071]"
+                        >
+                            JPG, PNG or other image format
+                        </p>
+
+                    </div>
+
+                </label>
+
+
+                <input
+                    id="profile_photo"
+                    name="profile_photo"
+                    type="file"
+                    accept="image/*"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTION BUTTONS
+            ================================================== -->
+
+            <div
+                class="flex flex-col-reverse gap-3 border-t border-[#e4e2e1] pt-5 sm:flex-row sm:justify-end"
+            >
+
+                <!-- Cancel -->
+
+                <a
+                    href="{% url 'user_profile' %}"
+                    class="inline-flex items-center justify-center gap-2 rounded border border-[#800020] px-5 py-3 text-sm font-semibold text-[#800020] hover:bg-[#800020] hover:text-white"
+                >
+
+                    <span class="material-symbols-outlined text-lg">
+                        close
+                    </span>
+
+                    Cancel
+
+                </a>
+
+
+                <!-- Save -->
+
+                <button
+                    type="submit"
+                    class="inline-flex items-center justify-center gap-2 rounded bg-[#800020] px-5 py-3 text-sm font-semibold text-white hover:bg-[#570013]"
+                >
+
+                    <span class="material-symbols-outlined text-lg">
+                        save
+                    </span>
+
+                    Save changes
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    {% include 'footer.html' %}
+
+</body>
+
+</html>

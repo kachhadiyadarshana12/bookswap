@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>{{ book.title }} - BookSwap</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
+        rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+        rel="stylesheet" />
+
+    <!-- =====================================================
+         TAILWIND CONFIG
+    ====================================================== -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: 'class',
+
+            theme: {
+                extend: {
+                    colors: {
+                        'on-primary-fixed-variant': '#8e0f28',
+                        'on-secondary': '#ffffff',
+                        error: '#ba1a1a',
+                        'inverse-primary': '#ffb3b5',
+                        'on-secondary-container': '#576959',
+                        'surface-container-highest': '#e4e2e1',
+                        'surface-container': '#f0eded',
+                        'secondary-fixed-dim': '#b8ccb8',
+                        'outline-variant': '#e0bfbf',
+                        'tertiary-fixed': '#ffe088',
+                        'on-tertiary-container': '#4f3d00',
+                        'primary-fixed-dim': '#ffb3b5',
+                        surface: '#fcf9f8',
+                        'surface-container-lowest': '#ffffff',
+                        background: '#fcf9f8',
+                        'on-surface': '#1b1c1c',
+                        'surface-container-high': '#eae7e7',
+                        'on-tertiary-fixed': '#241a00',
+                        primary: '#570013',
+                        'secondary-fixed': '#d4e8d4',
+                        'surface-dim': '#dcd9d9',
+                        'primary-fixed': '#ffdada',
+                        'on-secondary-fixed-variant': '#3a4b3c',
+                        'on-secondary-fixed': '#0f1f13',
+                        'on-primary-fixed': '#40000b',
+                        'inverse-on-surface': '#f3f0f0',
+                        secondary: '#516353',
+                        outline: '#8c7071',
+                        'on-tertiary-fixed-variant': '#574500',
+                        'surface-tint': '#af2b3e',
+                        'on-primary-container': '#ff828a',
+                        'on-primary': '#ffffff',
+                        'on-surface-variant': '#584141',
+                        'inverse-surface': '#303030',
+                        tertiary: '#735c00',
+                        'tertiary-container': '#cca730',
+                        'on-tertiary': '#ffffff',
+                        'error-container': '#ffdad6',
+                        'secondary-container': '#d4e8d4',
+                        'primary-container': '#800020',
+                        'surface-variant': '#e4e2e1',
+                        'surface-bright': '#fcf9f8',
+                        'on-error': '#ffffff',
+                        'on-error-container': '#93000a'
+                    },
+
+                    borderRadius: {
+                        DEFAULT: '0.25rem',
+                        lg: '0.5rem',
+                        xl: '0.75rem',
+                        full: '9999px'
+                    },
+
+                    spacing: {
+                        'container-max': '1280px',
+                        gutter: '24px',
+                        'margin-mobile': '16px',
+                        base: '8px',
+                        'margin-desktop': '48px'
+                    },
+
+                    fontFamily: {
+                        'headline-sm': ['Playfair Display'],
+                        'headline-md': ['Playfair Display'],
+                        'label-caps': ['Inter'],
+                        'body-lg': ['Inter'],
+                        'body-md': ['Inter'],
+                        'display-lg': ['Playfair Display'],
+                        'display-lg-mobile': ['Playfair Display'],
+                        'body-sm': ['Inter']
+                    },
+
+                    fontSize: {
+                        'headline-sm': [
+                            '24px',
+                            {
+                                lineHeight: '1.3',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'headline-md': [
+                            '32px',
+                            {
+                                lineHeight: '1.2',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'label-caps': [
+                            '12px',
+                            {
+                                lineHeight: '1',
+                                letterSpacing: '0.08em',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'body-lg': [
+                            '18px',
+                            {
+                                lineHeight: '1.6',
+                                fontWeight: '400'
+                            }
+                        ],
+
+                        'body-md': [
+                            '16px',
+                            {
+                                lineHeight: '1.5',
+                                fontWeight: '400'
+                            }
+                        ],
+
+                        'display-lg': [
+                            '48px',
+                            {
+                                lineHeight: '1.1',
+                                letterSpacing: '-0.02em',
+                                fontWeight: '700'
+                            }
+                        ],
+
+                        'display-lg-mobile': [
+                            '32px',
+                            {
+                                lineHeight: '1.2',
+                                fontWeight: '700'
+                            }
+                        ],
+
+                        'body-sm': [
+                            '14px',
+                            {
+                                lineHeight: '1.4',
+                                fontWeight: '400'
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .paper-texture {
+            position: relative;
+        }
+
+        .paper-texture::before {
+            content: '';
+
+            position: absolute;
+
+            inset: 0;
+
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+
+            opacity: 0.02;
+
+            pointer-events: none;
+
+            z-index: 10;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #fcf9f8;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e4e2e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dcd9d9;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-surface text-on-surface font-body">
+
+    {% include 'navbar.html' %}
+
+    <main class="mx-auto grid max-w-5xl gap-8 px-4 py-10 md:grid-cols-[minmax(220px,320px)_1fr] md:px-12">
+
+        <!-- =====================================================
+             BOOK IMAGES
+        ====================================================== -->
+        <section>
+
+            <div class="overflow-hidden rounded-lg border border-outline-variant bg-white shadow-sm">
+
+                {% if book.cover_image %}
+                    <img
+                        src="{{ book.cover_image.url }}"
+                        alt="{{ book.title }} cover"
+                        class="aspect-2/3 w-full object-cover"
+                    />
+                {% else %}
+                    <div class="flex aspect-2/3 items-center justify-center text-on-surface-variant">
+                        No cover image
+                    </div>
+                {% endif %}
+
+            </div>
+
+            {% if photos %}
+
+                <h2 class="mt-6 font-semibold text-primary">
+                    Exchange Photos
+                </h2>
+
+                <div class="mt-3 grid grid-cols-2 gap-3">
+
+                    {% for photo in photos %}
+
+                        <img
+                            src="{{ photo.photo.url }}"
+                            alt="{{ book.title }} exchange photo {{ forloop.counter }}"
+                            class="aspect-square w-full rounded-lg border border-outline-variant object-cover"
+                        />
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- =====================================================
+             BOOK INFORMATION
+        ====================================================== -->
+        <section>
+
+            <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-secondary">
+                Exchange Available
+            </p>
+
+            <h1 class="font-display-lg-mobile text-4xl font-bold text-primary md:text-5xl">
+                {{ book.title }}
+            </h1>
+
+            <p class="mt-2 text-on-surface-variant">
+                by {{ book.author }}
+            </p>
+
+
+            <!-- Badges -->
+            <div class="mt-6 flex flex-wrap gap-2 text-sm">
+
+                <span class="rounded-full bg-secondary-container px-4 py-1.5 text-secondary">
+                    {{ exchange_book.get_condition_display }}
+                </span>
+
+                <span class="rounded-full border border-outline-variant px-4 py-1.5">
+                    {{ book.get_category_display }}
+                </span>
+
+            </div>
+
+
+            <!-- Condition Details -->
+            {% if exchange_book.specific_details %}
+
+                <div class="mt-6">
+
+                    <h2 class="font-semibold text-primary">
+                        Condition Details
+                    </h2>
+
+                    <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-on-surface-variant">
+
+                        {% for detail in exchange_book.specific_details %}
+
+                            <li>
+                                {{ detail|cut:"_"|capfirst }}
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Seller Notes -->
+            {% if exchange_book.additional_notes %}
+
+                <div class="mt-5">
+
+                    <h2 class="font-semibold text-primary">
+                        Seller Notes
+                    </h2>
+
+                    <p class="mt-2 text-sm leading-6 text-on-surface-variant">
+                        {{ exchange_book.additional_notes }}
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Book Details -->
+            <dl class="mt-8 grid gap-4 border-y border-outline-variant py-5 text-sm sm:grid-cols-2">
+
+                <div>
+                    <dt class="text-on-surface-variant">ISBN</dt>
+                    <dd class="mt-1 font-medium">{{ book.isbn }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-on-surface-variant">Language</dt>
+                    <dd class="mt-1 font-medium">{{ book.get_language_display }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-on-surface-variant">Publisher</dt>
+                    <dd class="mt-1 font-medium">{{ book.publisher }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-on-surface-variant">Published</dt>
+                    <dd class="mt-1 font-medium">{{ book.publication_year }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-on-surface-variant">Pages</dt>
+                    <dd class="mt-1 font-medium">{{ book.page_count }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-on-surface-variant">Seller</dt>
+                    <dd class="mt-1 font-medium">
+                        {{ seller.store_name|default:seller.full_name }}
+                    </dd>
+                </div>
+
+            </dl>
+
+
+            <!-- Description -->
+            {% if book.description %}
+
+                <div class="mt-6">
+
+                    <h2 class="font-semibold text-primary">
+                        About this book
+                    </h2>
+
+                    <p class="mt-2 leading-7 text-on-surface-variant">
+                        {{ book.description }}
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Exchange + Back -->
+            <div class="mt-8 flex flex-col gap-5 border-t border-outline-variant pt-5 sm:flex-row sm:items-center sm:justify-between">
+
+                <div>
+
+                    <p class="font-semibold text-secondary">Book for book exchange</p>
+
+                </div>
+
+
+                <a
+                    href="{% url 'exchange' %}"
+                    class="rounded-lg bg-primary-container px-5 py-3 text-center text-sm font-semibold uppercase tracking-wider text-white transition hover:opacity-90"
+                >
+                    Back to Exchange
+                </a>
+
+                <form method="post" action="{% url 'add_to_wishlist' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="exchange_id" value="{{ exchange_book.id }}">
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button type="submit" class="rounded-lg border border-primary px-5 py-3 text-center text-sm font-semibold uppercase tracking-wider text-primary transition hover:bg-primary hover:text-white">
+                        {% if in_wishlist %}Saved to Wishlist{% else %}Add to Wishlist{% endif %}
+                    </button>
+                </form>
+
+            </div>
+
+            {% if user.is_authenticated and user.id != exchange_book.seller.user_id %}
+                <div class="mt-6 rounded-lg border border-outline-variant bg-surface-container-low p-5">
+                    <h2 class="font-semibold text-primary">Offer one of your books</h2>
+                    {% if existing_exchange_request %}
+                        <p class="mt-2 text-sm text-on-surface-variant">You already requested this book.</p>
+                        <a href="{% url 'exchange_chat' existing_exchange_request.id %}" class="mt-4 inline-block rounded bg-primary-container px-4 py-2 text-sm font-semibold text-white">Open exchange chat</a>
+                    {% elif offered_books %}
+                        <form method="post" action="{% url 'create_exchange_request' exchange_book.id %}" class="mt-4 space-y-3">
+                            {% csrf_token %}
+                            <select name="offered_book" required class="w-full rounded border border-outline-variant bg-white px-3 py-3">
+                                <option value="">Choose your exchange book to offer</option>
+                                {% for offered_book in offered_books %}<option value="{{ offered_book.id }}">{{ offered_book.title }} by {{ offered_book.author }}</option>{% endfor %}
+                            </select>
+                            <textarea name="note" maxlength="2000" rows="3" placeholder="Add a note for the owner (optional)" class="w-full rounded border border-outline-variant bg-white px-3 py-3"></textarea>
+                            <button type="submit" class="rounded bg-secondary px-5 py-3 text-sm font-semibold text-white">Send exchange request</button>
+                        </form>
+                    {% else %}
+                        <p class="mt-2 text-sm text-on-surface-variant">You need one of your own books to make a book-for-book offer.</p>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'seller_add_exchange' %}" class="mt-4 inline-block rounded border border-primary px-4 py-2 text-sm font-semibold text-primary">Add your exchange book first</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% elif not user.is_authenticated %}
+                <a href="{% url 'login' %}?next={{ request.path|urlencode }}" class="mt-6 inline-block rounded bg-primary-container px-5 py-3 text-sm font-semibold text-white">Login to make an exchange offer</a>
+            {% endif %}
+
+        </section>
+
+    </main>
+
+    {% include 'footer.html' %}
+
+</body>
+
+</html>
