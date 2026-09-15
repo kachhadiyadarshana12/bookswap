@@ -1,0 +1,738 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>BookSwap - Add Book: Condition</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'surface-container-highest': '#e4e2e1',
+              'on-secondary': '#ffffff',
+              'tertiary-fixed': '#ffe088',
+              error: '#ba1a1a',
+              primary: '#570013',
+              'primary-container': '#800020',
+              'surface-bright': '#fcf9f8',
+              'secondary-container': '#d4e8d4',
+              'on-secondary-container': '#576959',
+              'primary-fixed': '#ffdada',
+              background: '#fcf9f8',
+              'on-background': '#1b1c1c',
+              'secondary-fixed': '#d4e8d4',
+              'on-error': '#ffffff',
+              outline: '#8c7071',
+              'inverse-on-surface': '#f3f0f0',
+              'on-secondary-fixed-variant': '#3a4b3c',
+              'on-primary-fixed-variant': '#8e0f28',
+              'surface-container': '#f0eded',
+              'surface-container-high': '#eae7e7',
+              'surface-container-low': '#f6f3f2',
+              'surface-container-lowest': '#ffffff',
+              'primary-fixed-dim': '#ffb3b5',
+              'on-tertiary-fixed-variant': '#574500',
+              secondary: '#516353',
+              'on-primary-container': '#ff828a',
+              'tertiary-fixed-dim': '#e9c349',
+              'on-surface-variant': '#584141',
+              'on-surface': '#1b1c1c',
+              'on-error-container': '#93000a',
+              'on-tertiary': '#ffffff',
+              'tertiary-container': '#cca730',
+              'surface-dim': '#dcd9d9',
+              'inverse-primary': '#ffb3b5',
+              'error-container': '#ffdad6',
+              'on-primary-fixed': '#40000b',
+              'on-primary': '#ffffff',
+              'surface-tint': '#af2b3e',
+              surface: '#fcf9f8',
+              tertiary: '#735c00',
+              'on-tertiary-fixed': '#241a00',
+              'on-tertiary-container': '#4f3d00',
+              'outline-variant': '#e0bfbf',
+              'surface-variant': '#e4e2e1',
+              'secondary-fixed-dim': '#b8ccb8',
+              'on-secondary-fixed': '#0f1f13',
+              'inverse-surface': '#303030'
+            },
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px'
+            },
+            spacing: {
+              gutter: '24px',
+              'margin-mobile': '16px',
+              'container-max': '1280px',
+              base: '8px',
+              'margin-desktop': '48px'
+            },
+            fontFamily: {
+              'display-lg-mobile': ['Playfair Display'],
+              'display-lg': ['Playfair Display'],
+              'headline-sm': ['Playfair Display'],
+              'body-lg': ['Inter'],
+              'body-md': ['Inter'],
+              'headline-md': ['Playfair Display'],
+              'label-caps': ['Inter'],
+              'body-sm': ['Inter']
+            },
+            fontSize: {
+              'display-lg-mobile': ['32px', { lineHeight: '1.2', fontWeight: '700' }],
+              'display-lg': ['48px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+              'headline-sm': ['24px', { lineHeight: '1.3', fontWeight: '600' }],
+              'body-lg': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
+              'body-md': ['16px', { lineHeight: '1.5', fontWeight: '400' }],
+              'headline-md': ['32px', { lineHeight: '1.2', fontWeight: '600' }],
+              'label-caps': ['12px', { lineHeight: '1', letterSpacing: '0.08em', fontWeight: '600' }],
+              'body-sm': ['14px', { lineHeight: '1.4', fontWeight: '400' }]
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #fcf9f8;
+        /* Subtle grain texture for premium feel */
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      }
+      .custom-radio:checked + div {
+        border-color: #800020;
+        background-color: #f6f3f2;
+        box-shadow: 0px 12px 24px rgba(128, 0, 32, 0.04);
+      }
+      .custom-radio:checked + div .radio-indicator {
+        border-color: #800020;
+        border-width: 5px;
+      }
+      .custom-checkbox:checked {
+        background-color: #800020;
+        border-color: #800020;
+      }
+    </style>
+    <script src="{% static 'js/exchange_condition.js' %}"></script>
+  </head>
+  <body class="text-on-surface antialiased flex h-screen">
+    {% if not request.user.reader_profile %}{% include 'seller/seller_header.html' %}{% endif %}
+    <div class="w-full min-h-screen">
+    <!-- Shared Component: SideNavBar -->
+    {% if not request.user.reader_profile %}{% include 'seller/seller_sidebar.html' %}{% endif %}
+    <!-- Main Content Canvas -->
+    <main
+        class="flex-1 flex flex-col min-h-screen overflow-y-auto {% if not user_side %}ml-64{% endif %} bg-background">
+      <div class="max-w-300 mx-auto w-full px-margin-desktop py-12 pb-24">
+        <!-- Progress Stepper -->
+        {% include 'seller/progress_step.html' %}
+        <!-- Page Header -->
+        <div class="mb-10">
+          <h1 class="font-display-lg text-display-lg text-primary">How would you describe your book?</h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant mt-2">Select the overall condition and provide specifics to set buyer expectations.</p>
+        </div>
+        <!-- Condition Wizard Form (Step 2) -->
+        <form method="post" enctype="multipart/form-data" action="{% url 'seller_exchange_condition' book_id=book.id %}">
+          {% csrf_token %}
+        <!-- Condition Selection (5 Cards) -->
+<section class="mb-12">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+
+        <!-- ================= NEW ================= -->
+        <label class="relative cursor-pointer group">
+
+            <input
+                class="custom-radio sr-only"
+                name="condition"
+                type="radio"
+                value="new"
+                {% if exchange_book.condition == "new" %}checked{% endif %}
+            >
+
+            <div
+                class="h-full border border-surface-dim rounded-lg p-5
+                       bg-surface-container-lowest
+                       transition-all
+                       hover:border-outline-variant
+                       hover:bg-surface-container-low
+                       flex flex-col items-center text-center"
+            >
+
+                <span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-3">
+                    auto_awesome
+                </span>
+
+                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">
+                    New
+                </h3>
+
+                <p class="font-body-sm text-body-sm text-on-surface-variant flex-1">
+                    Brand new, unread, perfect condition.
+                </p>
+
+                <div class="mt-4 w-5 h-5 rounded-full border-2 border-outline-variant radio-indicator shrink-0">
+                </div>
+
+            </div>
+        </label>
+
+
+        <!-- ================= LIKE NEW ================= -->
+        <label class="relative cursor-pointer group">
+
+            <input
+                class="custom-radio sr-only"
+                name="condition"
+                type="radio"
+                value="like_new"
+                {% if exchange_book.condition == "like_new" %}checked{% endif %}
+            >
+
+            <div
+                class="h-full border border-surface-dim rounded-lg p-5
+                       bg-surface-container-lowest
+                       transition-all
+                       hover:border-outline-variant
+                       hover:bg-surface-container-low
+                       flex flex-col items-center text-center"
+            >
+
+                <span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-3">
+                    diamond
+                </span>
+
+                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">
+                    Like New
+                </h3>
+
+                <p class="font-body-sm text-body-sm text-on-surface-variant flex-1">
+                    Appears unread but may have minor shelf wear.
+                </p>
+
+                <div class="mt-4 w-5 h-5 rounded-full border-2 border-outline-variant radio-indicator shrink-0">
+                </div>
+
+            </div>
+        </label>
+
+
+        <!-- ================= GOOD ================= -->
+        <label class="relative cursor-pointer group">
+
+            <input
+                class="custom-radio sr-only"
+                name="condition"
+                type="radio"
+                value="good"
+                {% if exchange_book.condition == "good" or not exchange.condition %}checked{% endif %}
+            >
+
+            <div
+                class="h-full border border-surface-dim rounded-lg p-5
+                       bg-surface-container-lowest
+                       transition-all
+                       hover:border-outline-variant
+                       hover:bg-surface-container-low
+                       flex flex-col items-center text-center"
+            >
+
+                <span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-3">
+                    menu_book
+                </span>
+
+                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">
+                    Good
+                </h3>
+
+                <p class="font-body-sm text-body-sm text-on-surface-variant flex-1">
+                    Read, some wear, intact spine and pages.
+                </p>
+
+                <div class="mt-4 w-5 h-5 rounded-full border-2 border-outline-variant radio-indicator shrink-0">
+                </div>
+
+            </div>
+        </label>
+
+
+        <!-- ================= FAIR ================= -->
+        <label class="relative cursor-pointer group">
+
+            <input
+                class="custom-radio sr-only"
+                name="condition"
+                type="radio"
+                value="fair"
+                {% if exchange_book.condition == "fair" %}checked{% endif %}
+            >
+
+            <div
+                class="h-full border border-surface-dim rounded-lg p-5
+                       bg-surface-container-lowest
+                       transition-all
+                       hover:border-outline-variant
+                       hover:bg-surface-container-low
+                       flex flex-col items-center text-center"
+            >
+
+                <span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-3">
+                    import_contacts
+                </span>
+
+                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">
+                    Fair
+                </h3>
+
+                <p class="font-body-sm text-body-sm text-on-surface-variant flex-1">
+                    Noticeable wear, possible markings or creases.
+                </p>
+
+                <div class="mt-4 w-5 h-5 rounded-full border-2 border-outline-variant radio-indicator shrink-0">
+                </div>
+
+            </div>
+        </label>
+
+
+        <!-- ================= POOR ================= -->
+        <label class="relative cursor-pointer group">
+
+            <input
+                class="custom-radio sr-only"
+                name="condition"
+                type="radio"
+                value="poor"
+                {% if exchange_book.condition == "poor" %}checked{% endif %}
+            >
+
+            <div
+                class="h-full border border-surface-dim rounded-lg p-5
+                       bg-surface-container-lowest
+                       transition-all
+                       hover:border-outline-variant
+                       hover:bg-surface-container-low
+                       flex flex-col items-center text-center"
+            >
+
+                <span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-3">
+                    book_4
+                </span>
+
+                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">
+                    Poor
+                </h3>
+
+                <p class="font-body-sm text-body-sm text-on-surface-variant flex-1">
+                    Heavy wear, damage, but readable.
+                </p>
+
+                <div class="mt-4 w-5 h-5 rounded-full border-2 border-outline-variant radio-indicator shrink-0">
+                </div>
+
+            </div>
+        </label>
+
+    </div>
+
+</section>
+        <!-- Details & Notes Section -->
+        <section class="grid grid-cols-2 gap-12 mb-12">
+
+    <!-- Left: Condition Details -->
+    <div>
+        <h4 class="font-headline-sm text-headline-sm text-primary mb-4">
+            Specific Details
+        </h4>
+
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-6">
+            Select all that apply to provide a transparent listing.
+        </p>
+
+        <div class="grid grid-cols-2 gap-y-4 gap-x-6">
+
+            <!-- Minor cover wear -->
+            <label class="flex items-start gap-3 cursor-pointer group">
+                <input
+                    class="custom-checkbox mt-1 w-4 h-4 rounded border-outline-variant
+                           text-primary-container focus:ring-primary-container
+                           bg-surface-container-lowest transition-colors"
+                    type="checkbox"
+                    name="specific_details"
+                    value="minor_cover_wear"
+                    {% if "minor_cover_wear" in exchange_book.specific_details %}
+                        checked
+                    {% endif %}
+                />
+                <span class="font-body-sm text-body-sm text-on-surface
+                             group-hover:text-primary transition-colors">
+                    Minor cover wear
+                </span>
+            </label>
+
+            <!-- Creased spine -->
+            <label class="flex items-start gap-3 cursor-pointer group">
+                <input
+                    class="custom-checkbox mt-1 w-4 h-4 rounded border-outline-variant
+                           text-primary-container focus:ring-primary-container
+                           bg-surface-container-lowest transition-colors"
+                    type="checkbox"
+                    name="specific_details"
+                    value="creased_spine"
+                    {% if "creased_spine" in exchange_book.specific_details %}
+                        checked
+                    {% endif %}
+                />
+                <span class="font-body-sm text-body-sm text-on-surface
+                             group-hover:text-primary transition-colors">
+                    Creased spine
+                </span>
+            </label>
+
+            <!-- Page markings -->
+            <label class="flex items-start gap-3 cursor-pointer group">
+                <input
+                    class="custom-checkbox mt-1 w-4 h-4 rounded border-outline-variant
+                           text-primary-container focus:ring-primary-container
+                           bg-surface-container-lowest transition-colors"
+                    type="checkbox"
+                    name="specific_details"
+                    value="page_markings"
+                    {% if "page_markings" in exchange_book.specific_details %}
+                        checked
+                    {% endif %}
+                />
+                <span class="font-body-sm text-body-sm text-on-surface
+                             group-hover:text-primary transition-colors">
+                    Page markings
+                </span>
+            </label>
+
+            <!-- Water damage -->
+            <label class="flex items-start gap-3 cursor-pointer group">
+                <input
+                    class="custom-checkbox mt-1 w-4 h-4 rounded border-outline-variant
+                           text-primary-container focus:ring-primary-container
+                           bg-surface-container-lowest transition-colors"
+                    type="checkbox"
+                    name="specific_details"
+                    value="water_damage"
+                    {% if "water_damage" in exchange_book.specific_details %}
+                        checked
+                    {% endif %}
+                />
+                <span class="font-body-sm text-body-sm text-on-surface
+                             group-hover:text-primary transition-colors">
+                    Water damage
+                </span>
+            </label>
+
+            <!-- Highlighting -->
+            <label class="flex items-start gap-3 cursor-pointer group">
+                <input
+                    class="custom-checkbox mt-1 w-4 h-4 rounded border-outline-variant
+                           text-primary-container focus:ring-primary-container
+                           bg-surface-container-lowest transition-colors"
+                    type="checkbox"
+                    name="specific_details"
+                    value="highlighting"
+                    {% if "highlighting" in exchange_book.specific_details %}
+                        checked
+                    {% endif %}
+                />
+                <span class="font-body-sm text-body-sm text-on-surface
+                             group-hover:text-primary transition-colors">
+                    Highlighting
+                </span>
+            </label>
+
+            <!-- Missing pages -->
+            <label class="flex items-start gap-3 cursor-pointer group">
+                <input
+                    class="custom-checkbox mt-1 w-4 h-4 rounded border-outline-variant
+                           text-primary-container focus:ring-primary-container
+                           bg-surface-container-lowest transition-colors"
+                    type="checkbox"
+                    name="specific_details"
+                    value="missing_pages"
+                    {% if "missing_pages" in exchange_book.specific_details %}
+                        checked
+                    {% endif %}
+                />
+                <span class="font-body-sm text-body-sm text-on-surface
+                             group-hover:text-primary transition-colors">
+                    Missing pages
+                </span>
+            </label>
+
+            <!-- Writing in margins -->
+            <label class="flex items-start gap-3 cursor-pointer group">
+                <input
+                    class="custom-checkbox mt-1 w-4 h-4 rounded border-outline-variant
+                           text-primary-container focus:ring-primary-container
+                           bg-surface-container-lowest transition-colors"
+                    type="checkbox"
+                    name="specific_details"
+                    value="writing_margins"
+                    {% if "writing_margins" in exchange_book.specific_details %}
+                        checked
+                    {% endif %}
+                />
+                <span class="font-body-sm text-body-sm text-on-surface
+                             group-hover:text-primary transition-colors">
+                    Writing in margins
+                </span>
+            </label>
+
+            <!-- Dust jacket damage -->
+            <label class="flex items-start gap-3 cursor-pointer group">
+                <input
+                    class="custom-checkbox mt-1 w-4 h-4 rounded border-outline-variant
+                           text-primary-container focus:ring-primary-container
+                           bg-surface-container-lowest transition-colors"
+                    type="checkbox"
+                    name="specific_details"
+                    value="dust_jacket_damage"
+                    {% if "dust_jacket_damage" in exchange_book.specific_details %}
+                        checked
+                    {% endif %}
+                />
+                <span class="font-body-sm text-body-sm text-on-surface
+                             group-hover:text-primary transition-colors">
+                    Dust jacket damage
+                </span>
+            </label>
+
+            <!-- Folded corners -->
+            <label class="flex items-start gap-3 cursor-pointer group">
+                <input
+                    class="custom-checkbox mt-1 w-4 h-4 rounded border-outline-variant
+                           text-primary-container focus:ring-primary-container
+                           bg-surface-container-lowest transition-colors"
+                    type="checkbox"
+                    name="specific_details"
+                    value="folded_corners"
+                    {% if "folded_corners" in exchange_book.specific_details %}
+                        checked
+                    {% endif %}
+                />
+                <span class="font-body-sm text-body-sm text-on-surface
+                             group-hover:text-primary transition-colors">
+                    Folded corners
+                </span>
+            </label>
+
+            <!-- Other -->
+            <label class="flex items-start gap-3 cursor-pointer group">
+                <input
+                    class="custom-checkbox mt-1 w-4 h-4 rounded border-outline-variant
+                           text-primary-container focus:ring-primary-container
+                           bg-surface-container-lowest transition-colors"
+                    type="checkbox"
+                    name="specific_details"
+                    value="other"
+                    {% if "other" in exchange_book.specific_details %}
+                        checked
+                    {% endif %}
+                />
+                <span class="font-body-sm text-body-sm text-on-surface
+                             group-hover:text-primary transition-colors">
+                    Other (describe in notes)
+                </span>
+            </label>
+
+        </div>
+    </div>
+
+
+    <!-- Right: Additional Notes -->
+    <div class="flex flex-col gap-6">
+
+        <div>
+            <h4 class="font-headline-sm text-headline-sm text-primary mb-4">
+                Additional Notes
+            </h4>
+
+            <textarea
+                name="additional_notes"
+                class="w-full bg-surface-container-lowest
+                       border border-outline-variant rounded p-4
+                       font-body-md text-body-md text-on-surface
+                       placeholder:text-on-surface-variant/50
+                       focus:border-primary-container
+                       focus:ring-1 focus:ring-primary-container
+                       transition-colors resize-none"
+                placeholder="Describe any additional condition details, provenance, or specific wear patterns..."
+                rows="5"
+            >{{ exchange_book.additional_notes|default:'' }}</textarea>
+        </div>
+
+    </div>
+
+</section>
+        <div class="mb-10">
+          <h2 class="font-headline-md text-headline-md text-on-surface">Show Buyers Your Book</h2>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-2xl">High-quality photos increase trust and help your book swap faster. Ensure well-lit, clear images that accurately represent the condition.</p>
+        </div>
+        <!-- Two Column Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          <!-- LEFT COLUMN - PHOTO UPLOAD & GALLERY -->
+          <div class="lg:col-span-8 flex flex-col gap-8">
+            <!-- Upload Zone -->
+            <div>
+              <label for="photo-upload-input" class="border-2 border-dashed border-outline-variant rounded-lg p-10 lg:p-12 flex flex-col items-center justify-center bg-surface-container-lowest hover:bg-surface-container-low hover:border-primary transition-all duration-200 group cursor-pointer">
+                <!-- Upload Icon -->
+                <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-6 group-hover:bg-primary-fixed transition-colors">
+                  <span class="material-symbols-outlined text-[32px] text-primary">cloud_upload</span>
+                </div>
+                <!-- Title -->
+                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Drag & Drop Photos Here</h3>
+                <!-- Description -->
+                <p class="font-body-sm text-body-sm text-on-surface-variant text-center mb-6">
+                  Upload 2–4 photos<br class="sm:hidden"> (JPEG, PNG, max 10MB each)
+                </p>
+                <!-- Browse Button -->
+                <span class="bg-primary-container text-white font-label-caps text-label-caps px-6 py-3 rounded hover:bg-primary transition-colors flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">folder_open</span> BROWSE FILES
+                </span>
+                <!-- File Input (Hidden but still functional) -->
+                <input type="file" id="photo-upload-input" name="photos" accept="image/jpeg,image/png,image/jpg" multiple style="display: none;" onchange="previewPhotos(event);">
+              </label>
+              <!-- Selected New Photos Preview -->
+              <div id="photo-preview" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-6"></div>
+            </div> 
+            
+            <!-- EXISTING PHOTO GALLERY -->
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface">Uploaded Photos</h3>
+                  <p class="text-sm text-on-surface-variant mt-1">Your book photos</p>
+                </div>
+                <span class="px-3 py-1 rounded-full bg-surface-container text-sm text-on-surface-variant">
+                  {{ exchange_book.photos.count }}/6
+                </span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {% for photo in exchange_book.photos.all %}
+                <!-- Photo Card -->
+                <div class="relative group rounded-lg overflow-hidden border border-outline-variant bg-surface-container-lowest soft-shadow aspect-3/4">
+                  <!-- Photo Number -->
+                  <div class="absolute top-3 left-3 z-10 bg-surface/90 text-on-surface font-label-caps text-[10px] px-2 py-1 rounded border border-outline-variant backdrop-blur-sm">
+                    #{{ forloop.counter }}
+                  </div>
+                  <!-- Image -->
+                  <img class="w-full h-full object-cover" src="{{ photo.photo.url }}" alt="Book photo {{ forloop.counter }}">
+                  <!-- Hover Overlay -->
+                  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    <!-- Delete -->
+                    <button type="submit" formnovalidate formaction="{% url 'seller_exchange_photo_delete' book_id=book.id photo_id=photo.id %}" formmethod="post" class="flex items-center gap-2 px-4 py-2 rounded bg-white/90 text-red-600 font-label-caps text-label-caps hover:bg-white transition-colors">
+                      <span class="material-symbols-outlined text-[18px]">delete</span> DELETE
+                    </button>
+                  </div>
+                </div>
+                {% empty %}
+                <!-- Empty State -->
+                <div class="col-span-full border border-dashed border-outline-variant rounded-lg p-10 flex flex-col items-center justify-center text-center">
+                  <span class="material-symbols-outlined text-5xl text-on-surface-variant/50 mb-3">photo_library</span>
+                  <p class="font-body-sm text-on-surface-variant">No photos uploaded yet.</p>
+                  <p class="text-xs text-on-surface-variant/70 mt-1">Add at least 2 photos above.</p>
+                </div>
+                {% endfor %}
+              </div>
+            </div> 
+          </div>
+            
+          <!-- RIGHT COLUMN - LIBRARIAN'S NOTE -->
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            <div class="bg-secondary-container text-on-secondary-container rounded-lg p-6 border border-secondary-fixed-dim lg:sticky lg:top-6">
+              <!-- Header with auto_awesome icon -->
+              <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center">
+                  <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-secondary">Librarian's Note</h3>
+              </div>
+              <!-- Quote -->
+              <p class="font-body-md text-body-md mb-6 font-serif italic text-on-secondary-container/90 leading-relaxed">
+                "The finest collections are meticulously documented. Natural daylight reveals a book's true character and condition."
+              </p>
+              <!-- Requirements List -->
+              <ul class="space-y-4 font-body-sm text-body-sm">
+                <li class="flex items-start gap-3 border-b border-secondary-fixed-dim pb-4">
+                  <span class="material-symbols-outlined text-[20px] text-secondary mt-0.5">exposure</span>
+                  <div>
+                    <p class="font-medium">Use clear, natural daylight</p>
+                    <p class="text-xs text-on-secondary-container/70 mt-1">Avoid dark or blurry photos.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3 border-b border-secondary-fixed-dim pb-4">
+                  <span class="material-symbols-outlined text-[20px] text-secondary mt-0.5">photo_library</span>
+                  <div>
+                    <p class="font-medium">Minimum 2 photos required</p>
+                    <p class="text-xs text-on-secondary-container/70 mt-1">Show different sides of the book.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-[20px] text-secondary mt-0.5">collections</span>
+                  <div>
+                    <p class="font-medium">Maximum 6 photos allowed</p>
+                    <p class="text-xs text-on-secondary-container/70 mt-1">Quality over quantity.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Spacer to push footer down if content is short -->
+        <div class="grow"></div>
+        <!-- Bottom Action Bar -->
+        <div class="border-t border-outline-variant pt-6 mt-8 flex items-center justify-between sticky bottom-0 bg-surface-bright/95 backdrop-blur pb-8 z-10">
+          <a href="{% url 'seller_add_exchange' %}" class="px-6 py-3 border border-outline text-on-surface font-label-caps text-label-caps rounded hover:bg-surface-container transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            Back
+          </a>
+          <div class="flex gap-3">
+             <button
+            type="submit"
+            name="save_draft"
+            value="1"
+            class="px-6 py-3 border rounded"
+        >
+            Save as Draft
+        </button>
+        <button type="submit" class="px-8 py-3 bg-primary-container text-on-primary font-label-caps text-label-caps rounded hover:bg-primary shadow-sm hover:shadow transition-all flex items-center gap-2">
+                  Continue to Delivery
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </button>
+            </div>
+        </div>
+        </form>
+      </div>
+      
+        
+    
+    </main>
+    {% if not request.user.reader_profile %}
+            {% include 'seller/seller_footer.html' %}
+        {% endif %}
+    </div>
+  </body>
+</html>

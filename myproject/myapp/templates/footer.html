@@ -1,0 +1,34 @@
+{% if not user.is_authenticated or user.reader_profile %}
+<footer class="bg-surface-container border-t border-outline-variant w-full">
+  <div class="w-full py-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+    <!-- Brand -->
+    <div class="font-headline-sm text-headline-sm text-primary font-bold">BookSwap</div>
+
+    <!-- Links -->
+    <ul class="flex flex-wrap justify-center gap-6">
+      <!-- About Us -->
+      <li>
+        <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary hover:underline transition-all" href="{% url 'about_us' %}">About Us</a>
+      </li>
+
+      <!-- Help Center -->
+      <li>
+        <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary hover:underline transition-all" href="{% url 'help_center' %}">Help Center</a>
+      </li>
+
+      <!-- Terms & Privacy -->
+      <li>
+        <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary hover:underline transition-all" href="{% url 'terms_privacy' %}">Terms & Privacy</a>
+      </li>
+
+      <!-- Help and support -->
+      <li>
+        <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary hover:underline transition-all" href="{% url 'help_center' %}?contact=1#contact-support">Contact Support</a>
+      </li>
+    </ul>
+
+    <!-- Copyright -->
+    <div class="font-body-sm text-body-sm text-on-surface-variant text-center">&copy; 2026 BookSwap. Giving good books another life.</div>
+  </div>
+</footer>
+{% endif %}

@@ -1,0 +1,255 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>BookSwap - Registration</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'surface-dim': '#dcd9d9',
+              'on-primary': '#ffffff',
+              'inverse-on-surface': '#f3f0f0',
+              'surface-container-low': '#f6f3f2',
+              'on-surface': '#1b1c1c',
+              'surface-container-lowest': '#ffffff',
+              'on-tertiary-fixed-variant': '#574500',
+              primary: '#570013',
+              'inverse-surface': '#303030',
+              'on-secondary-container': '#576959',
+              surface: '#fcf9f8',
+              'surface-container-highest': '#e4e2e1',
+              secondary: '#516353',
+              'inverse-primary': '#ffb3b5',
+              'tertiary-fixed': '#ffe088',
+              'tertiary-container': '#cca730',
+              'on-background': '#1b1c1c',
+              'on-tertiary': '#ffffff',
+              'on-tertiary-fixed': '#241a00',
+              'surface-variant': '#e4e2e1',
+              'primary-fixed': '#ffdada',
+              'outline-variant': '#e0bfbf',
+              'secondary-fixed': '#d4e8d4',
+              'surface-container-high': '#eae7e7',
+              background: '#fcf9f8',
+              'surface-tint': '#af2b3e',
+              'on-secondary-fixed': '#0f1f13',
+              'secondary-container': '#d4e8d4',
+              'on-surface-variant': '#584141',
+              'primary-fixed-dim': '#ffb3b5',
+              'on-primary-fixed-variant': '#8e0f28',
+              'on-primary-container': '#ff828a',
+              'primary-container': '#800020',
+              'on-secondary-fixed-variant': '#3a4b3c',
+              'on-primary-fixed': '#40000b',
+              tertiary: '#735c00',
+              'surface-container': '#f0eded',
+              'tertiary-fixed-dim': '#e9c349',
+              'on-tertiary-container': '#4f3d00',
+              'error-container': '#ffdad6',
+              error: '#ba1a1a',
+              outline: '#8c7071',
+              'on-secondary': '#ffffff',
+              'surface-bright': '#fcf9f8',
+              'on-error-container': '#93000a',
+              'on-error': '#ffffff',
+              'secondary-fixed-dim': '#b8ccb8'
+            },
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px'
+            },
+            spacing: {
+              'margin-mobile': '16px',
+              gutter: '24px',
+              'margin-desktop': '48px',
+              base: '8px',
+              'container-max': '1280px'
+            },
+            fontFamily: {
+              'display-lg-mobile': ['Playfair Display'],
+              'label-caps': ['Inter'],
+              'headline-md': ['Playfair Display'],
+              'headline-sm': ['Playfair Display'],
+              'body-sm': ['Inter'],
+              'display-lg': ['Playfair Display'],
+              'body-md': ['Inter'],
+              'body-lg': ['Inter']
+            },
+            fontSize: {
+              'display-lg-mobile': ['32px', { lineHeight: '1.2', fontWeight: '700' }],
+              'label-caps': ['12px', { lineHeight: '1', letterSpacing: '0.08em', fontWeight: '600' }],
+              'headline-md': ['32px', { lineHeight: '1.2', fontWeight: '600' }],
+              'headline-sm': ['24px', { lineHeight: '1.3', fontWeight: '600' }],
+              'body-sm': ['14px', { lineHeight: '1.4', fontWeight: '400' }],
+              'display-lg': ['48px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+              'body-md': ['16px', { lineHeight: '1.5', fontWeight: '400' }],
+              'body-lg': ['18px', { lineHeight: '1.6', fontWeight: '400' }]
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .grain-overlay {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TopNavBar -->
+    {% include 'navbar.html' %}
+    <div class="bg-background texture-bg min-h-screen flex items-center justify-center p-0 md:p-margin-desktop text-on-surface">
+      <!-- Navigation suppressed as per guidelines for transactional screens (Registration) -->
+      <main class="w-full max-w-container-max min-h-screen md:min-h-[80vh] flex flex-col md:flex-row bg-surface md:bg-surface-container-low rounded-none md:rounded-xl overflow-hidden soft-shadow relative border-0 md:border border-surface-variant">
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg w-full grid md:grid-cols-2 overflow-hidden" style="box-shadow: 0px 12px 24px rgba(128, 0, 32, 0.04);">
+          <!-- Left Side - Image/Atmosphere -->
+          <div class="hidden md:block relative h-full bg-surface-variant">
+            <div id="roleImage" class="absolute inset-0 bg-cover bg-center" data-alt="A beautiful, high-resolution photograph of a sunlit private library. The scene features tall wooden bookshelves filled with leather-bound books. Sunlight streams through a large window, illuminating dust motes in the air. The aesthetic is premium, warm, and inviting, with a color palette dominated by rich mahogany, deep greens, and warm golden light, perfectly matching a high-end literary platform." style="background-image: url('READER_IMAGE_URL');"></div>
+            <div class="absolute inset-0 bg-linear-to-t from-background/90 via-background/40 to-transparent flex items-end p-12">
+              <div>
+                <h2 class="font-headline-md text-headline-md text-primary mb-4">Discover rare editions.</h2>
+                <p class="font-body-lg text-body-lg text-on-surface-variant">Join a community of discerning readers and collectors.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Right Side - Registration Form -->
+          <div class="p-8 md:p-12 w-full flex flex-col bg-surface">
+            <div class="mb-10 text-center md:text-left">
+              <div class="font-headline-md text-headline-md font-bold text-primary mb-2 flex items-center justify-center md:justify-start gap-2">
+                <span class="material-symbols-outlined text-3xl">auto_stories</span>
+                BookSwap
+              </div>
+              <h1 class="font-display-lg text-display-lg text-on-surface mt-6">Join the Community</h1>
+            </div>
+            <form id="registrationForm" class="grow flex flex-col gap-3" method="post" action="{% url 'registration' %}" enctype="multipart/form-data">
+              {% csrf_token %}
+              <!-- Role Selection -->
+              <fieldset>
+                <div class="grid grid-cols-2 gap-4">
+                  <label class="cursor-pointer">
+                    <input id="readerRole" class="peer sr-only" name="role" type="radio" value="reader" checked />
+                    <div class="h-full border border-outline-variant rounded p-4 flex flex-col items-center justify-center gap-2 peer-checked:border-primary peer-checked:bg-primary/5 transition-all">
+                      <span class="material-symbols-outlined text-primary">menu_book</span>
+                      <span class="font-body-md text-body-md font-semibold text-on-surface">Reader / Buyer</span>
+                    </div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input id="sellerRole" class="peer sr-only" name="role" type="radio" value="seller" />
+                    <div class="h-full border border-outline-variant rounded p-4 flex flex-col items-center justify-center gap-2 peer-checked:border-primary peer-checked:bg-primary/5 transition-all">
+                      <span class="material-symbols-outlined text-primary">storefront</span>
+                      <span class="font-body-md text-body-md font-semibold text-on-surface">Seller</span>
+                    </div>
+                  </label>
+                </div>
+              </fieldset>
+              <!-- Personal Info -->
+              <div class="space-y-3">
+                <div class="flex items-center gap-6">
+                  <div class="relative w-16 h-16 rounded-full bg-surface-variant border border-outline-variant flex items-center justify-center overflow-hidden shrink-0 group cursor-pointer">
+                    <span class="material-symbols-outlined text-on-surface-variant group-hover:hidden">person</span>
+                    <span class="material-symbols-outlined text-on-surface-variant hidden group-hover:block">upload</span>
+                    <input accept="image/*" name="profile_photo" aria-label="Upload profile photo" class="absolute inset-0 opacity-0 cursor-pointer" type="file" />
+                  </div>
+                  <div class="grow">
+                    <label class="sr-only" for="fullName">Full Name</label>
+                    <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors" id="fullName" placeholder="Full Name" type="text" name="full_name" value="{{ full_name }}" />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label class="sr-only" for="username">Username</label>
+                    <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors" id="username" placeholder="Username" type="text" name="username" value="{{ username }}" />
+                  </div>
+                  <div>
+                    <label class="sr-only" for="email">Email Address</label>
+                    <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors" id="email" placeholder="Email Address" type="email" name="email" value="{{ email }}" />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label class="sr-only" for="phone">Phone Number</label>
+                    <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors" id="phone" placeholder="Phone Number" type="tel" name="phone" value="{{ phone }}" />
+                  </div>
+                  <div>
+                    <label class="sr-only" for="location">City / Location</label>
+                    <div class="relative">
+                      <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 pl-0 pr-8 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors" id="location" placeholder="City / Location" type="text" name="location" value="{{ location }}" />
+                      <span class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant/50 pointer-events-none">location_on</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Seller Store Information -->
+              <div id="sellerFields" class="space-y-3 hidden">
+                <div>
+                  <label class="sr-only" for="storeName">Store Name</label>
+
+                  <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors" id="storeName" placeholder="Store Name" type="text" name="store_name" value="{{ store_name }}" />
+                </div>
+
+                <div>
+                  <label class="sr-only" for="sellerDescription">Store Description</label>
+
+                  <textarea class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors resize-none" id="storeDescription" placeholder="Store Description" name="seller_description" rows="2">{{ seller_description }}</textarea>
+                </div>
+              </div>
+              <!-- Security -->
+              <div class="space-y-3">
+                <div>
+                  <label class="sr-only" for="password">Password</label>
+                  <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors" id="password" placeholder="Password" type="password" name="password" />
+                </div>
+                <div>
+                  <label class="sr-only" for="confirmPassword">Confirm Password</label>
+                  <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors" id="confirmPassword" placeholder="Confirm Password" type="password" name="confirm_password" />
+                </div>
+              </div>
+              <!-- Terms -->
+              <div class="flex items-start gap-3">
+                <div class="flex items-center h-5 mt-0.5">
+                  <input class="w-4 h-4 border-outline-variant rounded text-primary focus:ring-primary bg-transparent cursor-pointer" id="terms" name="terms" value="yes" type="checkbox" />
+                </div>
+                <label class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer" for="terms">I agree to the <a class="text-primary hover:underline" href="#">Terms of Service</a> and <a class="text-primary hover:underline" href="#">Privacy Policy</a>.</label>
+              </div>
+              <!-- Error Messages -->
+              {% if messages %}
+                <div class="space-y-2">
+                  {% for message in messages %}
+                    <div class="px-1 py-1 text-red-700 text-sm font-bold">{{ message }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              {% if error %}
+                <div class="px-1 py-1 text-red-700 text-sm font-bold">{{ error }}</div>
+              {% endif %}
+              <div id="errorMessage" class="hidden px-4 py-3 rounded border border-red-300 bg-red-50 text-red-700 text-sm"></div>
+              <button class="w-full bg-primary-container text-on-primary py-4 px-4 rounded font-label-caps font-label-caps hover:bg-primary transition-colors" type="submit">Create Account</button>
+              <p class="text-center font-body-sm text-body-sm text-on-surface-variant mt-4">
+                Already have an account? <a class="text-primary font-semibold hover:underline" href="{% url 'login' %}">Log In</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="{% static 'js/registration.js' %}"></script>
+    {% include 'footer.html' %}
+  </body>
+</html>

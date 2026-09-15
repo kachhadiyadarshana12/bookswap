@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>{{ book.title }} - BookSwap</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
+        rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+        rel="stylesheet" />
+
+    <!-- =====================================================
+         TAILWIND CONFIG
+    ====================================================== -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: 'class',
+
+            theme: {
+                extend: {
+                    colors: {
+                        'on-primary-fixed-variant': '#8e0f28',
+                        'on-secondary': '#ffffff',
+                        error: '#ba1a1a',
+                        'inverse-primary': '#ffb3b5',
+                        'on-secondary-container': '#576959',
+                        'surface-container-highest': '#e4e2e1',
+                        'surface-container': '#f0eded',
+                        'secondary-fixed-dim': '#b8ccb8',
+                        'outline-variant': '#e0bfbf',
+                        'tertiary-fixed': '#ffe088',
+                        'on-tertiary-container': '#4f3d00',
+                        'primary-fixed-dim': '#ffb3b5',
+                        surface: '#fcf9f8',
+                        'surface-container-lowest': '#ffffff',
+                        background: '#fcf9f8',
+                        'on-surface': '#1b1c1c',
+                        'surface-container-high': '#eae7e7',
+                        'on-tertiary-fixed': '#241a00',
+                        primary: '#570013',
+                        'secondary-fixed': '#d4e8d4',
+                        'surface-dim': '#dcd9d9',
+                        'primary-fixed': '#ffdada',
+                        'on-secondary-fixed-variant': '#3a4b3c',
+                        'on-secondary-fixed': '#0f1f13',
+                        'on-primary-fixed': '#40000b',
+                        'inverse-on-surface': '#f3f0f0',
+                        secondary: '#516353',
+                        outline: '#8c7071',
+                        'on-tertiary-fixed-variant': '#574500',
+                        'surface-tint': '#af2b3e',
+                        'on-primary-container': '#ff828a',
+                        'on-primary': '#ffffff',
+                        'on-surface-variant': '#584141',
+                        'inverse-surface': '#303030',
+                        tertiary: '#735c00',
+                        'tertiary-container': '#cca730',
+                        'on-tertiary': '#ffffff',
+                        'error-container': '#ffdad6',
+                        'secondary-container': '#d4e8d4',
+                        'primary-container': '#800020',
+                        'surface-variant': '#e4e2e1',
+                        'surface-bright': '#fcf9f8',
+                        'on-error': '#ffffff',
+                        'on-error-container': '#93000a'
+                    },
+
+                    borderRadius: {
+                        DEFAULT: '0.25rem',
+                        lg: '0.5rem',
+                        xl: '0.75rem',
+                        full: '9999px'
+                    },
+
+                    spacing: {
+                        'container-max': '1280px',
+                        gutter: '24px',
+                        'margin-mobile': '16px',
+                        base: '8px',
+                        'margin-desktop': '48px'
+                    },
+
+                    fontFamily: {
+                        'headline-sm': ['Playfair Display'],
+                        'headline-md': ['Playfair Display'],
+                        'label-caps': ['Inter'],
+                        'body-lg': ['Inter'],
+                        'body-md': ['Inter'],
+                        'display-lg': ['Playfair Display'],
+                        'display-lg-mobile': ['Playfair Display'],
+                        'body-sm': ['Inter']
+                    },
+
+                    fontSize: {
+                        'headline-sm': [
+                            '24px',
+                            {
+                                lineHeight: '1.3',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'headline-md': [
+                            '32px',
+                            {
+                                lineHeight: '1.2',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'label-caps': [
+                            '12px',
+                            {
+                                lineHeight: '1',
+                                letterSpacing: '0.08em',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'body-lg': [
+                            '18px',
+                            {
+                                lineHeight: '1.6',
+                                fontWeight: '400'
+                            }
+                        ],
+
+                        'body-md': [
+                            '16px',
+                            {
+                                lineHeight: '1.5',
+                                fontWeight: '400'
+                            }
+                        ],
+
+                        'display-lg': [
+                            '48px',
+                            {
+                                lineHeight: '1.1',
+                                letterSpacing: '-0.02em',
+                                fontWeight: '700'
+                            }
+                        ],
+
+                        'display-lg-mobile': [
+                            '32px',
+                            {
+                                lineHeight: '1.2',
+                                fontWeight: '700'
+                            }
+                        ],
+
+                        'body-sm': [
+                            '14px',
+                            {
+                                lineHeight: '1.4',
+                                fontWeight: '400'
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .paper-texture {
+            position: relative;
+        }
+
+        .paper-texture::before {
+            content: '';
+
+            position: absolute;
+
+            inset: 0;
+
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+
+            opacity: 0.02;
+
+            pointer-events: none;
+
+            z-index: 10;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #fcf9f8;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e4e2e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dcd9d9;
+        }
+    </style>
+</head>
+
+
+<body class="min-h-screen bg-surface text-on-surface font-body">
+
+    {% include 'navbar.html' %}
+
+    <main class="relative overflow-hidden">
+
+        <!-- Decorative background -->
+        <div class="absolute top-0 right-0 w-105] h-105 bg-primary-fixed/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-125 -left-45 w-95 h-95 bg-secondary-container/25 rounded-full blur-3xl pointer-events-none"></div>
+
+
+        <!-- =====================================================
+             BOOK HERO
+        ====================================================== -->
+        <section class="relative max-w-6xl mx-auto px-5 md:px-10 lg:px-12 pt-8 md:pt-14 pb-14">
+
+            <!-- Breadcrumb -->
+            <div class="flex items-center gap-2 text-xs text-on-surface-variant mb-8">
+
+                <a
+                    href="{% url 'browse' %}"
+                    class="hover:text-primary transition-colors"
+                >
+                    Browse
+                </a>
+
+                <span class="material-symbols-outlined text-[14px]">
+                    chevron_right
+                </span>
+
+                <span>
+                    {{ book.get_category_display }}
+                </span>
+
+                <span class="material-symbols-outlined text-[14px]">
+                    chevron_right
+                </span>
+
+                <span class="text-primary font-medium">
+                    Book Details
+                </span>
+
+            </div>
+
+
+            <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+
+
+                <!-- =================================================
+                     LEFT — BOOK VISUAL
+                ================================================== -->
+                <div class="lg:col-span-5">
+
+                    <div class="relative">
+
+                        <!-- Decorative frame -->
+                        <div class="absolute -top-4 -left-4 w-full h-full border border-primary/10 rounded-2xl"></div>
+
+                        <div class="relative bg-surface-container-low rounded-2xl p-4 md:p-5">
+
+                            <!-- Main Cover -->
+                            <div class="relative overflow-hidden rounded-xl bg-white shadow-2xl shadow-primary/10">
+
+                                {% if book.cover_image %}
+
+                                    <img
+                                        src="{{ book.cover_image.url }}"
+                                        alt="{{ book.title }} cover"
+                                        class="w-full aspect-2/3 object-cover"
+                                    />
+
+                                {% else %}
+
+                                    <div class="aspect-2/3 flex flex-col items-center justify-center text-center">
+
+                                        <span class="material-symbols-outlined text-6xl text-outline">
+                                            menu_book
+                                        </span>
+
+                                        <p class="text-sm text-on-surface-variant mt-3">
+                                            No cover image
+                                        </p>
+
+                                    </div>
+
+                                {% endif %}
+
+                                <!-- Exchange Badge -->
+                                <div class="absolute top-5 left-5">
+
+                                    <span class="inline-flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.15em] font-semibold shadow-lg">
+
+                                        <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+
+                                        Exchange Available
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Cover caption -->
+                            <div class="flex items-center justify-between mt-4 px-1">
+
+                                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant">
+                                    BookSwap Edition
+                                </p>
+
+                                <span class="material-symbols-outlined text-primary text-[18px]">
+                                    auto_stories
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             EXCHANGE PHOTOS
+                        ================================================== -->
+                        {% if photos %}
+
+                            <div class="mt-7">
+
+                                <div class="flex items-center justify-between mb-3">
+
+                                    <div>
+
+                                        <p class="text-[10px] uppercase tracking-[0.16em] text-secondary font-semibold">
+                                            Real book photos
+                                        </p>
+
+                                        <p class="text-xs text-on-surface-variant mt-1">
+                                            See the actual condition
+                                        </p>
+
+                                    </div>
+
+                                    <span class="text-xs text-on-surface-variant">
+                                        {{ photos|length }} photos
+                                    </span>
+
+                                </div>
+
+
+                                <div class="grid grid-cols-4 gap-3">
+
+                                    {% for photo in photos %}
+
+                                        <div class="group relative aspect-square overflow-hidden rounded-lg border border-outline-variant bg-white">
+
+                                            <img
+                                                src="{{ photo.photo.url }}"
+                                                alt="{{ book.title }} exchange photo {{ forloop.counter }}"
+                                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                            />
+
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     RIGHT — BOOK INFORMATION
+                ================================================== -->
+                <div class="lg:col-span-7">
+
+                    <!-- Category -->
+                    <div class="flex items-center gap-3 mb-5">
+
+                        <span class="w-8 h-px bg-primary"></span>
+
+                        <span class="text-[10px] uppercase tracking-[0.2em] font-semibold text-primary">
+                            {{ book.get_category_display }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- Title -->
+                    <h1 class="font-display-lg-mobile md:font-display-lg text-4xl md:text-5xl lg:text-6xl text-primary leading-[1.05]">
+                        {{ book.title }}
+                    </h1>
+
+
+                    <!-- Author -->
+                    <p class="mt-4 text-lg text-on-surface-variant">
+                        by
+                        <span class="font-semibold text-on-surface">
+                            {{ book.author }}
+                        </span>
+                    </p>
+
+
+                    <!-- Status badges -->
+                    <div class="flex flex-wrap gap-2 mt-7">
+
+                        <span class="inline-flex items-center gap-2 bg-secondary-container text-secondary px-4 py-2 rounded-full text-xs font-semibold">
+
+                            <span class="material-symbols-outlined text-[16px]">
+                                verified
+                            </span>
+
+                            {{ exchange_book.get_condition_display }}
+
+                        </span>
+
+
+                        <span class="inline-flex items-center gap-2 border border-outline-variant bg-white/50 px-4 py-2 rounded-full text-xs text-on-surface-variant">
+
+                            <span class="material-symbols-outlined text-[16px]">
+                                category
+                            </span>
+
+                            {{ book.get_category_display }}
+
+                        </span>
+
+
+                        <span class="inline-flex items-center gap-2 border border-outline-variant bg-white/50 px-4 py-2 rounded-full text-xs text-on-surface-variant">
+
+                            <span class="material-symbols-outlined text-[16px]">
+                                language
+                            </span>
+
+                            {{ book.get_language_display }}
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         CONDITION CARD
+                    ================================================== -->
+                    {% if exchange_book.specific_details %}
+
+                        <div class="mt-9 rounded-2xl bg-secondary-container/40 border border-secondary/15 p-6">
+
+                            <div class="flex items-start gap-4">
+
+                                <div class="w-11 h-11 shrink-0 rounded-xl bg-secondary text-white flex items-center justify-center">
+
+                                    <span class="material-symbols-outlined">
+                                        verified
+                                    </span>
+
+                                </div>
+
+                                <div class="flex-1">
+
+                                    <h2 class="font-headline-sm text-xl text-secondary">
+                                        Condition Details
+                                    </h2>
+
+                                    <p class="text-xs text-on-surface-variant mt-1">
+                                        Here's what you should know about this copy.
+                                    </p>
+
+
+                                    <div class="grid sm:grid-cols-2 gap-3 mt-5">
+
+                                        {% for detail in exchange_book.specific_details %}
+
+                                            <div class="flex items-center gap-2 text-sm text-on-surface">
+
+                                                <span class="material-symbols-outlined text-secondary text-[17px]">
+                                                    check_circle
+                                                </span>
+
+                                                <span>
+                                                    {{ detail|cut:"_"|capfirst }}
+                                                </span>
+
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         SELLER NOTE
+                    ================================================== -->
+                    {% if exchange_book.additional_notes %}
+
+                        <div class="mt-6 pl-5 border-l-2 border-primary/30">
+
+                            <p class="text-[10px] uppercase tracking-[0.16em] text-primary font-semibold">
+                                Seller's Note
+                            </p>
+
+                            <p class="mt-2 text-sm leading-7 text-on-surface-variant">
+                                "{{ exchange_book.additional_notes }}"
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         BOOK DETAILS
+                    ================================================== -->
+                    <div class="mt-9">
+
+                        <div class="flex items-center gap-3 mb-5">
+
+                            <span class="font-headline-sm text-xl text-on-surface">
+                                About this edition
+                            </span>
+
+                            <span class="flex-1 h-px bg-outline-variant"></span>
+
+                        </div>
+
+
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-px bg-outline-variant border border-outline-variant rounded-xl overflow-hidden">
+
+                            <!-- ISBN -->
+                            <div class="bg-surface p-5">
+
+                                <span class="material-symbols-outlined text-primary text-[19px]">
+                                    qr_code_2
+                                </span>
+
+                                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-3">
+                                    ISBN
+                                </p>
+
+                                <p class="text-sm font-semibold mt-1 break-all">
+                                    {{ book.isbn }}
+                                </p>
+
+                            </div>
+
+
+                            <!-- Language -->
+                            <div class="bg-surface p-5">
+
+                                <span class="material-symbols-outlined text-primary text-[19px]">
+                                    translate
+                                </span>
+
+                                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-3">
+                                    Language
+                                </p>
+
+                                <p class="text-sm font-semibold mt-1">
+                                    {{ book.get_language_display }}
+                                </p>
+
+                            </div>
+
+
+                            <!-- Publisher -->
+                            <div class="bg-surface p-5">
+
+                                <span class="material-symbols-outlined text-primary text-[19px]">
+                                    business
+                                </span>
+
+                                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-3">
+                                    Publisher
+                                </p>
+
+                                <p class="text-sm font-semibold mt-1">
+                                    {{ book.publisher }}
+                                </p>
+
+                            </div>
+
+
+                            <!-- Published -->
+                            <div class="bg-surface p-5">
+
+                                <span class="material-symbols-outlined text-primary text-[19px]">
+                                    calendar_month
+                                </span>
+
+                                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-3">
+                                    Published
+                                </p>
+
+                                <p class="text-sm font-semibold mt-1">
+                                    {{ book.publication_year }}
+                                </p>
+
+                            </div>
+
+
+                            <!-- Pages -->
+                            <div class="bg-surface p-5">
+
+                                <span class="material-symbols-outlined text-primary text-[19px]">
+                                    format_list_numbered
+                                </span>
+
+                                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-3">
+                                    Pages
+                                </p>
+
+                                <p class="text-sm font-semibold mt-1">
+                                    {{ book.page_count }}
+                                </p>
+
+                            </div>
+
+
+                            <!-- Seller -->
+                            <div class="bg-surface p-5">
+
+                                <span class="material-symbols-outlined text-secondary text-[19px]">
+                                    storefront
+                                </span>
+
+                                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-3">
+                                    Seller
+                                </p>
+
+                                <p class="text-sm font-semibold mt-1 truncate">
+                                    {{ seller.store_name|default:seller.full_name }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         DESCRIPTION
+                    ================================================== -->
+                    {% if book.description %}
+
+                        <div class="mt-9">
+
+                            <div class="flex items-center gap-3 mb-4">
+
+                                <span class="font-headline-sm text-xl">
+                                    The story
+                                </span>
+
+                                <span class="flex-1 h-px bg-outline-variant"></span>
+
+                            </div>
+
+                            <p class="text-sm md:text-base leading-8 text-on-surface-variant">
+                                {{ book.description }}
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         PRICE + ACTIONS
+                    ================================================== -->
+                    <div class="mt-10 rounded-2xl bg-surface-container-low border border-outline-variant/60 p-6 md:p-7">
+
+                        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+
+                            <!-- Price -->
+                            <div>
+
+                                {% if book.price %}
+
+                                    {% if book.offer_percentage %}
+
+                                        <span class="inline-flex items-center gap-2 bg-primary-fixed text-primary px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase tracking-widest mb-3">
+
+                                            <span class="material-symbols-outlined text-[14px]">
+                                                local_offer
+                                            </span>
+
+                                            {{ book.offer_percentage }}% OFF
+
+                                        </span>
+
+                                        <p class="text-xs text-on-surface-variant line-through">
+                                            Original price ₹{{ book.price }}
+                                        </p>
+
+                                        <p class="font-headline-sm text-3xl text-primary mt-1">
+                                            ₹{{ book.offer_price }}
+                                        </p>
+
+                                        <p class="text-xs text-secondary mt-1">
+                                            Special offer price
+                                        </p>
+
+                                    {% else %}
+
+                                        <p class="text-[10px] uppercase tracking-widest text-on-surface-variant">
+                                            Selling Price
+                                        </p>
+
+                                        <p class="font-headline-sm text-3xl text-primary mt-1">
+                                            ₹{{ book.price }}
+                                        </p>
+
+                                    {% endif %}
+
+                                {% else %}
+
+                                    <p class="font-semibold text-secondary">
+                                        Price not added
+                                    </p>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Actions -->
+                            <div class="flex flex-wrap gap-3">
+
+                                {% if user.is_authenticated and user.id != seller.user_id and book.price %}
+
+                                    <a
+                                        href="{% url 'checkout' book.id %}"
+                                        class="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-white px-6 py-3.5 text-xs font-semibold uppercase tracking-widest hover:bg-primary-container transition-all shadow-lg shadow-primary/10"
+                                    >
+                                        Proceed to Checkout
+
+                                        <span class="material-symbols-outlined text-[17px]">
+                                            arrow_forward
+                                        </span>
+
+                                    </a>
+
+                                {% elif not user.is_authenticated %}
+
+                                    <a
+                                        href="{% url 'login' %}?next={{ request.path|urlencode }}"
+                                        class="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-white px-6 py-3.5 text-xs font-semibold uppercase tracking-widest hover:bg-primary-container transition-all"
+                                    >
+                                        Login to Buy
+
+                                        <span class="material-symbols-outlined text-[17px]">
+                                            login
+                                        </span>
+
+                                    </a>
+
+                                {% endif %}
+
+
+                                <!-- Wishlist -->
+                                <form method="post" action="{% url 'add_to_wishlist' %}">
+                                    {% csrf_token %}
+
+                                    <input
+                                        type="hidden"
+                                        name="book_id"
+                                        value="{{ book.id }}"
+                                    >
+
+                                    <input
+                                        type="hidden"
+                                        name="next"
+                                        value="{{ request.path }}"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="group inline-flex items-center justify-center gap-2 rounded-full border border-primary/40 bg-white px-5 py-3.5 text-xs font-semibold uppercase tracking-widest text-primary hover:bg-primary hover:text-white transition-all"
+                                    >
+
+                                        <span class="material-symbols-outlined text-[18px] group-hover:fill-current">
+                                            favorite
+                                        </span>
+
+                                        {% if in_wishlist %}
+                                            Saved
+                                        {% else %}
+                                            Wishlist
+                                        {% endif %}
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Bottom reassurance -->
+                        <div class="mt-6 pt-5 border-t border-outline-variant/60 flex flex-wrap gap-x-6 gap-y-2 text-[10px] uppercase tracking-widest text-on-surface-variant">
+
+                            <span class="inline-flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[15px] text-secondary">
+                                    verified
+                                </span>
+                                Community listed
+                            </span>
+
+                            <span class="inline-flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[15px] text-secondary">
+                                    menu_book
+                                </span>
+                                Real book details
+                            </span>
+
+                            <span class="inline-flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[15px] text-secondary">
+                                    favorite
+                                </span>
+                                Save for later
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Back -->
+                    <div class="mt-6">
+
+                        <a
+                            href="{% url 'browse' %}"
+                            class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors"
+                        >
+
+                            <span class="material-symbols-outlined text-[17px]">
+                                arrow_back
+                            </span>
+
+                            Back to Browse
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    {% include 'footer.html' %}
+
+</body>
+
+
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>BookSwap - Your Next Story is Waiting to be Traded</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-primary-fixed-variant': '#8e0f28',
+              'on-secondary': '#ffffff',
+              error: '#ba1a1a',
+              'inverse-primary': '#ffb3b5',
+              'on-secondary-container': '#576959',
+              'surface-container-highest': '#e4e2e1',
+              'surface-container': '#f0eded',
+              'secondary-fixed-dim': '#b8ccb8',
+              'outline-variant': '#e0bfbf',
+              'tertiary-fixed': '#ffe088',
+              'on-tertiary-container': '#4f3d00',
+              'primary-fixed-dim': '#ffb3b5',
+              surface: '#fcf9f8',
+              'surface-container-lowest': '#ffffff',
+              background: '#fcf9f8',
+              'on-surface': '#1b1c1c',
+              'surface-container-high': '#eae7e7',
+              'on-tertiary-fixed': '#241a00',
+              'primary-container': '#800020',
+              'on-error-container': '#93000a',
+              'tertiary-fixed-dim': '#e9c349',
+              'on-background': '#1b1c1c',
+              tertiary: '#735c00',
+              'surface-variant': '#e4e2e1',
+              'secondary-container': '#d4e8d4',
+              'surface-bright': '#fcf9f8',
+              'on-error': '#ffffff',
+              primary: '#570013',
+              'secondary-fixed': '#d4e8d4',
+              'surface-dim': '#dcd9d9',
+              'primary-fixed': '#ffdada',
+              'on-secondary-fixed-variant': '#3a4b3c',
+              'on-secondary-fixed': '#0f1f13',
+              'on-primary-fixed': '#40000b',
+              'inverse-on-surface': '#f3f0f0',
+              secondary: '#516353',
+              outline: '#8c7071',
+              'surface-container-low': '#f6f3f2',
+              'on-tertiary-fixed-variant': '#574500',
+              'surface-tint': '#af2b3e',
+              'on-primary-container': '#ff828a',
+              'on-primary': '#ffffff',
+              'on-surface-variant': '#584141',
+              'inverse-surface': '#303030',
+              'tertiary-container': '#cca730',
+              'on-tertiary': '#ffffff',
+              'error-container': '#ffdad6'
+            },
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px'
+            },
+            spacing: {
+              'container-max': '1280px',
+              gutter: '24px',
+              'margin-mobile': '16px',
+              base: '8px',
+              'margin-desktop': '48px'
+            },
+            fontFamily: {
+              'headline-sm': ['Playfair Display'],
+              'headline-md': ['Playfair Display'],
+              'label-caps': ['Inter'],
+              'body-lg': ['Inter'],
+              'body-md': ['Inter'],
+              'display-lg': ['Playfair Display'],
+              'display-lg-mobile': ['Playfair Display'],
+              'body-sm': ['Inter']
+            },
+            fontSize: {
+              'headline-sm': ['24px', { lineHeight: '1.3', fontWeight: '600' }],
+              'headline-md': ['32px', { lineHeight: '1.2', fontWeight: '600' }],
+              'label-caps': ['12px', { lineHeight: '1', letterSpacing: '0.08em', fontWeight: '600' }],
+              'body-lg': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
+              'body-md': ['16px', { lineHeight: '1.5', fontWeight: '400' }],
+              'display-lg': ['48px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+              'display-lg-mobile': ['32px', { lineHeight: '1.2', fontWeight: '700' }],
+              'body-sm': ['14px', { lineHeight: '1.4', fontWeight: '400' }]
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      .texture-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 50;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+      .book-shadow {
+        box-shadow: 0px 12px 24px rgba(128, 0, 32, 0.04);
+      }
+      .book-hover-shadow:hover {
+        box-shadow: 0px 16px 32px rgba(128, 0, 32, 0.08);
+        transform: translateY(-2px);
+      }
+      .text-truncate-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .sell-book-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .sell-book-card-image {
+        flex: 0 0 270px;
+      }
+      .sell-book-card-meta {
+        min-height: 24px;
+      }
+    </style>
+  </head>
+  <body class="bg-surface text-on-surface antialiased">
+    <div class="texture-overlay"></div>
+
+    {% include 'navbar.html' %}
+
+    <main class="overflow-hidden">
+      <!--     =========================================================
+         HERO — EDITORIAL BOOKSTORE STYLE
+    ==========================================================     -->
+      <section class="relative max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-12 md:pt-20 pb-20">
+        <!-- Decorative background -->
+        <div class="absolute -top-20 right-0 w-72 h-72 rounded-full bg-primary-fixed opacity-30 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-secondary-container opacity-30 blur-3xl"></div>
+
+        <div class="relative grid lg:grid-cols-12 gap-12 items-center">
+          <!-- LEFT -->
+          <div class="lg:col-span-7">
+            <div class="flex items-center gap-3 mb-7">
+              <span class="w-12 h-0.5 bg-primary"></span>
+
+              <span class="font-label-caps text-label-caps text-primary uppercase tracking-[0.2em]">The Reader's Marketplace</span>
+            </div>
+
+            <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg leading-[1.05] max-w-3xl">
+              Stories deserve
+              <span class="text-primary italic">more than one</span>
+              reader.
+            </h1>
+
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mt-7">Buy books you love. Exchange stories you've finished. Discover something unexpected from another reader's shelf.</p>
+
+            <div class="flex flex-wrap gap-4 mt-9">
+              <a href="{% url 'browse' %}" class="inline-flex items-center gap-3 bg-primary text-white px-7 py-4 rounded-full font-label-caps text-label-caps uppercase tracking-widest hover:bg-primary-container transition-all shadow-lg shadow-primary/10">
+                Browse Collection
+                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+              </a>
+
+              <a href="{% url 'exchange' %}" class="inline-flex items-center gap-3 px-7 py-4 rounded-full border border-outline text-on-surface font-label-caps text-label-caps uppercase tracking-widest hover:border-primary hover:text-primary transition-all">
+                Start Swapping
+                <span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- RIGHT — BOOK COLLAGE -->
+          <div class="lg:col-span-5 relative h-125 flex items-center justify-center">
+            <!-- Back book -->
+            <div class="absolute w-56 h-80 bg-secondary rounded-sm -rotate-12deg translate-x-8 shadow-2xl"></div>
+
+            <!-- Middle book -->
+            <div class="absolute w-56 h-80 bg-primary-container rounded-sm rotate-[7deg] -translate-x-5 shadow-2xl"></div>
+
+            <!-- Main book -->
+            <div class="relative w-60 h-87.5 bg-surface-container-lowest rounded-sm -rotate-2deg shadow-2xl overflow-hidden border border-outline-variant">
+              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1n2WDlfwcDaReqfLyKJRotbBJZLcy6wRah2XkgN5Dza4Oj-GfcmJ1z1hpbKZGRagO1wd-LKVXPoCUm1qO2ymltXZj602Qr3JU1rMMHthpJ9hAGJ4I9mDBrvhcr7kRPw7Vez5nj-RK7PbjIJl7Gn6GXdJVDkA2vMapoF9wSWIwzEvP2P-wQ8tGCDDkaykOP2ru8dzIaxcYsZs740QxYSw6V_U0et-lJ-i1MxG2p_0VqP9_bOnxJizb" class="w-full h-full object-cover" alt="BookSwap featured books" />
+
+              <div class="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent"></div>
+
+              <div class="absolute bottom-6 left-5 right-5 text-white">
+                <p class="text-[9px] uppercase tracking-[0.2em] opacity-70">Featured Story</p>
+
+                <p class="font-headline-sm text-xl mt-1">The Secret History</p>
+
+                <p class="text-xs opacity-70 mt-1">Donna Tartt</p>
+              </div>
+            </div>
+
+            <!-- Floating mini card -->
+            <div class="absolute bottom-6 -left-2 md:-left-8 bg-white rounded-xl shadow-xl px-5 py-4 border border-outline-variant">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+                  <span class="material-symbols-outlined">auto_stories</span>
+                </div>
+
+                <div>
+                  <p class="font-semibold text-sm">Read. Swap. Repeat.</p>
+
+                  <p class="text-[11px] text-on-surface-variant">Give books another life.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--     =========================================================
+         QUICK DISCOVERY STRIP
+    ==========================================================     -->
+      <section class="border-y border-outline-variant/50 bg-surface-container-low">
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+          <div class="grid grid-cols-1 md:grid-cols-3">
+            <a href="{% url 'browse' %}" class="group p-7 md:p-9 flex items-center gap-5 border-b md:border-b-0 md:border-r border-outline-variant/50 hover:bg-surface transition-colors">
+              <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined">menu_book</span>
+              </div>
+
+              <div>
+                <p class="font-headline-sm text-lg">Buy a Book</p>
+
+                <p class="text-sm text-on-surface-variant mt-1">Find your next favorite</p>
+              </div>
+
+              <span class="material-symbols-outlined ml-auto text-outline group-hover:text-primary group-hover:translate-x-1 transition-all">arrow_forward</span>
+            </a>
+
+            <a href="{% url 'exchange' %}" class="group p-7 md:p-9 flex items-center gap-5 border-b md:border-b-0 md:border-r border-outline-variant/50 hover:bg-surface transition-colors">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined">swap_horiz</span>
+              </div>
+
+              <div>
+                <p class="font-headline-sm text-lg">Exchange</p>
+
+                <p class="text-sm text-on-surface-variant mt-1">Trade what you've read</p>
+              </div>
+
+              <span class="material-symbols-outlined ml-auto text-outline group-hover:text-secondary group-hover:translate-x-1 transition-all">arrow_forward</span>
+            </a>
+
+            <a href="{% url 'browse' %}" class="group p-7 md:p-9 flex items-center gap-5 hover:bg-surface transition-colors">
+              <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined">local_offer</span>
+              </div>
+
+              <div>
+                <p class="font-headline-sm text-lg">Find Offers</p>
+
+                <p class="text-sm text-on-surface-variant mt-1">Discover special prices</p>
+              </div>
+
+              <span class="material-symbols-outlined ml-auto text-outline group-hover:text-primary group-hover:translate-x-1 transition-all">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!--     =========================================================
+         SELL BOOKS — CURATED SHELF
+    ==========================================================     -->
+      <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
+        <div class="grid lg:grid-cols-12 gap-12">
+          <!-- Section Intro -->
+          <div class="lg:col-span-3">
+            <span class="font-label-caps text-label-caps text-tertiary uppercase tracking-[0.2em]">Curated Shelf</span>
+
+            <h2 class="font-headline-md text-3xl md:text-4xl mt-4 leading-tight">
+              Books worth
+              <span class="italic text-primary">bringing home.</span>
+            </h2>
+
+            <p class="font-body-md text-body-md text-on-surface-variant mt-5 leading-relaxed">Explore books listed by our reader community and find something that belongs on your shelf next.</p>
+
+            <a href="{% url 'browse' %}" class="inline-flex items-center gap-2 mt-7 text-primary font-label-caps text-label-caps uppercase tracking-widest hover:gap-4 transition-all">
+              Explore all
+              <span class="material-symbols-outlined text-[17px]">arrow_forward</span>
+            </a>
+          </div>
+
+          <!-- Books -->
+          <div class="lg:col-span-9">
+            {% if sale_books %}
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                {% for book in sale_books|slice:':3' %}
+                  <a href="{% url 'sell_book_detail' book.id %}" class="group block h-full">
+                    <!-- CARD -->
+                    <div class="h-full bg-white rounded-2xl overflow-hidden border border-black/5 shadow-[0_8px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_18px_45px_rgba(0,0,0,0.10)] hover:-translate-y-1 transition-all duration-500">
+                      <!-- IMAGE : EXACT SAME SIZE -->
+                      <div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden">
+                        {% if book.cover_image %}
+                          <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                        {% else %}
+                          <div class="w-full h-full flex items-center justify-center bg-[#f4efec]">
+                            <span class="material-symbols-outlined text-4xl text-outline">menu_book</span>
+                          </div>
+                        {% endif %}
+
+                        <!-- CATEGORY -->
+                        <div class="absolute top-3 left-3">
+                          <span class="inline-flex items-center max-w-[85%] px-4 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[9px] uppercase tracking-[0.15em] text-primary font-semibold shadow-sm truncate">{{ book.category }}</span>
+                        </div>
+                      </div>
+
+                      <!-- CARD CONTENT -->
+                      <div class="p-4">
+                        <!-- AUTHOR : ONE LINE -->
+                        <p class="text-[10px] uppercase tracking-[0.16em] text-on-surface-variant truncate h-4" title="{{ book.author }}">{{ book.author }}</p>
+
+                        <!-- TITLE : MAX 2 LINES -->
+                        <h3 class="font-headline-sm text-lg leading-snug mt-1.5 text-on-surface line-clamp-2 h-13 overflow-hidden group-hover:text-primary transition-colors duration-300" title="{{ book.title }}">{{ book.title }}</h3>
+
+                        <!-- BOTTOM -->
+                        <div class="flex items-center justify-between gap-3 mt-1 pt-3 border-t border-black/5 h-11.25">
+                          <!-- PRICE -->
+                          <div class="min-w-0">
+                            <p class="text-[9px] uppercase tracking-widest text-on-surface-variant">Price</p>
+
+                            <p class="font-semibold text-primary text-base mt-0.5 truncate" title="₹{{ book.offer_price|default:book.price }}">₹{{ book.offer_price|default:book.price }}</p>
+                          </div>
+
+                          <!-- ARROW -->
+                          <div class="shrink-0 w-8 h-8 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300">
+                            <span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="h-full min-h-70 rounded-2xl border border-dashed border-outline-variant flex flex-col items-center justify-center text-center p-8">
+                <span class="material-symbols-outlined text-5xl text-outline">auto_stories</span>
+
+                <h3 class="font-headline-sm text-xl mt-4">The shelf is waiting</h3>
+
+                <p class="text-sm text-on-surface-variant mt-2">New books will appear here as sellers publish them.</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+
+      <!--     =========================================================
+         EXCHANGE — SPLIT EDITORIAL SECTION
+    ==========================================================     -->
+      <section class="bg-secondary text-white">
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20">
+          <div class="grid lg:grid-cols-12 gap-12 items-center">
+            <!-- Text -->
+            <div class="lg:col-span-4">
+              <span class="font-label-caps text-label-caps text-secondary-container uppercase tracking-[0.2em]">Pass it forward</span>
+
+              <h2 class="font-headline-md text-3xl md:text-5xl mt-4 leading-tight">
+                Finished reading?
+
+                <span class="italic text-secondary-container">Don't let the story stop there.</span>
+              </h2>
+
+              <p class="font-body-md text-white/70 mt-6 leading-relaxed">Exchange your finished books with another reader and discover a completely different story in return.</p>
+
+              <a href="{% url 'exchange' %}" class="inline-flex items-center gap-3 mt-8 bg-white text-secondary px-6 py-3.5 rounded-full font-label-caps text-label-caps uppercase tracking-widest hover:bg-secondary-container transition-all duration-300 hover:gap-4">
+                Explore exchanges
+
+                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+              </a>
+            </div>
+
+            <!-- Exchange Books -->
+            <div class="lg:col-span-8">
+              {% if exchange_books %}
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                  {% for exchange in exchange_books|slice:':4' %}
+                    <a href="{% url 'client_exchange_book_detail' exchange.id %}" class="group block h-full">
+                      <!-- CARD -->
+                      <div class="h-full bg-white rounded-2xl overflow-hidden border border-white/10 shadow-[0_12px_35px_rgba(0,0,0,0.15)] hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(0,0,0,0.25)] transition-all duration-500">
+                        <!-- IMAGE -->
+                        <div class="relative w-full aspect-[3/4] bg-[#eee8e5] overflow-hidden">
+                          {% with first_photo=exchange.photos.first %}
+                            {% if first_photo %}
+                              <img src="{{ first_photo.photo.url }}" alt="{{ exchange.book.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                            {% elif exchange.book.cover_image %}
+                              <img src="{{ exchange.book.cover_image.url }}" alt="{{ exchange.book.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                            {% else %}
+                              <div class="w-full h-full flex items-center justify-center bg-[#eee8e5]">
+                                <span class="material-symbols-outlined text-4xl text-secondary/40">swap_books</span>
+                              </div>
+                            {% endif %}
+                          {% endwith %}
+
+                          <!-- SWAP BADGE -->
+                          <div class="absolute top-3 left-3">
+                            <span class="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-sm text-secondary px-2.5 py-1.5 rounded-full text-[8px] uppercase tracking-[0.18em] font-bold shadow-sm">
+                              <span class="material-symbols-outlined text-[13px]">sync_alt</span>
+
+                              Swap
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- CARD CONTENT -->
+                        <div class="p-4 text-secondary">
+                          <!-- CONDITION -->
+                          <div class="flex items-center justify-between mb-2">
+                            <span class="text-[9px] uppercase tracking-[0.16em] text-secondary/50 truncate">Condition</span>
+
+                            <span class="text-[9px] uppercase tracking-[0.12em] font-semibold text-secondary">{{ exchange.get_condition_display }}</span>
+                          </div>
+
+                          <!-- TITLE -->
+                          <h3 class="font-headline-sm text-base leading-snug line-clamp-2 h-12 overflow-hidden group-hover:text-primary transition-colors duration-300" title="{{ exchange.book.title }}">{{ exchange.book.title }}</h3>
+
+                          <!-- BOTTOM -->
+                          <div class="flex items-center justify-between border-t border-secondary/10">
+                            <span class="text-[8px] uppercase tracking-[0.18em] text-secondary/100">Available for exchange</span>
+
+                            <span class="w-7 h-7 shrink-0 rounded-full border border-secondary/15 flex items-center justify-center group-hover:bg-secondary group-hover:text-white transition-all duration-300"><span class="material-symbols-outlined text-[14px]">arrow_outward</span></span>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <div class="min-h-72 rounded-2xl border border-white/15 flex flex-col items-center justify-center text-center p-12">
+                  <span class="material-symbols-outlined text-5xl text-white/40">swap_books</span>
+
+                  <p class="font-headline-sm text-xl mt-4">New swaps are coming</p>
+
+                  <p class="text-sm text-white/50 mt-2">Check back soon for books ready to change hands.</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--     =========================================================
+         OFFERS — MAGAZINE STYLE
+    ==========================================================     -->
+      <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+          <div>
+            <span class="font-label-caps text-label-caps text-primary uppercase tracking-[0.2em]">Worth a second look</span>
+
+            <h2 class="font-headline-md text-3xl md:text-4xl mt-3">Special Offers</h2>
+
+            <p class="font-body-md text-body-md text-on-surface-variant mt-2">Good stories. Better prices.</p>
+          </div>
+
+          <a href="{% url 'browse' %}" class="font-label-caps text-label-caps text-primary uppercase tracking-widest">See everything →</a>
+        </div>
+
+        {% if offer_books %}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for book in offer_books|slice:':4' %}
+              <a href="{% url 'sell_book_detail' book.id %}" class="group relative flex bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/50 hover:border-primary/40 hover:shadow-xl transition-all duration-300">
+                <!-- Image -->
+                <div class="relative w-36 md:w-44 h-56 shrink-0 overflow-hidden">
+                  {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  {% else %}
+                    <div class="w-full h-full flex items-center justify-center bg-surface-container">
+                      <span class="material-symbols-outlined text-4xl text-outline">menu_book</span>
+                    </div>
+                  {% endif %}
+                </div>
+
+                <!-- Content -->
+                <div class="p-6 flex flex-col justify-between flex-1">
+                  <div>
+                    <span class="inline-flex bg-primary text-white px-2.5 py-1 rounded-full text-[9px] uppercase tracking-widest">{{ book.offer_percentage }}% Off</span>
+
+                    <h3 class="font-headline-sm text-xl mt-4 text-truncate-2 group-hover:text-primary transition-colors">{{ book.title }}</h3>
+
+                    <p class="text-sm text-on-surface-variant mt-1">{{ book.author }}</p>
+                  </div>
+
+                  <div class="flex items-end justify-between mt-5">
+                    <div>
+                      <p class="text-xs line-through text-on-surface-variant">₹{{ book.price }}</p>
+
+                      <p class="font-headline-sm text-xl text-primary">₹{{ book.offer_price }}</p>
+                    </div>
+
+                    <span class="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors"><span class="material-symbols-outlined text-[17px]">arrow_forward</span></span>
+                  </div>
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="rounded-2xl bg-surface-container-low p-12 text-center border border-outline-variant/50">
+            <span class="material-symbols-outlined text-5xl text-primary">local_offer</span>
+
+            <h3 class="font-headline-sm text-xl mt-4">No special offers right now</h3>
+
+            <p class="text-sm text-on-surface-variant mt-2">Check back soon for new deals from sellers.</p>
+          </div>
+        {% endif %}
+      </section>
+    </main>
+
+    {% include 'footer.html' %}
+  </body>
+</html>

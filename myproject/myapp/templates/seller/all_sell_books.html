@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>BookSwap - My Books</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              surface: '#fcf9f8',
+              background: '#fcf9f8',
+      
+              'surface-bright': '#fcf9f8',
+              'surface-dim': '#dcd9d9',
+      
+              'surface-container-lowest': '#ffffff',
+              'surface-container-low': '#f6f3f2',
+              'surface-container': '#f0eded',
+              'surface-container-high': '#eae7e7',
+              'surface-container-highest': '#e4e2e1',
+              'surface-variant': '#e4e2e1',
+      
+              primary: '#570013',
+              'primary-container': '#800020',
+              'primary-fixed': '#ffdada',
+              'primary-fixed-dim': '#ffb3b5',
+      
+              'on-primary': '#ffffff',
+              'on-primary-container': '#ff828a',
+      
+              secondary: '#516353',
+              'secondary-container': '#d4e8d4',
+              'on-secondary-container': '#576959',
+      
+              tertiary: '#735c00',
+              'tertiary-container': '#cca730',
+              'tertiary-fixed': '#ffe088',
+              'tertiary-fixed-dim': '#e9c349',
+      
+              error: '#ba1a1a',
+              'error-container': '#ffdad6',
+      
+              'on-error': '#ffffff',
+              'on-error-container': '#93000a',
+      
+              'on-surface': '#1b1c1c',
+              'on-surface-variant': '#584141',
+              'on-background': '#1b1c1c',
+      
+              outline: '#8c7071',
+              'outline-variant': '#e0bfbf'
+            },
+      
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px'
+            },
+      
+            spacing: {
+              'margin-mobile': '16px',
+              'margin-desktop': '48px',
+              gutter: '24px'
+            },
+      
+            fontFamily: {
+              'headline-sm': ['Playfair Display'],
+              'headline-md': ['Playfair Display'],
+              'display-lg': ['Playfair Display'],
+      
+              'body-sm': ['Inter'],
+              'body-md': ['Inter'],
+              'body-lg': ['Inter'],
+      
+              'label-caps': ['Inter']
+            },
+      
+            fontSize: {
+              'headline-sm': [
+                '24px',
+                {
+                  lineHeight: '1.3',
+                  fontWeight: '600'
+                }
+              ],
+      
+              'headline-md': [
+                '32px',
+                {
+                  lineHeight: '1.2',
+                  fontWeight: '600'
+                }
+              ],
+      
+              'display-lg': [
+                '48px',
+                {
+                  lineHeight: '1.1',
+                  letterSpacing: '-0.02em',
+                  fontWeight: '700'
+                }
+              ],
+      
+              'body-sm': [
+                '14px',
+                {
+                  lineHeight: '1.4',
+                  fontWeight: '400'
+                }
+              ],
+      
+              'body-md': [
+                '16px',
+                {
+                  lineHeight: '1.5',
+                  fontWeight: '400'
+                }
+              ],
+      
+              'label-caps': [
+                '12px',
+                {
+                  lineHeight: '1',
+                  letterSpacing: '0.08em',
+                  fontWeight: '600'
+                }
+              ]
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      /* =========================================================
+                                                       BODY
+                                                    ========================================================= */
+      
+      body {
+        background: #fcf9f8;
+        color: #1b1c1c;
+        font-family: 'Inter', sans-serif;
+      
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+      }
+      
+      ::-webkit-scrollbar {
+        width: 7px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #d5c5c5;
+        border-radius: 999px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: #8c7071;
+      }
+      
+      /* =========================================================
+                                                       BOOK ROW
+                                                    ========================================================= */
+      
+      .book-row {
+        transition: background-color 0.2s ease;
+      }
+      
+      .book-row:hover {
+        background: #f6f3f2;
+      }
+      
+      /* =========================================================
+                                                       BOOK IMAGE
+                                                    ========================================================= */
+      
+      .book-cover {
+        transition: transform 0.25s ease;
+      }
+      
+      .book-row:hover .book-cover {
+        transform: scale(1.03);
+      }
+      
+      /* =========================================================
+                                                       MODAL
+                                                    ========================================================= */
+      
+      .modal-box {
+        animation: modalShow 0.2s ease;
+      }
+      
+      @keyframes modalShow {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.97);
+        }
+      
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      
+      /* =========================================================
+                                                       MOBILE
+                                                    ========================================================= */
+      
+      @media (max-width: 1023px) {
+        .book-scroll-area {
+          max-height: none !important;
+          overflow: visible !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-surface text-on-surface font-body-md min-h-screen">
+    {% include 'seller/seller_header.html' %}
+    <!--         =========================================================
+       SIDEBAR
+  =========================================================         -->
+
+    {% include 'seller/seller_sidebar.html' %}
+
+    <!--         =========================================================
+       MAIN
+  =========================================================         -->
+
+    <main class="flex-1 md:ml-64 w-full min-w-0 max-w-5xl mx-auto p-margin-mobile md:p-margin-desktop">
+      <!--         =========================================================
+         PAGE HEADER
+    =========================================================         -->
+
+      <section class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-7 h-0.5 bg-primary"></span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-primary">Seller Library</span>
+          </div>
+
+          <h1 class="font-display-lg text-display-lg text-primary max-lg:text-[36px]">My Books</h1>
+
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-3 max-w-2xl leading-6">Manage your listed books, update book information, and remove books from your BookSwap collection.</p>
+        </div>
+
+        <!-- ADD BOOK / ADD EXCHANGE -->
+
+        <div class="flex items-center gap-3 shrink-0">
+          <a href="{% url 'seller_add_book' %}" class="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-md bg-primary-container text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90 transition-all shadow-[0_6px_18px_rgba(128,0,32,0.12)]">
+            <span class="material-symbols-outlined text-[20px]">add</span>
+            ADD NEW BOOK
+          </a>
+          
+        </div>
+      </section>
+
+      <!--         =========================================================
+         MESSAGES
+    =========================================================         -->
+
+      {% if messages %}
+        <div class="space-y-3 mb-8">
+          {% for message in messages %}
+            <div class="flex items-center gap-3 px-5 py-4 rounded-lg border
+            {% if message.tags == 'error' %}   
+              bg-error-container border-error/20 text-error
+              {% else %}   
+              bg-secondary-container border-secondary/20 text-secondary
+              {% endif %}">
+              <span class="material-symbols-outlined text-[21px]">
+                {% if message.tags == 'error' %}
+                  error
+                {% else %}
+                  check_circle
+                {% endif %}
+              </span>
+
+              <span class="font-body-sm text-body-sm font-medium">{{ message }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!--         =========================================================
+         SUMMARY CARDS
+    =========================================================         -->
+
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <!-- TOTAL BOOKS -->
+
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-[0_4px_12px_rgba(128,0,32,0.02)]">
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <p class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant mb-2">Total Books</p>
+
+              <p class="font-headline-md text-headline-md text-primary">{{ books|length }}</p>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Books in your library</p>
+            </div>
+
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-primary text-[24px]">library_books</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LATEST -->
+
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-[0_4px_12px_rgba(128,0,32,0.02)]">
+          <div class="flex items-center justify-between gap-4">
+            <div class="min-w-0">
+              <p class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant mb-2">Latest Listing</p>
+
+              <p class="font-headline-sm text-headline-sm text-primary truncate">
+                {% if books %}
+                  {{ books.0.title|truncatechars:25 }}
+                {% else %}
+                  No Books
+                {% endif %}
+              </p>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Recently added</p>
+            </div>
+
+            <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-secondary text-[24px]">auto_stories</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- STORE -->
+
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-[0_4px_12px_rgba(128,0,32,0.02)]">
+          <div class="flex items-center justify-between gap-4">
+            <div class="min-w-0">
+              <p class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant mb-2">Your Store</p>
+
+              <p class="font-headline-sm text-headline-sm text-primary truncate">{{ seller.store_name|default:'My Store' }}</p>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Seller storefront</p>
+            </div>
+
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-primary text-[24px]">storefront</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!--         =========================================================
+         BOOKS
+    =========================================================         -->
+
+      {% if books %}
+        <!-- SEARCH -->
+
+        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 mb-5 shadow-[0_4px_12px_rgba(128,0,32,0.02)]">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="relative w-full md:max-w-xl">
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-[21px]">search</span>
+
+              <input id="bookSearch" type="text" onkeyup="searchBooks()" placeholder="Search title, author, ISBN, publisher..." class="w-full h-12 pl-12 pr-12 rounded-md border border-outline-variant bg-surface-container-low text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+              <button id="clearSearch" onclick="clearSearch()" type="button" class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full items-center justify-center hover:bg-surface-container"><span class="material-symbols-outlined text-outline text-[18px]">close</span></button>
+            </div>
+
+            <div class="font-body-sm text-body-sm shrink-0">
+              <span class="text-on-surface-variant">Showing</span>
+
+              <strong id="resultCount" class="text-primary mx-1">{{ books|length }}</strong>
+
+              <span class="text-on-surface-variant">books</span>
+            </div>
+          </div>
+        </section>
+
+        <!--         =========================================================
+           BOOK TABLE
+      =========================================================         -->
+
+        <section id="bookTable" class="w-full max-w-full bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_4px_12px_rgba(128,0,32,0.02)] overflow-hidden">
+          <!-- DESKTOP HEADER -->
+
+          <div class="hidden lg:grid grid-cols-[minmax(0,2.6fr)_minmax(100px,1.2fr)_minmax(90px,1fr)_minmax(120px,1.2fr)_minmax(100px,1fr)_140px] gap-4 px-5 py-4 bg-surface-container-low border-b border-outline-variant">
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Book</span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Category</span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Language</span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Publication</span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Pricing</span>
+
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant text-right">Actions</span>
+          </div>
+
+          <!--         =====================================================
+             BOOK LIST
+        ======================================================         -->
+
+          <div class="book-scroll-area max-h-155 overflow-y-auto overflow-x-hidden">
+            <div id="bookList" class="w-full">
+              {% for book in books %}
+                <!--         =================================================
+                   BOOK ROW
+              ==================================================         -->
+
+                <div class="book-row w-full grid grid-cols-1 lg:grid-cols-[minmax(0,2.6fr)_minmax(100px,1.2fr)_minmax(90px,1fr)_minmax(120px,1.2fr)_minmax(100px,1fr)_140px] gap-4 px-5 py-6 border-b border-outline-variant last:border-b-0" data-search="{{ book.title }} {{ book.author }} {{ book.isbn }} {{ book.publisher }} {{ book.category }} {{ book.language }} {{ book.publication_year }} {{ book.page_count }} {{ book.price }} {{ book.offer_percentage }}">
+                  <!--         =================================================
+                     BOOK
+                ==================================================         -->
+
+                  <div class="flex items-start gap-4 min-w-0">
+                    <!-- COVER -->
+
+                    <div class="book-cover w-16 h-24 shrink-0 rounded-md overflow-hidden bg-surface-container border border-outline-variant shadow-sm">
+                      {% if book.cover_image %}
+                        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="w-full h-full object-cover" />
+                      {% else %}
+                        <div class="w-full h-full flex items-center justify-center">
+                          <span class="material-symbols-outlined text-outline text-[30px]">menu_book</span>
+                        </div>
+                      {% endif %}
+                    </div>
+
+                    <!-- DETAILS -->
+
+                    <div class="min-w-0 flex-1">
+                      <div class="flex flex-wrap items-center gap-2 mb-1.5">
+
+              {% if book.status == 'draft' %}
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 font-label-caps text-[10px] uppercase tracking-wider">
+                  <span class="material-symbols-outlined text-[13px]">draft</span>Book Draft
+                </span>
+              {% else %}
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-label-caps text-[10px] uppercase tracking-wider">
+                  <span class="material-symbols-outlined text-[13px]">public</span>Published
+                </span>
+              {% endif %}
+
+    <!-- FOR SALE -->
+    {% if book.is_sale_listing %}
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full
+                     bg-primary/10 text-primary
+                     font-label-caps text-[10px] uppercase tracking-wider">
+
+            <span class="material-symbols-outlined text-[13px]">
+                sell
+            </span>
+
+            For Sale
+        </span>
+    {% endif %}
+
+
+    <!-- EXCHANGE -->
+    {% if book.has_exchange_listing %}
+
+        {% if book.exchange_detail.status == "draft" %}
+
+            <!-- EXCHANGE DRAFT -->
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full
+                         bg-yellow-100 text-yellow-700
+                         font-label-caps text-[10px] uppercase tracking-wider">
+
+                <span class="material-symbols-outlined text-[13px]">
+                    edit_note
+                </span>
+
+                Exchange Draft
+            </span>
+
+        {% else %}
+
+            <!-- ACTIVE EXCHANGE -->
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full
+                         bg-secondary/10 text-secondary
+                         font-label-caps text-[10px] uppercase tracking-wider">
+
+                <span class="material-symbols-outlined text-[13px]">
+                    swap_horiz
+                </span>
+
+                For Exchange
+            </span>
+
+        {% endif %}
+
+    {% endif %}
+
+</div>
+
+                      <h3 class="font-headline-sm text-headline-sm text-primary leading-snug truncate" title="{{ book.title }}">{{ book.title }}</h3>
+
+                      <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 truncate" title="{{ book.author }}">by {{ book.author }}</p>
+
+                      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-3">
+                        <span class="font-body-sm text-body-sm text-on-surface-variant">
+                          ISBN:
+                          <span class="text-on-surface">{{ book.isbn }}</span>
+                        </span>
+
+                        <span class="hidden sm:block w-1 h-1 rounded-full bg-outline"></span>
+
+                        <span class="font-body-sm text-body-sm text-on-surface-variant">{{ book.page_count }} pages</span>
+                      </div>
+
+                      <div class="mt-3 lg:hidden">
+                        <span class="font-label-caps text-label-caps uppercase tracking-wider text-outline">Price:</span>
+                        {% if book.price %}
+                          <span class="font-body-sm text-body-sm {% if book.offer_percentage %}line-through text-on-surface-variant{% else %}font-semibold text-primary{% endif %}">₹{{ book.price }}</span>
+                          {% if book.offer_percentage %}<span class="font-body-sm text-body-sm font-semibold text-primary">₹{{ book.offer_price }} ({{ book.offer_percentage }}% off)</span>{% endif %}
+                        {% else %}
+                          <span class="font-body-sm text-body-sm text-on-surface-variant">Not added</span>
+                        {% endif %}
+                      </div>
+
+                      <!-- MOBILE PUBLISHER -->
+
+                      <div class="lg:hidden mt-2">
+                        <span class="font-body-sm text-body-sm text-outline">Publisher:</span>
+
+                        <span class="font-body-sm text-body-sm text-on-surface-variant">{{ book.publisher }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--         =================================================
+                     CATEGORY
+                ==================================================         -->
+
+                  <div class="flex lg:items-center min-w-0">
+                    <div class="min-w-0">
+                      <span class="lg:hidden block font-label-caps text-label-caps uppercase tracking-wider text-outline mb-2">Category</span>
+
+                      <span class="inline-flex max-w-full px-3 py-1.5 rounded-full bg-primary/10 text-primary font-label-caps text-label-caps uppercase tracking-wider truncate" title="{{ book.get_category_display }}">{{ book.get_category_display }}</span>
+                    </div>
+                  </div>
+
+                  <!--         =================================================
+                     LANGUAGE
+                ==================================================         -->
+
+                  <div class="flex lg:items-center min-w-0">
+                    <div>
+                      <span class="lg:hidden block font-label-caps text-label-caps uppercase tracking-wider text-outline mb-2">Language</span>
+
+                      <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary text-[19px]">language</span>
+
+                        <span class="font-body-sm text-body-sm text-on-surface truncate">{{ book.language }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--         =================================================
+                     PUBLICATION
+                ==================================================         -->
+
+                  <div class="flex lg:items-center min-w-0">
+                    <div class="min-w-0">
+                      <span class="lg:hidden block font-label-caps text-label-caps uppercase tracking-wider text-outline mb-2">Publication</span>
+
+                      <p class="font-body-sm text-body-sm font-semibold text-on-surface">{{ book.publication_year }}</p>
+
+                      <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 truncate" title="{{ book.publisher }}">{{ book.publisher }}</p>
+                    </div>
+                  </div>
+
+                  <!-- OFFER -->
+                  <div class="flex lg:items-center min-w-0">
+                    <div>
+                      <span class="lg:hidden block font-label-caps text-label-caps uppercase tracking-wider text-outline mb-2">Pricing</span>
+                      {% if book.price %}
+                        {% if book.offer_percentage %}
+                          <span class="block font-body-sm text-body-sm text-on-surface-variant line-through">Original: ₹{{ book.price }}</span>
+                          <span class="block font-body-sm text-body-sm font-semibold text-primary">Offer: ₹{{ book.offer_price }}</span>
+                          <span class="block font-body-sm text-body-sm text-on-surface-variant">{{ book.offer_percentage }}% off</span>
+                        {% else %}
+                          <span class="block font-body-sm text-body-sm font-semibold text-primary">Selling: ₹{{ book.price }}</span>
+                          <span class="block font-body-sm text-body-sm text-on-surface-variant">Normal price</span>
+                        {% endif %}
+                      {% else %}
+                        <span class="font-body-sm text-body-sm text-on-surface-variant">Price not added</span>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!--         =================================================
+                     ACTIONS
+                ==================================================         -->
+
+                  <div class="flex lg:items-center lg:justify-end gap-2 flex-wrap">
+                    <!--         =================================================
+                       SELL / EXCHANGE BUTTONS
+                  =================================================         -->
+
+                    {% if book.is_sale_listing %}
+                      <a href="{% url 'seller_edit_book' book.id %}" title="Manage Sale Listing" class="h-10 px-3 shrink-0 rounded-md border border-primary/30 bg-primary/5 flex items-center gap-1 text-primary font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-all">
+                        <span class="material-symbols-outlined text-[17px]">sell</span> Sell
+                      </a>
+                    {% endif %}
+
+                    {% if book.has_exchange_listing %}
+                      <a href="{% url 'seller_exchange_review' book.id %}" title="Manage Exchange Listing" class="h-10 px-3 shrink-0 rounded-md border border-secondary/30 bg-secondary/5 flex items-center gap-1 text-secondary font-label-caps text-label-caps hover:bg-secondary hover:text-on-secondary transition-all">
+                        <span class="material-symbols-outlined text-[17px]">swap_horiz</span> Exchange
+                      </a>
+                    {% elif book.is_exchange %}
+                      <a href="{% url 'seller_exchange_condition' book.id %}" title="Finish Exchange Setup" class="h-10 px-3 shrink-0 rounded-md border border-secondary/30 bg-secondary/5 flex items-center gap-1 text-secondary font-label-caps text-label-caps hover:bg-secondary hover:text-on-secondary transition-all">
+                        <span class="material-symbols-outlined text-[17px]">swap_horiz</span> Continue
+                      </a>
+                    {% endif %}
+
+                    <!--         =================================================
+                       VIEW DETAILS BUTTON
+                  =================================================         -->
+
+                    <button
+    type="button"
+    title="View Book Details"
+    onclick="openDetailsModal(this)"
+
+    data-title="{{ book.title|escape }}"
+    data-author="{{ book.author|escape }}"
+    data-isbn="{{ book.isbn|escape }}"
+    data-category="{{ book.get_category_display|escape }}"
+    data-language="{{ book.language|escape }}"
+    data-publisher="{{ book.publisher|escape }}"
+    data-year="{{ book.publication_year|escape }}"
+    data-pages="{{ book.page_count|escape }}"
+    data-description="{{ book.description|default:'No description available'|escape }}"
+    data-price="{{ book.price|default:'Not added'|escape }}"
+    data-offer-price="{{ book.offer_price|default:'Not added'|escape }}"
+    data-offer-percentage="{{ book.offer_percentage|default:''|escape }}"
+
+    {% if book.cover_image %}
+        data-image="{{ book.cover_image.url }}"
+    {% else %}
+        data-image=""
+    {% endif %}
+
+    class="w-10 h-10 shrink-0 rounded-md border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all"
+>
+    <span class="material-symbols-outlined text-[19px]">
+        visibility
+    </span>
+</button>
+                    <!--         =================================================
+                       EDIT
+                  ==================================================         -->
+
+                    <a href="{% url 'seller_edit_book' book.id %}" title="Edit Book" class="w-10 h-10 shrink-0 rounded-md border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all"><span class="material-symbols-outlined text-[19px]">edit</span></a>
+
+                    <!--         =================================================
+                       DELETE
+                  ==================================================         -->
+
+                    <button type="button" title="Delete Book" onclick="openDeleteModal(
+                      '{{ book.id }}',
+                      '{{ book.title|escapejs }}'
+                    )" class="w-10 h-10 shrink-0 rounded-md border border-outline-variant flex items-center justify-center text-error hover:bg-error hover:text-on-error hover:border-error transition-all"><span class="material-symbols-outlined text-[19px]">delete</span></button>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+
+        <!--         =========================================================
+           NO SEARCH RESULT
+      =========================================================         -->
+
+        <div id="noSearchResult" class="hidden mt-5 bg-surface-container-lowest border border-outline-variant rounded-xl py-16 px-6 text-center">
+          <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5">
+            <span class="material-symbols-outlined text-primary text-[30px]">search_off</span>
+          </div>
+
+          <h3 class="font-headline-sm text-headline-sm text-primary">No books found</h3>
+
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Try searching with another title, author, ISBN or publisher.</p>
+
+          <button onclick="clearSearch()" class="mt-6 px-5 h-10 rounded-md bg-primary-container text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90">CLEAR SEARCH</button>
+        </div>
+      {% else %}
+        <!--         =========================================================
+           EMPTY LIBRARY
+      =========================================================         -->
+
+        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl py-20 px-6 text-center shadow-[0_4px_12px_rgba(128,0,32,0.02)]">
+          <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-outlined text-primary text-[38px]">menu_book</span>
+          </div>
+
+          <h2 class="font-headline-md text-headline-md text-primary">Your library is empty</h2>
+
+          <p class="font-body-sm text-body-sm text-on-surface-variant max-w-lg mx-auto mt-3 leading-6">You haven't added any books yet. Start building your BookSwap collection by adding your first book.</p>
+
+          <a href="{% url 'seller_add_book' %}" class="inline-flex items-center justify-center gap-2 mt-8 px-7 h-12 rounded-md bg-primary-container text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90 transition-colors">
+            <span class="material-symbols-outlined text-[19px]">add</span>
+
+            ADD YOUR FIRST BOOK
+          </a>
+        </section>
+      {% endif %}
+    </main>
+    {% include 'seller/seller_footer.html' %}
+
+    <div id="detailsModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm items-center justify-center p-4">
+      <div class="modal-box w-full max-w-2xl max-h-[90vh] bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden">
+        <!-- HEADER -->
+
+        <div class="px-6 py-5 border-b border-outline-variant flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-[22px]">menu_book</span>
+            </div>
+
+            <div>
+              <h3 class="font-headline-sm text-headline-sm text-primary">Book Details</h3>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Complete book information</p>
+            </div>
+          </div>
+
+          <button type="button" onclick="closeDetailsModal()" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+
+        <!-- BODY -->
+
+        <div class="px-6 py-6 overflow-y-auto max-h-[65vh]">
+          <div class="flex items-center gap-6 mb-6">
+            <!-- BOOK IMAGE -->
+            <div class="w-32 h-40 shrink-0 rounded-xl overflow-hidden bg-surface-container-lowest border border-outline-variant shadow-sm flex items-center justify-center">
+              <img id="detailsImage" src="" alt="Book Cover" class="hidden w-full h-full object-cover object-center" />
+
+              <span id="noDetailsImage" class="material-symbols-outlined text-4xl text-on-surface-variant">menu_book</span>
+            </div>
+
+            <!-- BOOK TITLE -->
+            <div class="flex-1 text-left">
+              <p class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant mb-2">Book Title</p>
+
+              <h2 id="detailsTitle" class="font-headline-md text-headline-md text-primary"></h2>
+            </div>
+          </div>
+
+          <!-- DETAILS GRID -->
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- AUTHOR -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">person</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Author</span>
+              </div>
+
+              <p id="detailsAuthor" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- ISBN -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">qr_code_2</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">ISBN</span>
+              </div>
+
+              <p id="detailsISBN" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- CATEGORY -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">category</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Category</span>
+              </div>
+
+              <p id="detailsCategory" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- LANGUAGE -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-secondary text-[20px]">language</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Language</span>
+              </div>
+
+              <p id="detailsLanguage" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- PUBLISHER -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">business</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Publisher</span>
+              </div>
+
+              <p id="detailsPublisher" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- PUBLICATION YEAR -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">calendar_month</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Publication Year</span>
+              </div>
+
+              <p id="detailsYear" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+
+            <!-- PAGE COUNT -->
+
+            <div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">auto_stories</span>
+
+                <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Pages</span>
+              </div>
+
+              <p id="detailsPages" class="font-body-md text-body-md font-medium text-on-surface"></p>
+            </div>
+          </div>
+
+          <!-- DESCRIPTION -->
+
+          <div class="mt-4 p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="material-symbols-outlined text-primary text-[20px]">description</span>
+
+              <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Description</span>
+            </div>
+
+            <p id="detailsDescription" class="font-body-md text-body-md leading-6 text-on-surface-variant whitespace-pre-line"></p>
+          </div>
+
+          <div class="mt-4 p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="material-symbols-outlined text-primary text-[20px]">sell</span>
+              <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant">Pricing</span>
+            </div>
+            <p id="detailsPrice" class="font-body-md text-body-md text-on-surface"></p>
+            <p id="detailsOfferPrice" class="font-body-md text-body-md font-semibold text-primary mt-1"></p>
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex justify-end">
+          <button type="button" onclick="closeDetailsModal()" class="px-5 h-11 rounded-md bg-primary-container text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90">CLOSE</button>
+        </div>
+      </div>
+    </div>
+
+    <!--         =========================================================
+       DELETE MODAL
+  =========================================================         -->
+
+    <div id="deleteModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm items-center justify-center p-4">
+      <div class="modal-box w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden">
+        <!-- HEADER -->
+
+        <div class="px-6 py-5 border-b border-outline-variant flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-error-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-error text-[22px]">delete</span>
+            </div>
+
+            <div>
+              <h3 class="font-headline-sm text-headline-sm text-primary">Delete Book</h3>
+
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Permanent action</p>
+            </div>
+          </div>
+
+          <button type="button" onclick="closeDeleteModal()" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+
+        <!-- BODY -->
+
+        <div class="px-6 py-7">
+          <p class="font-body-sm text-body-sm leading-6 text-on-surface-variant">
+            Are you sure you want to delete
+
+            <strong id="deleteBookName" class="text-on-surface"></strong>
+
+            ?
+          </p>
+
+          <div class="flex gap-3 mt-5 p-4 rounded-lg bg-error-container">
+            <span class="material-symbols-outlined text-error text-[19px]">warning</span>
+
+            <p class="font-body-sm text-body-sm leading-5 text-error">This action cannot be undone. The book listing will be permanently deleted.</p>
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+         
+
+        <div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex justify-end gap-3">
+          <button type="button" onclick="closeDeleteModal()" class="px-5 h-11 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface font-label-caps text-label-caps uppercase tracking-widest hover:bg-surface-container">CANCEL</button>
+
+          <form id="deleteForm" method="POST">
+            {% csrf_token %}
+
+            <button type="submit" class="px-5 h-11 rounded-md bg-error text-on-error font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90 flex items-center gap-2">
+              <span class="material-symbols-outlined text-[17px]">delete</span>
+
+              DELETE BOOK
+            </button>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <script>
+      
+      function searchBooks() {
+        const input = document.getElementById('bookSearch')
+      
+        const value = input.value.toLowerCase().trim()
+      
+        const rows = document.querySelectorAll('.book-row')
+      
+        const resultCount = document.getElementById('resultCount')
+      
+        const noResult = document.getElementById('noSearchResult')
+      
+        const bookTable = document.getElementById('bookTable')
+      
+        const clearButton = document.getElementById('clearSearch')
+      
+        let count = 0
+      
+        /* Clear button */
+      
+        if (value !== '') {
+          clearButton.classList.remove('hidden')
+      
+          clearButton.classList.add('flex')
+        } else {
+          clearButton.classList.add('hidden')
+      
+          clearButton.classList.remove('flex')
+        }
+      
+        /* Search */
+      
+        rows.forEach(function (row) {
+          const searchData = row.dataset.search.toLowerCase()
+      
+          if (searchData.includes(value)) {
+            row.style.display = ''
+      
+            count++
+          } else {
+            row.style.display = 'none'
+          }
+        })
+      
+        /* Result count */
+      
+        resultCount.textContent = count
+      
+        /* No result */
+      
+        if (count === 0) {
+          noResult.classList.remove('hidden')
+      
+          bookTable.classList.add('hidden')
+        } else {
+          noResult.classList.add('hidden')
+      
+          bookTable.classList.remove('hidden')
+        }
+      }
+      
+      /* =========================================================
+                                                       CLEAR SEARCH
+                                                    ========================================================= */
+      
+      function clearSearch() {
+        const input = document.getElementById('bookSearch')
+      
+        input.value = ''
+      
+        searchBooks()
+      
+        input.focus()
+      }
+      
+      /* =========================================================
+                                                       OPEN BOOK DETAILS MODAL
+                                                    ========================================================= */
+      
+      function openDetailsModal(button) {
+
+    const modal = document.getElementById('detailsModal');
+
+    // Get data from button
+    const title = button.dataset.title || 'N/A';
+    const author = button.dataset.author || 'N/A';
+    const isbn = button.dataset.isbn || 'N/A';
+    const category = button.dataset.category || 'N/A';
+    const language = button.dataset.language || 'N/A';
+    const publisher = button.dataset.publisher || 'N/A';
+    const year = button.dataset.year || 'N/A';
+    const pages = button.dataset.pages || 'N/A';
+    const description =
+        button.dataset.description || 'No description available';
+    const price = button.dataset.price || 'Not added';
+    const offerPrice = button.dataset.offerPrice || 'Not added';
+    const offerPercentage = button.dataset.offerPercentage || '';
+
+    // Get image
+    const image = button.dataset.image || '';
+
+    // Put text data into modal
+    document.getElementById('detailsTitle').textContent = title;
+    document.getElementById('detailsAuthor').textContent = author;
+    document.getElementById('detailsISBN').textContent = isbn;
+    document.getElementById('detailsCategory').textContent = category;
+    document.getElementById('detailsLanguage').textContent = language;
+    document.getElementById('detailsPublisher').textContent = publisher;
+    document.getElementById('detailsYear').textContent = year;
+    document.getElementById('detailsPages').textContent = pages;
+    document.getElementById('detailsDescription').textContent = description;
+    document.getElementById('detailsPrice').textContent = `Real price: ₹${price}`;
+    document.getElementById('detailsOfferPrice').textContent = offerPercentage
+      ? `Offer price: ₹${offerPrice} (${offerPercentage}% off)`
+      : 'No offer added';
+
+    // Image elements
+    const detailsImage = document.getElementById('detailsImage');
+    const noDetailsImage = document.getElementById('noDetailsImage');
+
+    // Show book image
+    if (image.trim() !== '') {
+
+        detailsImage.src = image;
+        detailsImage.alt = title;
+
+        detailsImage.classList.remove('hidden');
+        noDetailsImage.classList.add('hidden');
+
+        // Broken image fallback
+        detailsImage.onerror = function () {
+            detailsImage.src = '';
+            detailsImage.classList.add('hidden');
+            noDetailsImage.classList.remove('hidden');
+        };
+
+    } else {
+
+        // No image
+        detailsImage.src = '';
+        detailsImage.classList.add('hidden');
+        noDetailsImage.classList.remove('hidden');
+    }
+
+    // Show modal
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+
+    document.body.classList.add('overflow-hidden');
+}
+      
+      function closeDetailsModal() {
+        const modal = document.getElementById('detailsModal')
+      
+        modal.classList.add('hidden')
+        modal.classList.remove('flex')
+      
+        document.body.classList.remove('overflow-hidden')
+      }
+      
+      // Click outside modal
+      document.getElementById('detailsModal').addEventListener('click', function (event) {
+        if (event.target === this) {
+          closeDetailsModal()
+        }
+      })
+      
+      // ESC key
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          closeDetailsModal()
+        }
+      })
+      /* =========================================================
+                                                       OPEN DELETE MODAL
+                                                    ========================================================= */
+      
+      function openDeleteModal(bookId, bookName) {
+        const modal = document.getElementById('deleteModal')
+      
+        const bookNameElement = document.getElementById('deleteBookName')
+      
+        const form = document.getElementById('deleteForm')
+      
+        bookNameElement.textContent = '"' + bookName + '"'
+      
+        form.action = "{% url 'seller_delete_book' 0 %}".replace('/0/', '/' + bookId + '/')
+      
+        modal.classList.remove('hidden')
+      
+        modal.classList.add('flex')
+      
+        document.body.classList.add('overflow-hidden')
+      }
+      
+      /* =========================================================
+                                                       CLOSE DELETE MODAL
+                                                    ========================================================= */
+      
+      function closeDeleteModal() {
+        const modal = document.getElementById('deleteModal')
+      
+        modal.classList.add('hidden')
+      
+        modal.classList.remove('flex')
+      
+        document.body.classList.remove('overflow-hidden')
+      }
+      
+      /* =========================================================
+                                                       CLICK OUTSIDE DETAILS MODAL
+                                                    ========================================================= */
+      
+      document.getElementById('detailsModal').addEventListener('click', function (event) {
+        if (event.target === this) {
+          closeDetailsModal()
+        }
+      })
+      
+      /* =========================================================
+                                                       CLICK OUTSIDE DELETE MODAL
+                                                    ========================================================= */
+      
+      document.getElementById('deleteModal').addEventListener('click', function (event) {
+        if (event.target === this) {
+          closeDeleteModal()
+        }
+      })
+      
+      /* =========================================================
+                                                       ESCAPE KEY
+                                                    ========================================================= */
+      
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          closeDetailsModal()
+      
+          closeDeleteModal()
+        }
+      })
+    </script>
+    
+  </body>
+</html>

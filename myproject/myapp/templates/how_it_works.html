@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--  =====================================================
+         BASIC META
+    ======================================================  -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description" content="Learn how BookSwap works. Discover, buy, sell, and exchange pre-loved books with fellow readers." />
+
+    <meta name="theme-color" content="#570013" />
+
+    <title>How It Works | BookSwap</title>
+
+    <!--  =====================================================
+         GOOGLE FONTS - PRECONNECT
+    ======================================================  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!--  =====================================================
+         GOOGLE FONTS
+         Inter       → Body / UI
+         Playfair    → Headings
+    ======================================================  -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+
+    <!--  =====================================================
+         MATERIAL SYMBOLS
+    ======================================================  -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..700,0..1,0" rel="stylesheet" />
+
+    <!--  =====================================================
+         TAILWIND CSS
+    ======================================================  -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!--  =====================================================
+         TAILWIND CONFIGURATION
+    ======================================================  -->
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      
+        theme: {
+          extend: {
+            /* =================================================
+                             BOOKSWAP COLOR SYSTEM
+                          ================================================= */
+            colors: {
+              /* Primary */
+              primary: '#570013',
+              'primary-container': '#800020',
+              'on-primary': '#ffffff',
+              'on-primary-container': '#ff828a',
+              'primary-fixed': '#ffdada',
+              'primary-fixed-dim': '#ffb3b5',
+              'on-primary-fixed': '#40000b',
+              'on-primary-fixed-variant': '#8e0f28',
+      
+              /* Secondary */
+              secondary: '#516353',
+              'secondary-container': '#d4e8d4',
+              'secondary-fixed': '#d4e8d4',
+              'secondary-fixed-dim': '#b8ccb8',
+              'on-secondary': '#ffffff',
+              'on-secondary-container': '#576959',
+              'on-secondary-fixed': '#0f1f13',
+              'on-secondary-fixed-variant': '#3a4b3c',
+      
+              /* Tertiary */
+              tertiary: '#735c00',
+              'tertiary-container': '#cca730',
+              'tertiary-fixed': '#ffe088',
+              'on-tertiary': '#ffffff',
+              'on-tertiary-container': '#4f3d00',
+              'on-tertiary-fixed': '#241a00',
+              'on-tertiary-fixed-variant': '#574500',
+      
+              /* Surface */
+              surface: '#fcf9f8',
+              background: '#fcf9f8',
+              'surface-bright': '#fcf9f8',
+              'surface-dim': '#dcd9d9',
+              'surface-variant': '#e4e2e1',
+              'surface-container-lowest': '#ffffff',
+              'surface-container': '#f0eded',
+              'surface-container-high': '#eae7e7',
+              'surface-container-highest': '#e4e2e1',
+      
+              /* Text */
+              'on-surface': '#1b1c1c',
+              'on-surface-variant': '#584141',
+              'inverse-surface': '#303030',
+              'inverse-on-surface': '#f3f0f0',
+              'inverse-primary': '#ffb3b5',
+      
+              /* Borders */
+              outline: '#8c7071',
+              'outline-variant': '#e0bfbf',
+      
+              /* Error */
+              error: '#ba1a1a',
+              'error-container': '#ffdad6',
+              'on-error': '#ffffff',
+              'on-error-container': '#93000a',
+      
+              /* Surface Tint */
+              'surface-tint': '#af2b3e'
+            },
+      
+            /* =================================================
+                             BORDER RADIUS
+                          ================================================= */
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              '2xl': '1rem',
+              full: '9999px'
+            },
+      
+            /* =================================================
+                             SPACING
+                          ================================================= */
+            spacing: {
+              'container-max': '1280px',
+              gutter: '24px',
+              'margin-mobile': '16px',
+              base: '8px',
+              'margin-desktop': '48px'
+            },
+      
+            /* =================================================
+                             FONT FAMILIES
+                          ================================================= */
+            fontFamily: {
+              'headline-sm': ['Playfair Display', 'serif'],
+              'headline-md': ['Playfair Display', 'serif'],
+      
+              'display-lg': ['Playfair Display', 'serif'],
+              'display-lg-mobile': ['Playfair Display', 'serif'],
+      
+              'label-caps': ['Inter', 'sans-serif'],
+      
+              'body-lg': ['Inter', 'sans-serif'],
+              'body-md': ['Inter', 'sans-serif'],
+              'body-sm': ['Inter', 'sans-serif']
+            },
+      
+            /* =================================================
+                             CUSTOM FONT SIZES
+                          ================================================= */
+            fontSize: {
+              'headline-sm': [
+                '24px',
+                {
+                  lineHeight: '1.3',
+                  fontWeight: '600'
+                }
+              ],
+      
+              'headline-md': [
+                '32px',
+                {
+                  lineHeight: '1.2',
+                  fontWeight: '600'
+                }
+              ],
+      
+              'label-caps': [
+                '12px',
+                {
+                  lineHeight: '1',
+                  letterSpacing: '0.08em',
+                  fontWeight: '600'
+                }
+              ],
+      
+              'body-lg': [
+                '18px',
+                {
+                  lineHeight: '1.6',
+                  fontWeight: '400'
+                }
+              ],
+      
+              'body-md': [
+                '16px',
+                {
+                  lineHeight: '1.5',
+                  fontWeight: '400'
+                }
+              ],
+      
+              'display-lg': [
+                '48px',
+                {
+                  lineHeight: '1.1',
+                  letterSpacing: '-0.02em',
+                  fontWeight: '700'
+                }
+              ],
+      
+              'display-lg-mobile': [
+                '32px',
+                {
+                  lineHeight: '1.2',
+                  fontWeight: '700'
+                }
+              ],
+      
+              'body-sm': [
+                '14px',
+                {
+                  lineHeight: '1.4',
+                  fontWeight: '400'
+                }
+              ]
+            }
+          }
+        }
+      }
+    </script>
+
+    <!--  =====================================================
+         CUSTOM BOOKSWAP STYLES
+    ======================================================  -->
+    <style>
+      /* =====================================================
+                 GLOBAL
+              ====================================================== */
+      
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: #fcf9f8;
+        color: #1b1c1c;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      
+      /* =====================================================
+                 HEADINGS
+              ====================================================== */
+      
+      .heading-font {
+        font-family: 'Playfair Display', serif;
+      }
+      
+      /* =====================================================
+                 MATERIAL SYMBOLS
+              ====================================================== */
+      
+      .material-symbols-outlined {
+        font-family: 'Material Symbols Outlined';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+      
+        font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      }
+      
+      /* =====================================================
+                 PAPER TEXTURE
+              ====================================================== */
+      
+      .paper-texture {
+        position: relative;
+      }
+      
+      .paper-texture::before {
+        content: '';
+      
+        position: absolute;
+        inset: 0;
+      
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      
+        opacity: 0.02;
+      
+        pointer-events: none;
+        z-index: 10;
+      }
+      
+      /* =====================================================
+                 STEP CARD ANIMATION
+              ====================================================== */
+      
+      .step-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .step-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 45px rgba(87, 0, 19, 0.1);
+      }
+      
+      /* =====================================================
+                 FEATURE CARD ANIMATION
+              ====================================================== */
+      
+      .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-4px);
+      }
+      
+      /* =====================================================
+                 SCROLLBAR
+              ====================================================== */
+      
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: #fcf9f8;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #e4e2e1;
+        border-radius: 4px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: #dcd9d9;
+      }
+      
+      /* =====================================================
+                 ACCESSIBILITY
+              ====================================================== */
+      
+      :focus-visible {
+        outline: 2px solid #800020;
+        outline-offset: 3px;
+      }
+      
+      /* =====================================================
+                 REDUCE MOTION
+              ====================================================== */
+      
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      
+        .step-card,
+        .feature-card {
+          transition: none;
+        }
+      
+        .step-card:hover,
+        .feature-card:hover {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    {% include 'navbar.html' %}
+
+    <!--  =========================================================
+     HERO SECTION
+==========================================================  -->
+
+    <main>
+      <section class="relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-28">
+          <div class="max-w-4xl mx-auto text-center">
+            <p class="text-[#800020] text-xs md:text-sm font-bold uppercase tracking-[0.25em] mb-5">The BookSwap Guide</p>
+
+            <h1 class="heading-font text-4xl md:text-6xl lg:text-7xl leading-tight font-semibold text-[#570013]">Give a book a new chapter.</h1>
+
+            <p class="mt-7 text-base md:text-lg leading-8 text-[#655b5d] max-w-2xl mx-auto">BookSwap makes it simple to discover books, buy pre-loved reads, sell books you no longer need, and exchange your collection with fellow readers.</p>
+
+            <div class="mt-9 flex flex-col sm:flex-row justify-center gap-4">
+              <a href="{% url 'browse' %}" class="inline-flex items-center justify-center gap-2 bg-[#800020] text-white px-7 py-3.5 rounded font-semibold hover:bg-[#570013] transition">
+                Browse Books
+
+                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+              </a>
+
+              <a href="{% url 'exchange' %}" class="inline-flex items-center justify-center gap-2 border border-[#800020] text-[#800020] px-7 py-3.5 rounded font-semibold hover:bg-[#800020] hover:text-white transition">Explore Exchanges</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--  =========================================================
+         QUICK INTRO
+    ==========================================================  -->
+
+      <section class="bg-white border-y border-[#eee4e2]">
+        <div class="max-w-7xl mx-auto px-5 md:px-10 py-14">
+          <div class="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+              <div class="w-12 h-12 mx-auto rounded-full bg-[#f5e8e9] text-[#800020] flex items-center justify-center">
+                <span class="material-symbols-outlined">search</span>
+              </div>
+
+              <h3 class="heading-font text-xl font-semibold text-[#570013] mt-4">Discover</h3>
+
+              <p class="text-sm text-[#655b5d] mt-2 leading-6">Find books that match your interests and reading list.</p>
+            </div>
+
+            <div>
+              <div class="w-12 h-12 mx-auto rounded-full bg-[#eef2ee] text-[#516353] flex items-center justify-center">
+                <span class="material-symbols-outlined">handshake</span>
+              </div>
+
+              <h3 class="heading-font text-xl font-semibold text-[#570013] mt-4">Connect</h3>
+
+              <p class="text-sm text-[#655b5d] mt-2 leading-6">Buy or exchange books with people who love reading too.</p>
+            </div>
+
+            <div>
+              <div class="w-12 h-12 mx-auto rounded-full bg-[#f5e8e9] text-[#800020] flex items-center justify-center">
+                <span class="material-symbols-outlined">auto_stories</span>
+              </div>
+
+              <h3 class="heading-font text-xl font-semibold text-[#570013] mt-4">Read Again</h3>
+
+              <p class="text-sm text-[#655b5d] mt-2 leading-6">Give pre-loved books another life and keep stories moving.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--  =========================================================
+         BUY A BOOK
+    ==========================================================  -->
+
+      <section class="max-w-7xl mx-auto px-5 md:px-10 py-20">
+        <div class="grid lg:grid-cols-2 gap-14 items-center">
+          <div>
+            <p class="text-[#800020] text-xs font-bold uppercase tracking-[0.2em]">For Readers</p>
+
+            <h2 class="heading-font text-3xl md:text-5xl font-semibold text-[#570013] mt-3">Buying a book is easy.</h2>
+
+            <p class="text-[#655b5d] leading-7 mt-5 max-w-xl">Find your next favourite read without making the process complicated. Browse available books, explore the details, and choose the book that feels right for you.</p>
+          </div>
+
+          <div class="space-y-5">
+            <div class="step-card bg-white border border-[#e8dddd] rounded-xl p-6 flex gap-5">
+              <div class="shrink-0">
+                <div class="w-12 h-12 rounded-full bg-[#570013] text-white flex items-center justify-center font-bold">01</div>
+              </div>
+
+              <div>
+                <h3 class="font-semibold text-lg text-[#570013]">Browse</h3>
+
+                <p class="text-sm text-[#655b5d] mt-1 leading-6">Explore available books using categories, search, and book details.</p>
+              </div>
+            </div>
+
+            <div class="step-card bg-white border border-[#e8dddd] rounded-xl p-6 flex gap-5">
+              <div class="shrink-0">
+                <div class="w-12 h-12 rounded-full bg-[#800020] text-white flex items-center justify-center font-bold">02</div>
+              </div>
+
+              <div>
+                <h3 class="font-semibold text-lg text-[#570013]">Choose</h3>
+
+                <p class="text-sm text-[#655b5d] mt-1 leading-6">Check the condition, description, price, and other information before choosing.</p>
+              </div>
+            </div>
+
+            <div class="step-card bg-white border border-[#e8dddd] rounded-xl p-6 flex gap-5">
+              <div class="shrink-0">
+                <div class="w-12 h-12 rounded-full bg-[#516353] text-white flex items-center justify-center font-bold">03</div>
+              </div>
+
+              <div>
+                <h3 class="font-semibold text-lg text-[#570013]">Get Your Book</h3>
+
+                <p class="text-sm text-[#655b5d] mt-1 leading-6">Complete the purchase and receive your selected book according to the available delivery option.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--  =========================================================
+         EXCHANGE SECTION
+    ==========================================================  -->
+
+      <section class="bg-[#570013] text-white">
+        <div class="max-w-7xl mx-auto px-5 md:px-10 py-20">
+          <div class="max-w-3xl">
+            <p class="text-[#e0bfbf] text-xs font-bold uppercase tracking-[0.2em]">Book Exchange</p>
+
+            <h2 class="heading-font text-3xl md:text-5xl font-semibold mt-3">Your old book could be someone else's next favourite.</h2>
+
+            <p class="text-[#eadcdd] leading-7 mt-5">Have books sitting on your shelf that you have already finished? Exchange them with other readers and discover something new.</p>
+          </div>
+
+          <div class="grid md:grid-cols-4 gap-5 mt-12">
+            <div class="bg-white/10 border border-white/15 rounded-xl p-6">
+              <span class="text-[#e0bfbf] text-sm font-bold">01</span>
+
+              <span class="material-symbols-outlined block text-3xl mt-5">library_add</span>
+
+              <h3 class="font-semibold text-lg mt-4">List Your Book</h3>
+
+              <p class="text-sm text-[#eadcdd] leading-6 mt-2">Add your book details and describe its condition honestly.</p>
+            </div>
+
+            <div class="bg-white/10 border border-white/15 rounded-xl p-6">
+              <span class="text-[#e0bfbf] text-sm font-bold">02</span>
+
+              <span class="material-symbols-outlined block text-3xl mt-5">manage_search</span>
+
+              <h3 class="font-semibold text-lg mt-4">Find a Match</h3>
+
+              <p class="text-sm text-[#eadcdd] leading-6 mt-2">Explore books listed by other readers for exchange.</p>
+            </div>
+
+            <div class="bg-white/10 border border-white/15 rounded-xl p-6">
+              <span class="text-[#e0bfbf] text-sm font-bold">03</span>
+
+              <span class="material-symbols-outlined block text-3xl mt-5">forum</span>
+
+              <h3 class="font-semibold text-lg mt-4">Connect</h3>
+
+              <p class="text-sm text-[#eadcdd] leading-6 mt-2">Discuss the exchange and agree on the details with the other reader.</p>
+            </div>
+
+            <div class="bg-white/10 border border-white/15 rounded-xl p-6">
+              <span class="text-[#e0bfbf] text-sm font-bold">04</span>
+
+              <span class="material-symbols-outlined block text-3xl mt-5">swap_horiz</span>
+
+              <h3 class="font-semibold text-lg mt-4">Swap</h3>
+
+              <p class="text-sm text-[#eadcdd] leading-6 mt-2">Finalize the exchange and give both books a new reader.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--  =========================================================
+         SELL SECTION
+    ==========================================================  -->
+
+      <section class="max-w-7xl mx-auto px-5 md:px-10 py-20">
+        <div class="grid lg:grid-cols-2 gap-14 items-center">
+          <div class="order-2 lg:order-1">
+            <div class="bg-white border border-[#e7dddd] rounded-2xl p-7 md:p-9 shadow-sm">
+              <div class="flex items-center gap-4 pb-6 border-b border-[#eee4e2]">
+                <div class="w-12 h-12 rounded-full bg-[#f5e8e9] text-[#800020] flex items-center justify-center">
+                  <span class="material-symbols-outlined">sell</span>
+                </div>
+
+                <div>
+                  <p class="text-xs uppercase tracking-wider font-bold text-[#800020]">Seller</p>
+
+                  <h3 class="heading-font text-2xl font-semibold text-[#570013]">Turn unused books into value.</h3>
+                </div>
+              </div>
+
+              <div class="space-y-6 mt-7">
+                <div class="flex gap-4">
+                  <span class="material-symbols-outlined text-[#800020]">add_circle</span>
+
+                  <div>
+                    <h4 class="font-semibold text-[#570013]">Add your book</h4>
+
+                    <p class="text-sm text-[#655b5d] mt-1">Add the title, author, condition, images, price, and other details.</p>
+                  </div>
+                </div>
+
+                <div class="flex gap-4">
+                  <span class="material-symbols-outlined text-[#800020]">visibility</span>
+
+                  <div>
+                    <h4 class="font-semibold text-[#570013]">Publish your listing</h4>
+
+                    <p class="text-sm text-[#655b5d] mt-1">Make your book visible to readers looking for their next read.</p>
+                  </div>
+                </div>
+
+                <div class="flex gap-4">
+                  <span class="material-symbols-outlined text-[#800020]">local_shipping</span>
+
+                  <div>
+                    <h4 class="font-semibold text-[#570013]">Complete the order</h4>
+
+                    <p class="text-sm text-[#655b5d] mt-1">Follow the selected delivery method and complete the transaction.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-1 lg:order-2">
+            <p class="text-[#800020] text-xs font-bold uppercase tracking-[0.2em]">For Sellers</p>
+
+            <h2 class="heading-font text-3xl md:text-5xl font-semibold text-[#570013] mt-3">Sell books that deserve another reader.</h2>
+
+            <p class="text-[#655b5d] leading-7 mt-5">Instead of letting finished books collect dust, list them on BookSwap and help another reader discover a story they will enjoy.</p>
+
+            <a href="#" class="inline-flex items-center gap-2 mt-7 bg-[#800020] text-white px-6 py-3 rounded font-semibold hover:bg-[#570013] transition">
+              Sell a Book
+
+              <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!--  =========================================================
+         WHY BOOKSWAP
+    ==========================================================  -->
+
+      <section class="bg-[#f3ebe9]">
+        <div class="max-w-7xl mx-auto px-5 md:px-10 py-20">
+          <div class="text-center max-w-2xl mx-auto">
+            <p class="text-[#800020] text-xs font-bold uppercase tracking-[0.2em]">Why BookSwap</p>
+
+            <h2 class="heading-font text-3xl md:text-5xl font-semibold text-[#570013] mt-3">More than just a book marketplace.</h2>
+
+            <p class="text-[#655b5d] leading-7 mt-4">BookSwap is designed around a simple idea: good books should keep moving.</p>
+          </div>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
+            <div class="feature-card bg-white rounded-xl p-6 border border-[#e8dddd]">
+              <span class="material-symbols-outlined text-[#800020] text-3xl">recycling</span>
+
+              <h3 class="font-semibold text-lg text-[#570013] mt-5">Sustainable</h3>
+
+              <p class="text-sm text-[#655b5d] leading-6 mt-2">Keep books in circulation instead of letting them go unused.</p>
+            </div>
+
+            <div class="feature-card bg-white rounded-xl p-6 border border-[#e8dddd]">
+              <span class="material-symbols-outlined text-[#800020] text-3xl">savings</span>
+
+              <h3 class="font-semibold text-lg text-[#570013] mt-5">Affordable</h3>
+
+              <p class="text-sm text-[#655b5d] leading-6 mt-2">Discover pre-loved books and make your reading budget go further.</p>
+            </div>
+
+            <div class="feature-card bg-white rounded-xl p-6 border border-[#e8dddd]">
+              <span class="material-symbols-outlined text-[#800020] text-3xl">diversity_3</span>
+
+              <h3 class="font-semibold text-lg text-[#570013] mt-5">Community</h3>
+
+              <p class="text-sm text-[#655b5d] leading-6 mt-2">Connect readers through shared interests and stories.</p>
+            </div>
+
+            <div class="feature-card bg-white rounded-xl p-6 border border-[#e8dddd]">
+              <span class="material-symbols-outlined text-[#800020] text-3xl">menu_book</span>
+
+              <h3 class="font-semibold text-lg text-[#570013] mt-5">More Stories</h3>
+
+              <p class="text-sm text-[#655b5d] leading-6 mt-2">Every exchange gives a good book another opportunity to be read.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--  =========================================================
+         SIMPLE RULES
+    ==========================================================  -->
+
+      <section class="max-w-4xl mx-auto px-5 md:px-10 py-20">
+        <div class="text-center">
+          <p class="text-[#800020] text-xs font-bold uppercase tracking-[0.2em]">Keep It Simple</p>
+
+          <h2 class="heading-font text-3xl md:text-5xl font-semibold text-[#570013] mt-3">A few things to remember.</h2>
+        </div>
+
+        <div class="mt-10 divide-y divide-[#e5dada] border-y border-[#e5dada]">
+          <div class="py-6 flex gap-5">
+            <span class="material-symbols-outlined text-[#800020]">verified</span>
+
+            <div>
+              <h3 class="font-semibold text-[#570013]">Be honest about book condition</h3>
+
+              <p class="text-sm text-[#655b5d] mt-1 leading-6">Always provide accurate information about the condition of a book.</p>
+            </div>
+          </div>
+
+          <div class="py-6 flex gap-5">
+            <span class="material-symbols-outlined text-[#800020]">image</span>
+
+            <div>
+              <h3 class="font-semibold text-[#570013]">Use clear book photos</h3>
+
+              <p class="text-sm text-[#655b5d] mt-1 leading-6">Good photos help other readers understand exactly what they are getting.</p>
+            </div>
+          </div>
+
+          <div class="py-6 flex gap-5">
+            <span class="material-symbols-outlined text-[#800020]">chat</span>
+
+            <div>
+              <h3 class="font-semibold text-[#570013]">Communicate clearly</h3>
+
+              <p class="text-sm text-[#655b5d] mt-1 leading-6">Keep communication respectful and make sure all exchange details are clear.</p>
+            </div>
+          </div>
+
+          <div class="py-6 flex gap-5">
+            <span class="material-symbols-outlined text-[#800020]">favorite</span>
+
+            <div>
+              <h3 class="font-semibold text-[#570013]">Treat every book with care</h3>
+
+              <p class="text-sm text-[#655b5d] mt-1 leading-6">Books carry stories from one reader to another. Help keep them in good hands.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    {% include 'footer.html' %}
+
+    <!--  =========================================================
+     MOBILE MENU JAVASCRIPT
+==========================================================  -->
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const menuBtn = document.getElementById('menuBtn')
+        const mobileMenu = document.getElementById('mobileMenu')
+        const menuIcon = document.getElementById('menuIcon')
+      
+        if (!menuBtn || !mobileMenu || !menuIcon) {
+          return
+        }
+      
+        /* Open / Close mobile menu */
+      
+        menuBtn.addEventListener('click', function () {
+          mobileMenu.classList.toggle('hidden')
+      
+          const isOpen = !mobileMenu.classList.contains('hidden')
+      
+          if (isOpen) {
+            menuIcon.textContent = 'close'
+      
+            menuBtn.setAttribute('aria-expanded', 'true')
+      
+            menuBtn.setAttribute('aria-label', 'Close menu')
+          } else {
+            menuIcon.textContent = 'menu'
+      
+            menuBtn.setAttribute('aria-expanded', 'false')
+      
+            menuBtn.setAttribute('aria-label', 'Open menu')
+          }
+        })
+      
+        /* Close menu after clicking a link */
+      
+        const mobileLinks = document.querySelectorAll('.mobile-link')
+      
+        mobileLinks.forEach(function (link) {
+          link.addEventListener('click', function () {
+            mobileMenu.classList.add('hidden')
+      
+            menuIcon.textContent = 'menu'
+      
+            menuBtn.setAttribute('aria-expanded', 'false')
+      
+            menuBtn.setAttribute('aria-label', 'Open menu')
+          })
+        })
+      
+        /* Reset menu when resizing to desktop */
+      
+        window.addEventListener('resize', function () {
+          if (window.innerWidth >= 768) {
+            mobileMenu.classList.add('hidden')
+      
+            menuIcon.textContent = 'menu'
+      
+            menuBtn.setAttribute('aria-expanded', 'false')
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

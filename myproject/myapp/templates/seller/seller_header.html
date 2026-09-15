@@ -1,0 +1,31 @@
+<header class="sticky top-0 z-50 border-b border-outline-variant bg-surface/95 backdrop-blur md:hidden">
+  <div class="flex items-center justify-between px-4 py-4">
+    <a href="{% url 'seller_profile' %}" class="flex items-center gap-3 text-primary">
+      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-primary-container text-white"><span class="material-symbols-outlined text-lg">auto_stories</span></span>
+      <span><strong class="block font-headline-sm text-headline-sm">Seller portal</strong><small class="block text-[10px] uppercase tracking-widest text-on-surface-variant">BookSwap</small></span>
+    </a>
+    <button type="button" id="sellerMenuButton" aria-label="Open seller menu" aria-expanded="false" class="rounded p-2 text-primary hover:bg-surface-container-low"><span class="material-symbols-outlined">menu</span></button>
+  </div>
+  <nav id="sellerMobileMenu" class="hidden border-t border-outline-variant bg-surface px-4 py-3" aria-label="Seller navigation">
+    <div class="grid gap-1 text-sm">
+      <a href="{% url 'seller_profile' %}" class="flex items-center gap-3 rounded px-3 py-3 text-on-surface-variant hover:bg-primary-fixed/10 hover:text-primary"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+      <a href="{% url 'all_sell_books' %}" class="flex items-center gap-3 rounded px-3 py-3 text-on-surface-variant hover:bg-primary-fixed/10 hover:text-primary"><span class="material-symbols-outlined">auto_stories</span>My selling books</a>
+      <a href="{% url 'seller_orders' %}" class="flex items-center gap-3 rounded px-3 py-3 text-on-surface-variant hover:bg-primary-fixed/10 hover:text-primary"><span class="material-symbols-outlined">local_shipping</span>Payments & deliveries</a>
+      <a href="{% url 'all_exchange_books' %}" class="flex items-center gap-3 rounded px-3 py-3 text-on-surface-variant hover:bg-primary-fixed/10 hover:text-primary"><span class="material-symbols-outlined">swap_horiz</span>Exchange books</a>
+      <a href="{% url 'seller_add_book' %}" class="mt-2 flex items-center justify-center gap-2 rounded bg-primary-container px-3 py-3 text-xs font-bold uppercase tracking-widest text-white"><span class="material-symbols-outlined text-base">add</span>Add book</a>
+      <a href="{% url 'logout' %}" class="flex items-center gap-3 rounded px-3 py-3 text-on-surface-variant hover:bg-primary-fixed/10 hover:text-primary"><span class="material-symbols-outlined">logout</span>Sign out</a>
+    </div>
+  </nav>
+</header>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const button = document.getElementById('sellerMenuButton');
+    const menu = document.getElementById('sellerMobileMenu');
+    if (!button || !menu) return;
+    button.addEventListener('click', function () {
+      const open = menu.classList.toggle('hidden') === false;
+      button.setAttribute('aria-expanded', String(open));
+      button.querySelector('.material-symbols-outlined').textContent = open ? 'close' : 'menu';
+    });
+  });
+</script>

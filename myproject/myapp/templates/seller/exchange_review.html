@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>
+      {% if exchange_book.status == 'published' %}
+        Update Exchange Book - BookSwap
+      {% else %}
+        Review Your Listing - BookSwap
+      {% endif %}
+    </title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+      
+        theme: {
+          extend: {
+            colors: {
+              'secondary-fixed': '#d4e8d4',
+              'on-tertiary-fixed-variant': '#574500',
+              'surface-dim': '#dcd9d9',
+              'surface-container-lowest': '#ffffff',
+              'on-background': '#1b1c1c',
+              'on-primary-container': '#ff828a',
+              'on-secondary-fixed-variant': '#3a4b3c',
+              'surface-container-high': '#eae7e7',
+              'inverse-on-surface': '#f3f0f0',
+              'on-primary': '#ffffff',
+              'primary-container': '#800020',
+              'on-primary-fixed-variant': '#8e0f28',
+              'primary-fixed-dim': '#ffb3b5',
+              outline: '#8c7071',
+              'error-container': '#ffdad6',
+              'on-error-container': '#93000a',
+              'surface-container': '#f0eded',
+              background: '#fcf9f8',
+              'inverse-surface': '#303030',
+              'on-secondary-fixed': '#0f1f13',
+              'outline-variant': '#e0bfbf',
+              'surface-container-highest': '#e4e2e1',
+              'on-surface': '#1b1c1c',
+              'on-tertiary-container': '#4f3d00',
+              'inverse-primary': '#ffb3b5',
+              'primary-fixed': '#ffdada',
+              tertiary: '#735c00',
+              'on-error': '#ffffff',
+              'tertiary-fixed': '#ffe088',
+              secondary: '#516353',
+              'tertiary-container': '#cca730',
+              'on-secondary-container': '#576959',
+              'on-tertiary': '#ffffff',
+              'surface-bright': '#fcf9f8',
+              primary: '#570013',
+              'tertiary-fixed-dim': '#e9c349',
+              'on-primary-fixed': '#40000b',
+              'surface-variant': '#e4e2e1',
+              error: '#ba1a1a',
+              'secondary-container': '#d4e8d4',
+              'surface-container-low': '#f6f3f2',
+              'secondary-fixed-dim': '#b8ccb8',
+              'surface-tint': '#af2b3e',
+              'on-surface-variant': '#584141',
+              'on-secondary': '#ffffff',
+              surface: '#fcf9f8',
+              'on-tertiary-fixed': '#241a00'
+            },
+      
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px'
+            },
+      
+            spacing: {
+              'margin-mobile': '16px',
+              'margin-desktop': '48px',
+              gutter: '24px',
+              'container-max': '1280px',
+              base: '8px'
+            },
+      
+            fontFamily: {
+              'headline-md': ['Playfair Display'],
+              'display-lg-mobile': ['Playfair Display'],
+              'body-sm': ['Inter'],
+              'display-lg': ['Playfair Display'],
+              'body-lg': ['Inter'],
+              'body-md': ['Inter'],
+              'label-caps': ['Inter'],
+              'headline-sm': ['Playfair Display']
+            },
+      
+            fontSize: {
+              'headline-md': [
+                '32px',
+                {
+                  lineHeight: '1.2',
+                  fontWeight: '600'
+                }
+              ],
+      
+              'display-lg-mobile': [
+                '32px',
+                {
+                  lineHeight: '1.2',
+                  fontWeight: '700'
+                }
+              ],
+      
+              'body-sm': [
+                '14px',
+                {
+                  lineHeight: '1.4',
+                  fontWeight: '400'
+                }
+              ],
+      
+              'display-lg': [
+                '48px',
+                {
+                  lineHeight: '1.1',
+                  letterSpacing: '-0.02em',
+                  fontWeight: '700'
+                }
+              ],
+      
+              'body-lg': [
+                '18px',
+                {
+                  lineHeight: '1.6',
+                  fontWeight: '400'
+                }
+              ],
+      
+              'body-md': [
+                '16px',
+                {
+                  lineHeight: '1.5',
+                  fontWeight: '400'
+                }
+              ],
+      
+              'label-caps': [
+                '12px',
+                {
+                  lineHeight: '1',
+                  letterSpacing: '0.08em',
+                  fontWeight: '600'
+                }
+              ],
+      
+              'headline-sm': [
+                '24px',
+                {
+                  lineHeight: '1.3',
+                  fontWeight: '600'
+                }
+              ]
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      body {
+        background-color: #fcf9f8;
+        color: #1b1c1c;
+      }
+      
+      .soft-shadow {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      }
+    </style>
+  </head>
+
+  <body class="antialiased min-h-screen flex bg-background">
+    {% if not request.user.reader_profile %}{% include 'seller/seller_header.html' %}{% endif %}
+    <div class="grain-overlay"></div>
+    <div class="w-full min-h-screen">
+      {% if not request.user.reader_profile %}{% include 'seller/seller_sidebar.html' %}{% endif %}
+
+      <main class="flex-1 flex flex-col min-h-screen overflow-y-auto {% if not user_side %}ml-64{% endif %} bg-background">
+        <div class="max-w-300 mx-auto w-full px-margin-desktop py-12 pb-24">
+          {% include 'seller/progress_step.html' %}
+
+          <!-- HEADER -->
+
+          <div class="mb-12 text-center md:text-left">
+            <h2 class="font-headline-md text-headline-md text-primary mb-2">
+              {% if exchange_book.status == 'published' %}
+                Update Exchange Book
+              {% else %}
+                Review Your Listing
+              {% endif %}
+            </h2>
+
+            <p class="font-body-lg text-body-lg text-on-surface-variant">
+              {% if exchange_book.status == 'published' %}
+                Review your changes before updating the listing.
+              {% else %}
+                Make sure everything is accurate before publishing.
+              {% endif %}
+            </p>
+          </div>
+
+          <!-- MAIN TWO COLUMN -->
+
+          <div class="flex flex-col lg:flex-row gap-gutter relative">
+            <!-- LEFT -->
+
+            <div class="w-full lg:w-[65%] space-y-8">
+              <!-- BOOK PREVIEW -->
+
+              <div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 md:p-8 soft-shadow">
+                <div class="flex flex-col md:flex-row gap-8">
+                  <!-- BOOK COVER -->
+
+                  <div class="w-full md:w-2/5 space-y-4">
+                    <div class="aspect-3/4 rounded-lg overflow-hidden border border-surface-variant bg-surface-container-low">
+                      {% if book.cover_image %}
+                        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="w-full h-full object-cover" />
+                      {% else %}
+                        <div class="w-full h-full flex items-center justify-center">
+                          <span class="material-symbols-outlined text-5xl text-on-surface-variant">menu_book</span>
+                        </div>
+                      {% endif %}
+                    </div>
+
+                    <!-- EXCHANGE PHOTOS -->
+
+                    {% if photos %}
+                      <div class="grid grid-cols-4 gap-2">
+                        {% for photo in photos|slice:':4' %}
+                          <div class="aspect-square rounded border border-surface-variant overflow-hidden">
+                            <img src="{{ photo.photo.url }}" alt="Exchange photo" class="w-full h-full object-cover" />
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+
+                  <!-- DETAILS -->
+
+                  <div class="w-full md:w-3/5 flex flex-col">
+                    <!-- TITLE -->
+
+                    <div class="mb-4">
+                      <h3 class="font-headline-sm text-headline-sm text-primary mb-1">{{ book.title }}</h3>
+
+                      <p class="font-body-lg text-body-lg text-on-surface">{{ book.author }}</p>
+
+                      {% if book.isbn %}
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">ISBN: {{ book.isbn }}</p>
+                      {% endif %}
+                    </div>
+
+                    <!-- BADGES -->
+
+                    <div class="flex flex-wrap gap-2 mb-6">
+                      <span class="inline-flex items-center px-3 py-1 rounded bg-secondary/10 text-secondary font-label-caps text-label-caps border border-secondary/20">{{ exchange_book.get_condition_display }}</span>
+
+                      <span class="inline-flex items-center px-3 py-1 rounded bg-surface-container-high text-on-surface font-label-caps text-label-caps border border-surface-variant">Exchange Available</span>
+
+                      {% if exchange_book.status == 'published' %}
+                        <span class="inline-flex items-center px-3 py-1 rounded bg-secondary/10 text-secondary font-label-caps text-label-caps border border-secondary/20">Active Listing</span>
+                      {% else %}
+                        <span class="inline-flex items-center px-3 py-1 rounded bg-tertiary/10 text-tertiary font-label-caps text-label-caps border border-tertiary/20">Draft</span>
+                      {% endif %}
+                    </div>
+
+                    <!-- BOOK DESCRIPTION -->
+
+                    {% if book.description %}
+                      <div class="mb-6 p-4 bg-surface-container-low rounded-lg border border-surface-variant relative">
+                        <div class="absolute -top-3 left-4 bg-surface-container-low px-2 font-headline-md text-[14px] text-tertiary-container italic">Description</div>
+
+                        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed whitespace-pre-line">{{ book.description }}</p>
+                      </div>
+                    {% endif %}
+
+                    <!-- EXCHANGE TYPE -->
+
+                    <div class="mt-auto space-y-4 border-t border-surface-variant pt-6">
+                      <div class="flex justify-between items-center">
+                        <span class="font-body-md text-on-surface-variant">Exchange Type</span><span class="font-headline-sm text-headline-sm text-secondary font-semibold">Book for book</span>
+                      </div>
+
+                      <div class="flex justify-between items-center">
+                        <span class="font-body-md text-on-surface-variant">Photos</span>
+
+                        <span class="font-body-md text-on-surface">{{ photos|length }}/6</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BOOK INFORMATION -->
+
+              <div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 md:p-8">
+                <h3 class="font-headline-sm text-headline-sm text-primary mb-6">Book Information</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <p class="text-sm text-on-surface-variant">Publisher</p>
+
+                    <p class="font-medium mt-1">{{ book.publisher|default:'-' }}</p>
+                  </div>
+
+                  <div>
+                    <p class="text-sm text-on-surface-variant">Publication Year</p>
+
+                    <p class="font-medium mt-1">{{ book.publication_year|default:'-' }}</p>
+                  </div>
+
+                  <div>
+                    <p class="text-sm text-on-surface-variant">Category</p>
+
+                    <p class="font-medium mt-1">{{ book.get_category_display }}</p>
+                  </div>
+
+                  <div>
+                    <p class="text-sm text-on-surface-variant">Language</p>
+
+                    <p class="font-medium mt-1">{{ book.get_language_display }}</p>
+                  </div>
+
+                  <div>
+                    <p class="text-sm text-on-surface-variant">Pages</p>
+
+                    <p class="font-medium mt-1">{{ book.page_count|default:'-' }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CONDITION INFORMATION -->
+
+              <div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 md:p-8">
+                <h3 class="font-headline-sm text-headline-sm text-primary mb-6">Condition Information</h3>
+
+                <!-- CONDITION -->
+
+                <div class="mb-5">
+                  <p class="text-sm text-on-surface-variant">Condition</p>
+
+                  <p class="font-medium mt-1">{{ exchange_book.get_condition_display }}</p>
+                </div>
+
+                <!-- SPECIFIC DETAILS -->
+
+                <div class="mb-5">
+                  <p class="text-sm text-on-surface-variant mb-2">Specific Details</p>
+
+                  {% if exchange_book.specific_details %}
+                    <div class="flex flex-wrap gap-2">
+                      {% for detail in exchange_book.specific_details %}
+                        <span class="px-3 py-1 rounded-full bg-surface-container-high text-on-surface text-sm">
+                          {% if detail == 'minor_cover_wear' %}
+                            Minor cover wear
+                          {% elif detail == 'creased_spine' %}
+                            Creased spine
+                          {% elif detail == 'page_markings' %}
+                            Page markings
+                          {% elif detail == 'water_damage' %}
+                            Water damage
+                          {% elif detail == 'highlighting' %}
+                            Highlighting
+                          {% elif detail == 'missing_pages' %}
+                            Missing pages
+                          {% elif detail == 'writing_margins' %}
+                            Writing in margins
+                          {% elif detail == 'dust_jacket_damage' %}
+                            Dust jacket damage
+                          {% elif detail == 'folded_corners' %}
+                            Folded corners
+                          {% elif detail == 'other' %}
+                            Other
+                          {% else %}
+                            {{ detail }}
+                          {% endif %}
+                        </span>
+                      {% endfor %}
+                    </div>
+                  {% else %}
+                    <p class="text-sm text-on-surface-variant">No specific damage/details</p>
+                  {% endif %}
+                </div>
+
+                <!-- NOTES -->
+
+                <div>
+                  <p class="text-sm text-on-surface-variant mb-2">Additional Notes</p>
+
+                  {% if exchange_book.additional_notes %}
+                    <p class="whitespace-pre-line text-on-surface">{{ exchange_book.additional_notes }}</p>
+                  {% else %}
+                    <p class="text-sm text-on-surface-variant">No additional notes</p>
+                  {% endif %}
+                </div>
+              </div>
+
+              <!-- ALL EXCHANGE PHOTOS -->
+
+              <div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 md:p-8">
+                <div class="flex justify-between items-center mb-6">
+                  <h3 class="font-headline-sm text-headline-sm text-primary">Exchange Photos</h3>
+
+                  <span class="text-sm text-on-surface-variant">{{ photos|length }}/6 photos</span>
+                </div>
+
+                {% if photos %}
+                  <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {% for photo in photos %}
+                      <div class="aspect-square rounded-lg overflow-hidden border border-surface-variant">
+                        <img src="{{ photo.photo.url }}" alt="Exchange book photo {{ forloop.counter }}" class="w-full h-full object-cover" />
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  <div class="py-10 text-center border border-dashed border-outline-variant rounded-lg">
+                    <span class="material-symbols-outlined text-4xl text-on-surface-variant">image</span>
+
+                    <p class="mt-2 text-on-surface-variant">No photos uploaded</p>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+
+            <div class="w-full lg:w-[35%] space-y-6">
+              <!-- SUMMARY -->
+
+              <div class="bg-[#F2EFE9] border border-[#E5E2DB] rounded-xl p-6 soft-shadow sticky top-24">
+                <h4 class="font-headline-sm text-[20px] text-primary border-b border-[#E5E2DB] pb-4 mb-4">Listing Summary</h4>
+
+                <ul class="space-y-4 font-body-sm text-body-sm text-on-surface">
+                  <!-- BOOK DETAILS -->
+
+                  <li class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-secondary">check_circle</span>
+
+                    <span>Book Details Verified</span>
+                  </li>
+
+                  <!-- CONDITION -->
+
+                  <li class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-secondary">check_circle</span>
+
+                    <span>Condition Accurately Described</span>
+                  </li>
+
+                  <!-- PHOTOS -->
+
+                  <li class="flex items-start gap-3">
+                    {% if photos|length >= 2 %}
+                      <span class="material-symbols-outlined text-secondary">check_circle</span>
+                    {% else %}
+                      <span class="material-symbols-outlined text-error">error</span>
+                    {% endif %}
+
+                    <span>Photos Uploaded ({{ photos|length }}/6)</span>
+                  </li>
+
+                  <!-- EXCHANGE TYPE -->
+
+                  <li class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-secondary">check_circle</span>
+                    <span>Book-for-book exchange</span>
+                  </li>
+
+                  <!-- DELIVERY -->
+
+                  <li class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-secondary">check_circle</span>
+
+                    <span>Delivery Method Selected</span>
+                  </li>
+                </ul>
+
+                <!-- CONFIRMATION -->
+
+                <div class="mt-8 pt-6 border-t border-[#E5E2DB]">
+                  <label class="flex items-start gap-3 cursor-pointer group">
+                    <div class="relative flex items-center justify-center w-5 h-5 mt-0.5">
+                      <input id="confirm_listing" name="confirm_listing" type="checkbox" form="review-form" required class="peer appearance-none w-5 h-5 border border-outline rounded bg-surface-container-lowest checked:bg-primary-container checked:border-primary-container transition-colors" />
+
+                      <span class="material-symbols-outlined absolute text-on-primary text-[16px] pointer-events-none opacity-0 peer-checked:opacity-100">check</span>
+                    </div>
+
+                    <span class="font-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors">I confirm that this listing accurately represents the book I am offering.</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ACTION BAR -->
+
+          <form id="review-form" method="POST" class="mt-12 pt-6 border-t border-surface-variant">
+            {% csrf_token %}
+
+            <div class="flex flex-col-reverse md:flex-row justify-between items-center gap-4">
+              <!-- LEFT ACTIONS -->
+
+              <div class="flex gap-4 w-full md:w-auto">
+                <!-- BACK -->
+
+                <a href="{% url 'seller_exchange_delivery' book_id=book.id %}" class="flex-1 md:flex-none px-6 py-3 border border-outline text-on-surface font-label-caps text-label-caps rounded-lg hover:bg-[#F2EFE9] transition-colors text-center">BACK</a>
+
+                <!-- SAVE DRAFT -->
+
+                <button type="submit" name="action" value="save_draft" formnovalidate class="flex-1 md:flex-none px-6 py-3 border border-outline text-on-surface font-label-caps text-label-caps rounded-lg hover:bg-[#F2EFE9] transition-colors">SAVE AS DRAFT</button>
+              </div>
+
+              <!-- PUBLISH / UPDATE -->
+
+              {% if exchange_book.status == 'published' %}
+                <button type="submit" name="action" value="update_exchange" class="w-full md:w-auto px-8 py-3 bg-primary-container text-on-primary font-label-caps text-label-caps rounded-lg hover:bg-primary transition-colors soft-shadow flex items-center justify-center gap-2">
+                  UPDATE EXCHANGE BOOK
+
+                  <span class="material-symbols-outlined text-[18px]">update</span>
+                </button>
+              {% else %}
+                <button type="submit" name="action" value="publish" class="w-full md:w-auto px-8 py-3 bg-primary-container text-on-primary font-label-caps text-label-caps rounded-lg hover:bg-primary transition-colors soft-shadow flex items-center justify-center gap-2">
+                  PUBLISH EXCHANGE BOOK
+
+                  <span class="material-symbols-outlined text-[18px]">publish</span>
+                </button>
+              {% endif %}
+            </div>
+          </form>
+        </div>
+      </main>
+      {% if not request.user.reader_profile %}{% include 'seller/seller_footer.html' %}{% endif %}
+    </div>
+  </body>
+</html>
