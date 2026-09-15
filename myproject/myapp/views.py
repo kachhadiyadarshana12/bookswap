@@ -1,4 +1,5 @@
 from decimal import Decimal, InvalidOperation
+from functools import wraps
 import re
 from django.db import transaction
 from django.db.models import Q, Sum
@@ -300,7 +301,7 @@ def login(request):
         # ==========================
 
         if hasattr(user, "reader_profile"):
-            return redirect("index")
+            return redirect("user_profile")
 
         # ==========================
         # PROFILE NOT FOUND
@@ -321,7 +322,7 @@ def logout(request):
 
     messages.success(request, "You have been logged out successfully.")
 
-    return redirect("login")
+    return redirect("index")
 
 
 # reader_required
@@ -951,8 +952,6 @@ def exchange_chat(request, request_id):
 
 @login_required
 def seller_profile(request):
-    if request.user.is_authenticated and hasattr(request.user, "reader_profile"):
-        return redirect("user_profile")
     seller = get_object_or_404(sellerprofile, user=request.user)
     books = Book.objects.filter(seller=seller).order_by("-created_at")
     orders = BookOrder.objects.filter(book__seller=seller).select_related(
@@ -1612,9 +1611,6 @@ def seller_delete_book(request, id):
 
 @login_required
 def all_exchange_books(request):
-
-    if hasattr(request.user, "reader_profile"):
-        return redirect("user_profile")
 
     seller = get_object_or_404(sellerprofile, user=request.user)
 
