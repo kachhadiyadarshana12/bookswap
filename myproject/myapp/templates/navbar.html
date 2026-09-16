@@ -36,17 +36,19 @@
         <div class="flex items-center gap-4">
           <!-- Desktop Actions -->
           <div class="hidden md:flex items-center gap-4">
-            <!-- Notification -->
-            <div class="relative">
-              <a href="{% url 'notifications' %}" aria-label="Notifications" class="relative text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all p-2 rounded-full inline-flex">
-                <span class="material-symbols-outlined">notifications</span>
-                {% if navbar_notification_count %}
-                  <span class="absolute -right-1 -top-1 min-w-5 h-5 px-1 rounded-full bg-primary text-on-primary text-xs flex items-center justify-center">{{ navbar_notification_count }}</span>
-                {% endif %}
-              </a>
-            </div>
-            <!-- Profile -->
-            <a href="{% url 'user_profile' %}" aria-label="Profile" class="text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all p-2 rounded-full"><span class="material-symbols-outlined">account_circle</span></a>
+            {% if user.is_authenticated %}
+              <!-- Notification -->
+              <div class="relative">
+                <a href="{% url 'notifications' %}" aria-label="Notifications" class="relative text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all p-2 rounded-full inline-flex">
+                  <span class="material-symbols-outlined">notifications</span>
+                  {% if navbar_notification_count %}
+                    <span class="absolute -right-1 -top-1 min-w-5 h-5 px-1 rounded-full bg-primary text-on-primary text-xs flex items-center justify-center">{{ navbar_notification_count }}</span>
+                  {% endif %}
+                </a>
+              </div>
+              <!-- Profile -->
+              <a href="{% url 'user_profile' %}" aria-label="Profile" class="text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all p-2 rounded-full"><span class="material-symbols-outlined">account_circle</span></a>
+            {% endif %}
           </div>
           {% if user.is_authenticated %}
             <!-- Logout -->
@@ -78,19 +80,21 @@
           <hr class="border-outline-variant" />
 
           <!-- Profile -->
-          <a href="{% url 'user_profile' %}" class="mobile-link flex items-center gap-2 text-on-surface-variant hover:text-primary">
-            <span class="material-symbols-outlined">account_circle</span>
+          {% if user.is_authenticated %}
+            <a href="{% url 'user_profile' %}" class="mobile-link flex items-center gap-2 text-on-surface-variant hover:text-primary">
+              <span class="material-symbols-outlined">account_circle</span>
 
-            Profile
-          </a>
+              Profile
+            </a>
+            <!-- logout -->
+            <a href="{% url 'logout' %}" class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Logout</a>
+          {% else %}
+            <!-- Login -->
+            <a href="{% url 'login' %}" class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Login</a>
 
-          <!-- Login -->
-          <a href="{% url 'login' %}" class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Login</a>
-
-          <!-- Registration -->
-          <a href="{% url 'registration' %}" class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Registration</a>
-          <!-- logout -->
-          <a href="{% url 'logout' %}" class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Logout</a>
+            <!-- Registration -->
+            <a href="{% url 'registration' %}" class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Registration</a>
+          {% endif %}
           
         </div>
       </div>
