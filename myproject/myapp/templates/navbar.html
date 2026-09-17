@@ -1,158 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
 
-  <body>
-    <!-- Navbar -->
-    <nav class="sticky top-0 z-40 bg-surface border-b border-outline-variant w-full">
-      <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20">
-        <!-- Brand -->
-        <a href="{% url 'index' %}" class="font-headline-md text-headline-md font-bold text-primary">BookSwap</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
 
-        <!-- Desktop Navigation -->
-        <ul class="hidden md:flex items-center gap-8">
-          <li>
-            <a href="{% url 'browse' %}" class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors">Browse</a>
-          </li>
+<body>
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-40 bg-surface border-b border-outline-variant w-full">
+    <div
+      class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20">
+      <!-- Brand -->
+      <a href="{% url 'index' %}" class="font-headline-md text-headline-md font-bold text-primary">BookSwap</a>
 
-          <li>
-            <a href="{% url 'exchange' %}" class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors">Exchange</a>
-          </li>
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex items-center gap-8">
+        <li>
+          <a href="{% url 'browse' %}"
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors">Browse</a>
+        </li>
 
-          <li>
-            <a href="{% url 'user_profile' %}" class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors">Wishlist</a>
-          </li>
+        <li>
+          <a href="{% url 'exchange' %}"
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors">Exchange</a>
+        </li>
 
-          <li>
-            <a href="{% url 'how_it_works' %}" class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors">How It Works</a>
-          </li>
-        </ul>
+        <li>
+          <a href="{% if user.seller_profile %}{% url 'seller_profile' %}{% else %}{% url 'user_profile' %}{% endif %}"
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors">Wishlist</a>
+        </li>
 
-        <!-- Right Actions -->
-        <div class="flex items-center gap-4">
-          <!-- Desktop Actions -->
-          <div class="hidden md:flex items-center gap-4">
-            {% if user.is_authenticated %}
-              <!-- Notification -->
-              <div class="relative">
-                <a href="{% url 'notifications' %}" aria-label="Notifications" class="relative text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all p-2 rounded-full inline-flex">
-                  <span class="material-symbols-outlined">notifications</span>
-                  {% if navbar_notification_count %}
-                    <span class="absolute -right-1 -top-1 min-w-5 h-5 px-1 rounded-full bg-primary text-on-primary text-xs flex items-center justify-center">{{ navbar_notification_count }}</span>
-                  {% endif %}
-                </a>
-              </div>
-              <!-- Profile -->
-              <a href="{% url 'user_profile' %}" aria-label="Profile" class="text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all p-2 rounded-full"><span class="material-symbols-outlined">account_circle</span></a>
-            {% endif %}
-          </div>
+        <li>
+          <a href="{% url 'how_it_works' %}"
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors">How It
+            Works</a>
+        </li>
+      </ul>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-4">
+        <!-- Desktop Actions -->
+        <div class="hidden md:flex items-center gap-4">
           {% if user.is_authenticated %}
-            <!-- Logout -->
-            <a href="{% url 'logout' %}" class="hidden md:block border border-primary text-primary font-label-caps text-label-caps px-6 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Logout</a>
-          {% else %}
-            <!-- Login -->
-            <a href="{% url 'login' %}" class="hidden md:block border border-primary text-primary font-label-caps text-label-caps px-6 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Login</a>
-
-            <!-- Registration -->
-            <a href="{% url 'registration' %}" class="hidden md:block bg-primary-container text-on-primary font-label-caps text-label-caps px-6 py-3 rounded hover:bg-primary transition-colors uppercase tracking-widest">Registration</a>
-          {% endif %}
-
-          <!-- Mobile Menu Button -->
-          <button type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false" class="md:hidden text-on-surface-variant p-2 rounded hover:bg-surface-container-low transition-all"><span id="menuIcon" class="material-symbols-outlined">menu</span></button>
-        </div>
-      </div>
-
-      <!-- Mobile Menu -->
-      <div id="mobileMenu" class="hidden md:hidden border-t border-outline-variant bg-surface">
-        <div class="px-margin-mobile py-5 flex flex-col gap-4">
-          <a href="#" class="mobile-link text-on-surface-variant hover:text-primary transition-colors">Browse</a>
-
-          <a href="{% url 'exchange' %}" class="mobile-link text-on-surface-variant hover:text-primary transition-colors">Exchange</a>
-
-          <a href="{% url 'user_profile' %}" class="mobile-link text-on-surface-variant hover:text-primary transition-colors">Wishlist</a>
-
-          <a href="{% url 'how_it_works' %}" class="mobile-link text-on-surface-variant hover:text-primary transition-colors">How It Works</a>
-
-          <hr class="border-outline-variant" />
-
-          <!-- Profile -->
-          {% if user.is_authenticated %}
-            <a href="{% url 'user_profile' %}" class="mobile-link flex items-center gap-2 text-on-surface-variant hover:text-primary">
-              <span class="material-symbols-outlined">account_circle</span>
-
-              Profile
+          <!-- Notification -->
+          <div class="relative">
+            <a href="{% url 'notifications' %}" aria-label="Notifications"
+              class="relative text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all p-2 rounded-full inline-flex">
+              <span class="material-symbols-outlined">notifications</span>
+              {% if navbar_notification_count %}
+              <span
+                class="absolute -right-1 -top-1 min-w-5 h-5 px-1 rounded-full bg-primary text-on-primary text-xs flex items-center justify-center">{{
+                navbar_notification_count }}</span>
+              {% endif %}
             </a>
-            <!-- logout -->
-            <a href="{% url 'logout' %}" class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Logout</a>
-          {% else %}
-            <!-- Login -->
-            <a href="{% url 'login' %}" class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Login</a>
-
-            <!-- Registration -->
-            <a href="{% url 'registration' %}" class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Registration</a>
+          </div>
+          <!-- Profile -->
+          <a href="{% if user.seller_profile %}{% url 'seller_profile' %}{% else %}{% url 'user_profile' %}{% endif %}" aria-label="Profile"
+            class="text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all p-2 rounded-full"><span
+              class="material-symbols-outlined">account_circle</span></a>
           {% endif %}
-          
         </div>
+        {% if user.is_authenticated %}
+        <!-- Logout -->
+        <a href="{% url 'logout' %}"
+          class="hidden md:block border border-primary text-primary font-label-caps text-label-caps px-6 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Logout</a>
+        {% else %}
+        <!-- Login -->
+        <a href="{% url 'login' %}"
+          class="hidden md:block border border-primary text-primary font-label-caps text-label-caps px-6 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Login</a>
+
+        <!-- Registration -->
+        <a href="{% url 'registration' %}"
+          class="hidden md:block bg-primary-container text-on-primary font-label-caps text-label-caps px-6 py-3 rounded hover:bg-primary transition-colors uppercase tracking-widest">Registration</a>
+        {% endif %}
+
+        <!-- Mobile Menu Button -->
+        <button type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false"
+          class="md:hidden text-on-surface-variant p-2 rounded hover:bg-surface-container-low transition-all"><span
+            id="menuIcon" class="material-symbols-outlined">menu</span></button>
       </div>
-    </nav>
+    </div>
 
-    <!-- JavaScript -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const menuBtn = document.getElementById('menuBtn')
-        const mobileMenu = document.getElementById('mobileMenu')
-        const menuIcon = document.getElementById('menuIcon')
-      
-        if (!menuBtn || !mobileMenu || !menuIcon) {
-          return
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-outline-variant bg-surface">
+      <div class="px-margin-mobile py-5 flex flex-col gap-4">
+        <a href="#" class="mobile-link text-on-surface-variant hover:text-primary transition-colors">Browse</a>
+
+        <a href="{% url 'exchange' %}"
+          class="mobile-link text-on-surface-variant hover:text-primary transition-colors">Exchange</a>
+
+        <a href="{% if user.seller_profile %}{% url 'seller_profile' %}{% else %}{% url 'user_profile' %}{% endif %}"
+          class="mobile-link text-on-surface-variant hover:text-primary transition-colors">Wishlist</a>
+
+        <a href="{% url 'how_it_works' %}"
+          class="mobile-link text-on-surface-variant hover:text-primary transition-colors">How It Works</a>
+
+        <hr class="border-outline-variant" />
+
+        <!-- Profile -->
+        {% if user.is_authenticated %}
+        <a href="{% if user.seller_profile %}{% url 'seller_profile' %}{% else %}{% url 'user_profile' %}{% endif %}"
+          class="mobile-link flex items-center gap-2 text-on-surface-variant hover:text-primary">
+          <span class="material-symbols-outlined">account_circle</span>
+
+          Profile
+        </a>
+        <!-- logout -->
+        <a href="{% url 'logout' %}"
+          class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Logout</a>
+        {% else %}
+        <!-- Login -->
+        <a href="{% url 'login' %}"
+          class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Login</a>
+
+        <!-- Registration -->
+        <a href="{% url 'registration' %}"
+          class="mobile-link border border-primary text-primary text-center px-5 py-3 rounded hover:bg-primary hover:text-on-primary transition-colors uppercase tracking-widest">Registration</a>
+        {% endif %}
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const menuBtn = document.getElementById('menuBtn')
+      const mobileMenu = document.getElementById('mobileMenu')
+      const menuIcon = document.getElementById('menuIcon')
+
+      if (!menuBtn || !mobileMenu || !menuIcon) {
+        return
+      }
+
+      // Open / Close mobile menu
+      menuBtn.addEventListener('click', function () {
+        mobileMenu.classList.toggle('hidden')
+
+        const isOpen = !mobileMenu.classList.contains('hidden')
+
+        if (isOpen) {
+          menuIcon.textContent = 'close'
+          menuBtn.setAttribute('aria-expanded', 'true')
+          menuBtn.setAttribute('aria-label', 'Close menu')
+        } else {
+          menuIcon.textContent = 'menu'
+          menuBtn.setAttribute('aria-expanded', 'false')
+          menuBtn.setAttribute('aria-label', 'Open menu')
         }
+      })
 
-        // Open / Close mobile menu
-        menuBtn.addEventListener('click', function () {
-          mobileMenu.classList.toggle('hidden')
-      
-          const isOpen = !mobileMenu.classList.contains('hidden')
-      
-          if (isOpen) {
-            menuIcon.textContent = 'close'
-            menuBtn.setAttribute('aria-expanded', 'true')
-            menuBtn.setAttribute('aria-label', 'Close menu')
-          } else {
-            menuIcon.textContent = 'menu'
-            menuBtn.setAttribute('aria-expanded', 'false')
-            menuBtn.setAttribute('aria-label', 'Open menu')
-          }
-        })
-      
-        // Close menu after clicking a link
-        const mobileLinks = document.querySelectorAll('.mobile-link')
-      
-        mobileLinks.forEach(function (link) {
-          link.addEventListener('click', function () {
-            mobileMenu.classList.add('hidden')
-      
-            menuIcon.textContent = 'menu'
-      
-            menuBtn.setAttribute('aria-expanded', 'false')
-            menuBtn.setAttribute('aria-label', 'Open menu')
-          })
-        })
-      
-        // Reset menu when resizing to desktop
-        window.addEventListener('resize', function () {
-          if (window.innerWidth >= 768) {
-            mobileMenu.classList.add('hidden')
-      
-            menuIcon.textContent = 'menu'
-      
-            menuBtn.setAttribute('aria-expanded', 'false')
-          }
+      // Close menu after clicking a link
+      const mobileLinks = document.querySelectorAll('.mobile-link')
+
+      mobileLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+          mobileMenu.classList.add('hidden')
+
+          menuIcon.textContent = 'menu'
+
+          menuBtn.setAttribute('aria-expanded', 'false')
+          menuBtn.setAttribute('aria-label', 'Open menu')
         })
       })
-    </script>
-  </body>
+
+      // Reset menu when resizing to desktop
+      window.addEventListener('resize', function () {
+        if (window.innerWidth >= 768) {
+          mobileMenu.classList.add('hidden')
+
+          menuIcon.textContent = 'menu'
+
+          menuBtn.setAttribute('aria-expanded', 'false')
+        }
+      })
+    })
+  </script>
+</body>
+
 </html>

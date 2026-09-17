@@ -16,17 +16,14 @@
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
-        rel="stylesheet"
-    >
+        rel="stylesheet">
 
     <!-- =========================================================
          MATERIAL SYMBOLS
     ========================================================== -->
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
 
     <!-- =========================================================
          TAILWIND CSS
@@ -237,7 +234,6 @@
     ========================================================== -->
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -377,7 +373,6 @@
             }
 
         }
-
     </style>
 
 </head>
@@ -406,10 +401,8 @@
 
         <div class="mb-6">
 
-            <a
-                href="{% url 'user_profile' %}"
-                class="inline-flex items-center gap-1 text-sm font-semibold text-[#570013] hover:text-[#800020]"
-            >
+            <a href="{% if request.user.seller_profile %}{% url 'seller_profile' %}{% else %}{% url 'user_profile' %}{% endif %}"
+                class="inline-flex items-center gap-1 text-sm font-semibold text-[#570013] hover:text-[#800020]">
 
                 <span class="material-symbols-outlined text-lg">
                     arrow_back
@@ -420,16 +413,12 @@
             </a>
 
 
-            <h1
-                class="mt-3 font-['Playfair_Display'] text-4xl font-semibold text-[#570013]"
-            >
+            <h1 class="mt-3 font-['Playfair_Display'] text-4xl font-semibold text-[#570013]">
                 Edit contact details
             </h1>
 
 
-            <p
-                class="mt-2 text-sm leading-relaxed text-[#584141]"
-            >
+            <p class="mt-2 text-sm leading-relaxed text-[#584141]">
                 These details are shared with your exchange partner only
                 after a request is accepted.
             </p>
@@ -443,19 +432,17 @@
 
         {% if messages %}
 
-            <div class="mb-5 space-y-2">
+        <div class="mb-5 space-y-2">
 
-                {% for message in messages %}
+            {% for message in messages %}
 
-                    <p
-                        class="rounded border border-[#e0bfbf] bg-[#fff4f3] px-4 py-3 text-sm text-[#800020]"
-                    >
-                        {{ message }}
-                    </p>
+            <p class="rounded border border-[#e0bfbf] bg-[#fff4f3] px-4 py-3 text-sm text-[#800020]">
+                {{ message }}
+            </p>
 
-                {% endfor %}
+            {% endfor %}
 
-            </div>
+        </div>
 
         {% endif %}
 
@@ -464,11 +451,8 @@
              EDIT PROFILE FORM
         ====================================================== -->
 
-        <form
-            method="post"
-            enctype="multipart/form-data"
-            class="space-y-5 rounded-xl border border-[#e0bfbf] bg-white p-6 shadow-sm"
-        >
+        <form method="post" enctype="multipart/form-data"
+            class="space-y-5 rounded-xl border border-[#e0bfbf] bg-white p-6 shadow-sm">
 
             {% csrf_token %}
 
@@ -479,22 +463,13 @@
 
             <div>
 
-                <label
-                    for="full_name"
-                    class="mb-2 block text-sm font-semibold text-[#1b1c1c]"
-                >
+                <label for="full_name" class="mb-2 block text-sm font-semibold text-[#1b1c1c]">
                     Full name
                 </label>
 
-                <input
-                    id="full_name"
-                    name="full_name"
-                    value="{{ profile.full_name }}"
-                    maxlength="100"
-                    required
+                <input id="full_name" name="full_name" value="{{ profile.full_name }}" maxlength="100" required
                     autocomplete="name"
-                    class="w-full rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]"
-                >
+                    class="w-full rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]">
 
             </div>
 
@@ -505,25 +480,13 @@
 
             <div>
 
-                <label
-                    for="phone"
-                    class="mb-2 block text-sm font-semibold text-[#1b1c1c]"
-                >
+                <label for="phone" class="mb-2 block text-sm font-semibold text-[#1b1c1c]">
                     Phone number
                 </label>
 
-                <input
-                    id="phone"
-                    name="phone"
-                    value="{{ profile.phone }}"
-                    inputmode="numeric"
-                    pattern="[0-9]{10}"
-                    maxlength="10"
-                    required
-                    autocomplete="tel"
-                    placeholder="Enter 10-digit phone number"
-                    class="w-full rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]"
-                >
+                <input id="phone" name="phone" value="{{ profile.phone }}" inputmode="numeric" pattern="[0-9]{10}"
+                    maxlength="10" required autocomplete="tel" placeholder="Enter 10-digit phone number"
+                    class="w-full rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]">
 
                 <p class="mt-1 text-xs text-[#8c7071]">
                     Enter a valid 10-digit phone number.
@@ -538,23 +501,13 @@
 
             <div>
 
-                <label
-                    for="location"
-                    class="mb-2 block text-sm font-semibold text-[#1b1c1c]"
-                >
+                <label for="location" class="mb-2 block text-sm font-semibold text-[#1b1c1c]">
                     Address / city
                 </label>
 
-                <textarea
-                    id="location"
-                    name="location"
-                    maxlength="100"
-                    rows="3"
-                    required
-                    autocomplete="street-address"
+                <textarea id="location" name="location" maxlength="100" rows="3" required autocomplete="street-address"
                     placeholder="Enter your address or city"
-                    class="w-full resize-none rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]"
-                >{{ profile.location }}</textarea>
+                    class="w-full resize-none rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]">{{ profile.location }}</textarea>
 
             </div>
 
@@ -565,35 +518,25 @@
 
             <div>
 
-                <label
-                    class="mb-2 block text-sm font-semibold text-[#1b1c1c]"
-                >
+                <label class="mb-2 block text-sm font-semibold text-[#1b1c1c]">
                     Profile photo
                 </label>
 
 
-                <label
-                    for="profile_photo"
-                    class="file-upload-label flex w-full items-center gap-3 rounded border border-dashed border-[#e0bfbf] bg-[#f6f3f2] px-4 py-4"
-                >
+                <label for="profile_photo"
+                    class="file-upload-label flex w-full items-center gap-3 rounded border border-dashed border-[#e0bfbf] bg-[#f6f3f2] px-4 py-4">
 
-                    <span
-                        class="material-symbols-outlined text-2xl text-[#570013]"
-                    >
+                    <span class="material-symbols-outlined text-2xl text-[#570013]">
                         upload
                     </span>
 
                     <div>
 
-                        <p
-                            class="text-sm font-semibold text-[#570013]"
-                        >
+                        <p class="text-sm font-semibold text-[#570013]">
                             Choose profile photo
                         </p>
 
-                        <p
-                            class="mt-1 text-xs text-[#8c7071]"
-                        >
+                        <p class="mt-1 text-xs text-[#8c7071]">
                             JPG, PNG or other image format
                         </p>
 
@@ -602,12 +545,7 @@
                 </label>
 
 
-                <input
-                    id="profile_photo"
-                    name="profile_photo"
-                    type="file"
-                    accept="image/*"
-                >
+                <input id="profile_photo" name="profile_photo" type="file" accept="image/*">
 
             </div>
 
@@ -616,16 +554,12 @@
                  ACTION BUTTONS
             ================================================== -->
 
-            <div
-                class="flex flex-col-reverse gap-3 border-t border-[#e4e2e1] pt-5 sm:flex-row sm:justify-end"
-            >
+            <div class="flex flex-col-reverse gap-3 border-t border-[#e4e2e1] pt-5 sm:flex-row sm:justify-end">
 
                 <!-- Cancel -->
 
-                <a
-                    href="{% url 'user_profile' %}"
-                    class="inline-flex items-center justify-center gap-2 rounded border border-[#800020] px-5 py-3 text-sm font-semibold text-[#800020] hover:bg-[#800020] hover:text-white"
-                >
+                <a href="{% if request.user.seller_profile %}{% url 'seller_profile' %}{% else %}{% url 'user_profile' %}{% endif %}"
+                    class="inline-flex items-center justify-center gap-2 rounded border border-[#800020] px-5 py-3 text-sm font-semibold text-[#800020] hover:bg-[#800020] hover:text-white">
 
                     <span class="material-symbols-outlined text-lg">
                         close
@@ -638,10 +572,8 @@
 
                 <!-- Save -->
 
-                <button
-                    type="submit"
-                    class="inline-flex items-center justify-center gap-2 rounded bg-[#800020] px-5 py-3 text-sm font-semibold text-white hover:bg-[#570013]"
-                >
+                <button type="submit"
+                    class="inline-flex items-center justify-center gap-2 rounded bg-[#800020] px-5 py-3 text-sm font-semibold text-white hover:bg-[#570013]">
 
                     <span class="material-symbols-outlined text-lg">
                         save

@@ -293,14 +293,14 @@ def login(request):
         # SELLER
         # ==========================
 
-        if hasattr(user, "seller_profile"):
+        if hasattr(request.user, "seller_profile"):
             return redirect("seller_profile")
 
         # ==========================
         # READER / USER
         # ==========================
 
-        if hasattr(user, "reader_profile"):
+        if hasattr(request.user, "reader_profile"):
             return redirect("user_profile")
 
         # ==========================
@@ -674,6 +674,7 @@ def exchange(request):
 
 
 @login_required
+@reader_required
 def user_profile(request):
     wishlist_items = Wishlist.objects.filter(user=request.user).select_related(
         "book__seller", "exchange_book__book__seller", "exchange_book"
@@ -792,6 +793,8 @@ def edit_profile(request):
                 profile.profile_photo = photo
             profile.save()
             messages.success(request, "Profile and contact details updated.")
+            if hasattr(request.user, "seller_profile"):
+                return redirect("seller_profile")
             return redirect("user_profile")
 
     return render(request, "edit_profile.html", {"profile": profile})
