@@ -3103,3 +3103,29 @@ def terms_privacy(request):
 # how_it_works
 def how_it_works(request):
     return render(request, "how_it_works.html")
+    if request.user not in [proposal.requester, proposal.receiver]:
+        messages.error(request, "Unauthorized")
+        return redirect("index")
+        
+    if request.method == "POST":
+        action = request.POST.get("action")
+        if proposal.exchange_request:
+            if action == "confirm":
+                proposal.exchange_request.status = "completed"
+                proposal.exchange_request.save(update_fields=["status"])
+                
+                proposal.status = "completed"
+                proposal.completed_at = timezone.now()
+                proposal.save(update_fields=["status", "completed_at"])
+                messages.success(request, "Swap fully confirmed and completed!")
+            elif action == "cancel":
+                proposal.exchange_request.status = "cancelled"
+                proposal.exchange_request.save(update_fields=["status"])
+                proposal.status = "cancelled"
+                proposal.save(update_fields=["status"])
+                messages.success(request, "Swap cancelled.")
+                
+    if request.user == proposal.requester:
+        return redirect("user_swap_exchange_room", proposal_id=proposal.id)
+    else:
+        return redirect("seller_swap_exchange_room", proposal_id=proposal.id)

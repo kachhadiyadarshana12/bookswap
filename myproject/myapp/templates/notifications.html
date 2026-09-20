@@ -325,6 +325,7 @@
 </head>
 
 {% if is_seller %}
+
 <body class="min-h-screen bg-background text-on-surface">
 
   {% include 'seller/seller_header.html' %}
@@ -332,161 +333,187 @@
 
   <main class="mx-auto w-full max-w-7xl min-w-0 px-4 py-8 md:ml-64 md:w-[calc(100%-16rem)] md:max-w-none md:px-10">
     <div class="max-w-4xl mx-auto">
-{% else %}
-<body class="min-h-screen bg-surface text-on-surface">
+      {% else %}
 
-  {% include "navbar.html" %}
+      <body class="min-h-screen bg-surface text-on-surface">
 
-  <main class="w-full max-w-4xl mx-auto px-4 md:px-8 py-10 md:py-16">
-{% endif %}
+        {% include "navbar.html" %}
 
-    <!-- Page Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-      <div>
-        <p class="text-xs font-bold uppercase tracking-widest text-primary/80 mb-3 flex items-center gap-2">
-          <span class="material-symbols-outlined text-[16px]">campaign</span> Updates & Alerts
-        </p>
-        <h1 class="text-4xl md:text-5xl font-bold text-on-surface tracking-tight">
-          Notifications
-        </h1>
-        <p class="mt-3 text-on-surface-variant max-w-lg leading-relaxed">
-          Stay on top of your reading list. New offers, price drops, and updates from sellers appear here.
-        </p>
-      </div>
-
-      <div class="shrink-0 flex items-center gap-3">
-        <div
-          class="px-5 py-2.5 rounded-full bg-surface-container-high border border-outline-variant/50 shadow-sm flex items-center gap-2">
-          <div
-            class="w-2 h-2 rounded-full {% if navbar_notification_count %}bg-primary animate-pulse{% else %}bg-secondary{% endif %}">
-          </div>
-          <span class="text-sm font-semibold text-on-surface">{{ notifications|length }} total</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Notifications List -->
-    {% if notifications %}
-    <div class="flex flex-col gap-4">
-      {% for notification in notifications %}
-      <div
-        class="group relative flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-5 sm:p-6 rounded-2xl border transition-all duration-300 {% if notification.is_read %}bg-surface border-outline-variant/40 hover:border-outline-variant hover:shadow-md{% else %}bg-primary-fixed/20 border-primary/20 hover:border-primary/40 shadow-sm hover:shadow-lg{% endif %}">
-
-        <!-- Unread Indicator -->
-        {% if not notification.is_read %}
-        <div class="absolute top-0 left-0 w-1.5 h-full bg-primary rounded-l-2xl"></div>
-        {% endif %}
-
-        <!-- Icon -->
-        <div
-          class="shrink-0 flex items-center justify-center w-12 h-12 rounded-full {% if notification.is_read %}bg-surface-container-high text-on-surface-variant{% else %}bg-primary text-on-primary{% endif %} shadow-inner">
-          <span class="material-symbols-outlined">
-            {% if notification.is_read %}notifications{% else %}notifications_active{% endif %}
-          </span>
-        </div>
-
-        <!-- Content -->
-        <a href="{% url 'open_notification' notification.id %}" class="flex-1 min-w-0 block">
-          <div class="flex items-center gap-3 mb-1">
-            <h3 class="font-bold text-lg text-on-surface group-hover:text-primary transition-colors">
-              {% if notification.notification_type == 'chat' %}
-              New chat message
-              {% elif notification.notification_type == 'exchange' %}
-                {% if is_seller %}
-                New exchange request
-                {% else %}
-                Exchange request update
-                {% endif %}
-              {% else %}
-              New offer available
-              {% endif %}
-            </h3>
-            {% if not notification.is_read %}
-            <span
-              class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-primary text-on-primary shadow-sm">New</span>
-            {% endif %}
-          </div>
-          <p class="text-sm text-on-surface-variant leading-relaxed">
-            {% if notification.notification_type == 'chat' %}
-            You have a new message in your exchange chat regarding
-            <span class="font-semibold text-on-surface">"{{ notification.exchange_request.exchange_book.book.title }}"</span>.
-            {% elif notification.notification_type == 'exchange' %}
-              {% if is_seller %}
-              You have a new exchange request for
-              <span class="font-semibold text-on-surface">"{{ notification.exchange_request.exchange_book.book.title }}"</span>.
-              {% else %}
-              Your exchange request for
-              <span class="font-semibold text-on-surface">"{{ notification.exchange_request.exchange_book.book.title }}"</span> has been updated.
-              {% endif %}
-            
-            {% else %}
-            A new <span class="font-bold text-primary">{{ notification.book.offer_percentage }}%</span> offer on
-            <span class="font-semibold text-on-surface">"{{ notification.book.title }}"</span> has been added by
-            {{ notification.book.seller.store_name|default:notification.book.seller.full_name }}.
-            {% endif %}
-          </p>
-          <p class="mt-3 text-xs font-medium text-on-surface-variant/70 flex items-center gap-1">
-            <span class="material-symbols-outlined text-[14px]">schedule</span> {{ notification.created_at|timesince }}
-            ago
-          </p>
-        </a>
-
-        <!-- Actions -->
-        <div
-          class="shrink-0 flex items-center gap-2 mt-4 sm:mt-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
-          {% if not notification.is_read %}
-          <form method="post" action="{% url 'update_notification' notification.id 'read' %}">
-            {% csrf_token %}
-            <button type="submit" title="Mark as read"
-              class="p-2 rounded-full text-primary hover:bg-primary/10 transition-colors flex items-center justify-center">
-              <span class="material-symbols-outlined">mark_email_read</span>
-            </button>
-          </form>
+        <main class="w-full max-w-4xl mx-auto px-4 md:px-8 py-10 md:py-16">
           {% endif %}
 
-          <form method="post" action="{% url 'update_notification' notification.id 'remove' %}">
-            {% csrf_token %}
-            <button type="submit" title="Delete"
-              class="p-2 rounded-full text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors flex items-center justify-center">
-              <span class="material-symbols-outlined">delete</span>
-            </button>
-          </form>
-        </div>
+          <!-- Page Header -->
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-widest text-primary/80 mb-3 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px]">campaign</span> Updates & Alerts
+              </p>
+              <h1 class="text-4xl md:text-5xl font-bold text-on-surface tracking-tight">
+                Notifications
+              </h1>
+              <p class="mt-3 text-on-surface-variant max-w-lg leading-relaxed">
+                Stay on top of your reading list. New offers, price drops, and updates from sellers appear here.
+              </p>
+            </div>
 
-      </div>
-      {% endfor %}
-    </div>
-    {% else %}
-    <!-- Empty State -->
-    <div
-      class="flex flex-col items-center justify-center py-20 px-6 text-center border border-dashed border-outline-variant/60 rounded-3xl bg-surface-container-lowest/50 backdrop-blur-sm">
-      <div class="w-24 h-24 mb-6 rounded-full bg-surface-container flex items-center justify-center">
-        <span class="material-symbols-outlined text-5xl text-on-surface-variant/50">
-          notifications_off
-        </span>
-      </div>
-      <h2 class="text-2xl font-bold text-on-surface mb-2">You're all caught up!</h2>
-      <p class="text-on-surface-variant max-w-md">
-        When new books matching your wishlist are offered, or sellers respond to your exchanges, they'll show up right
-        here.
-      </p>
-      {% if is_seller %}
-      <a href="{% url 'all_sell_books' %}"
-        class="mt-8 px-6 py-3 rounded-full bg-primary text-on-primary font-semibold text-sm hover:bg-primary-container transition-colors shadow-md hover:shadow-lg">
-        Manage My Books
-      </a>
-      {% else %}
-      <a href="{% url 'browse' %}"
-        class="mt-8 px-6 py-3 rounded-full bg-primary text-on-primary font-semibold text-sm hover:bg-primary-container transition-colors shadow-md hover:shadow-lg">
-        Explore Books
-      </a>
-      {% endif %}
-    </div>
-    {% endif %}
+            <div class="shrink-0 flex items-center gap-3">
+              <div
+                class="px-5 py-2.5 rounded-full bg-surface-container-high border border-outline-variant/50 shadow-sm flex items-center gap-2">
+                <div
+                  class="w-2 h-2 rounded-full {% if navbar_notification_count %}bg-primary animate-pulse{% else %}bg-secondary{% endif %}">
+                </div>
+                <span class="text-sm font-semibold text-on-surface">{{ notifications|length }} total</span>
+              </div>
+            </div>
+          </div>
 
-  {% if is_seller %}
+          <!-- Notifications List -->
+          {% if notifications %}
+          <div class="flex flex-col gap-4">
+            {% for notification in notifications %}
+            <div
+              class="group relative flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-5 sm:p-6 rounded-2xl border transition-all duration-300 {% if notification.is_read %}bg-surface border-outline-variant/40 hover:border-outline-variant hover:shadow-md{% else %}bg-primary-fixed/20 border-primary/20 hover:border-primary/40 shadow-sm hover:shadow-lg{% endif %}">
+
+              <!-- Unread Indicator -->
+              {% if not notification.is_read %}
+              <div class="absolute top-0 left-0 w-1.5 h-full bg-primary rounded-l-2xl"></div>
+              {% endif %}
+
+              <!-- Icon -->
+              <div
+                class="shrink-0 flex items-center justify-center w-12 h-12 rounded-full {% if notification.is_read %}bg-surface-container-high text-on-surface-variant{% else %}bg-primary text-on-primary{% endif %} shadow-inner">
+                <span class="material-symbols-outlined">
+                  {% if notification.is_read %}notifications{% else %}notifications_active{% endif %}
+                </span>
+              </div>
+
+              <!-- Content -->
+              <a href="{% url 'open_notification' notification.id %}" class="flex-1 min-w-0 block">
+                <div class="flex items-center gap-3 mb-1">
+                  <h3 class="font-bold text-lg text-on-surface group-hover:text-primary transition-colors">
+                    {% if notification.notification_type == 'chat' %}
+                    New chat message
+                    {% elif notification.notification_type == 'exchange' %}
+                    {% if is_seller %}
+                    New exchange request
+                    {% else %}
+                    Exchange request update
+                    {% endif %}
+                    {% elif notification.notification_type == 'swap_proposal' %}
+                    New Swap Proposal
+                    {% elif notification.notification_type == 'swap_accepted' %}
+                    Swap Proposal Accepted
+                    {% elif notification.notification_type == 'swap_declined' %}
+                    Swap Proposal Declined
+                    {% elif notification.notification_type == 'swap_completed' %}
+                    Swap Completed
+                    {% else %}
+                    New offer available
+                    {% endif %}
+                  </h3>
+                  {% if not notification.is_read %}
+                  <span
+                    class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-primary text-on-primary shadow-sm">New</span>
+                  {% endif %}
+                </div>
+                <p class="text-sm text-on-surface-variant leading-relaxed">
+                  {% if notification.notification_type == 'chat' %}
+                  You have a new message in your exchange chat regarding
+                  <span class="font-semibold text-on-surface">"{{ notification.exchange_request.exchange_book.book.title
+                    }}"</span>.
+                  {% elif notification.notification_type == 'exchange' %}
+                  {% if is_seller %}
+                  You have a new exchange request for
+                  <span class="font-semibold text-on-surface">"{{ notification.exchange_request.exchange_book.book.title
+                    }}"</span>.
+                  {% else %}
+                  Your exchange request for
+                  <span class="font-semibold text-on-surface">"{{ notification.exchange_request.exchange_book.book.title
+                    }}"</span> has been updated.
+                  {% endif %}
+
+                  {% elif notification.notification_type == 'swap_proposal' %}
+                  You have received a new swap proposal for your book <span class="font-semibold text-on-surface">"{{ notification.swap_proposal.requested_exchange_book.book.title }}"</span>.
+                  
+                  {% elif notification.notification_type == 'swap_accepted' %}
+                  Your swap proposal for <span class="font-semibold text-on-surface">"{{ notification.swap_proposal.requested_exchange_book.book.title }}"</span> was accepted!
+                  
+                  {% elif notification.notification_type == 'swap_declined' %}
+                  Your swap proposal for <span class="font-semibold text-on-surface">"{{ notification.swap_proposal.requested_exchange_book.book.title }}"</span> was declined.
+                  
+                  {% elif notification.notification_type == 'swap_completed' %}
+                  Your swap for <span class="font-semibold text-on-surface">"{{ notification.swap_proposal.requested_exchange_book.book.title }}"</span> has been completed.
+                  
+                  {% else %}
+                  A new <span class="font-bold text-primary">{{ notification.book.offer_percentage }}%</span> offer on
+                  <span class="font-semibold text-on-surface">"{{ notification.book.title }}"</span> has been added by
+                  {{ notification.book.seller.store_name|default:notification.book.seller.full_name }}.
+                  {% endif %}
+                </p>
+                <p class="mt-3 text-xs font-medium text-on-surface-variant/70 flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">schedule</span> {{
+                  notification.created_at|timesince }}
+                  ago
+                </p>
+              </a>
+
+              <!-- Actions -->
+              <div
+                class="shrink-0 flex items-center gap-2 mt-4 sm:mt-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
+                {% if not notification.is_read %}
+                <form method="post" action="{% url 'update_notification' notification.id 'read' %}">
+                  {% csrf_token %}
+                  <button type="submit" title="Mark as read"
+                    class="p-2 rounded-full text-primary hover:bg-primary/10 transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">mark_email_read</span>
+                  </button>
+                </form>
+                {% endif %}
+
+                <form method="post" action="{% url 'update_notification' notification.id 'remove' %}">
+                  {% csrf_token %}
+                  <button type="submit" title="Delete"
+                    class="p-2 rounded-full text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">delete</span>
+                  </button>
+                </form>
+              </div>
+
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <!-- Empty State -->
+          <div
+            class="flex flex-col items-center justify-center py-20 px-6 text-center border border-dashed border-outline-variant/60 rounded-3xl bg-surface-container-lowest/50 backdrop-blur-sm">
+            <div class="w-24 h-24 mb-6 rounded-full bg-surface-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-5xl text-on-surface-variant/50">
+                notifications_off
+              </span>
+            </div>
+            <h2 class="text-2xl font-bold text-on-surface mb-2">You're all caught up!</h2>
+            <p class="text-on-surface-variant max-w-md">
+              When new books matching your wishlist are offered, or sellers respond to your exchanges, they'll show up
+              right
+              here.
+            </p>
+            {% if is_seller %}
+            <a href="{% url 'all_sell_books' %}"
+              class="mt-8 px-6 py-3 rounded-full bg-primary text-on-primary font-semibold text-sm hover:bg-primary-container transition-colors shadow-md hover:shadow-lg">
+              Manage My Books
+            </a>
+            {% else %}
+            <a href="{% url 'browse' %}"
+              class="mt-8 px-6 py-3 rounded-full bg-primary text-on-primary font-semibold text-sm hover:bg-primary-container transition-colors shadow-md hover:shadow-lg">
+              Explore Books
+            </a>
+            {% endif %}
+          </div>
+          {% endif %}
+
+          {% if is_seller %}
     </div> <!-- Close max-w-4xl -->
-  {% endif %}
+    {% endif %}
   </main>
 
 </body>

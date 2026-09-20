@@ -51,12 +51,15 @@
               <span class="material-symbols-outlined">notifications</span>
               {% if navbar_notification_count %}
               <span
-                class="absolute -right-1 -top-1 min-w-5 h-5 px-1 rounded-full bg-primary text-on-primary text-xs flex items-center justify-center">{{ navbar_notification_count }}</span>
+                class="absolute -right-1 -top-1 min-w-5 h-5 px-1 rounded-full bg-primary text-on-primary text-xs flex items-center justify-center">
+                {{ navbar_notification_count }}
+              </span>
               {% endif %}
             </a>
           </div>
           <!-- Profile -->
-          <a href="{% if user.seller_profile %}{% url 'seller_profile' %}{% else %}{% url 'user_profile' %}{% endif %}" aria-label="Profile"
+          <a href="{% if user.seller_profile %}{% url 'seller_profile' %}{% else %}{% url 'user_profile' %}{% endif %}"
+            aria-label="Profile"
             class="text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all p-2 rounded-full"><span
               class="material-symbols-outlined">account_circle</span></a>
           {% endif %}
