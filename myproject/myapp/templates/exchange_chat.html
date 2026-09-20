@@ -1,483 +1,492 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>BookSwap - Exchange Chat</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!--  =========================================================
+  <title>BookSwap - Exchange Chat</title>
+
+  <!--  =========================================================
          GOOGLE FONTS
     ==========================================================  -->
 
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet" />
 
-    <!--  =========================================================
+  <!--  =========================================================
          MATERIAL SYMBOLS
     ==========================================================  -->
 
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
 
-    <!--  =========================================================
+  <!--  =========================================================
          TAILWIND CSS
     ==========================================================  -->
 
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-    <!--  =========================================================
+  <!--  =========================================================
          TAILWIND CONFIG
     ==========================================================  -->
 
-    <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: 'class',
-      
-        theme: {
-          extend: {
-            /* =========================
-                             BOOKSWAP COLORS
-                          ========================= */
-      
-            colors: {
-              'surface-container-highest': '#e4e2e1',
-              'on-secondary': '#ffffff',
-              'tertiary-fixed': '#ffe088',
-      
-              error: '#ba1a1a',
-      
-              primary: '#570013',
-              'primary-container': '#800020',
-      
-              'surface-bright': '#fcf9f8',
-      
-              'secondary-container': '#d4e8d4',
-              'on-secondary-container': '#576959',
-      
-              'primary-fixed': '#ffdada',
-      
-              background: '#fcf9f8',
-              'on-background': '#1b1c1c',
-      
-              'secondary-fixed': '#d4e8d4',
-      
-              'on-error': '#ffffff',
-      
-              outline: '#8c7071',
-      
-              'inverse-on-surface': '#f3f0f0',
-      
-              'on-secondary-fixed-variant': '#3a4b3c',
-      
-              'on-primary-fixed-variant': '#8e0f28',
-      
-              'surface-container': '#f0eded',
-              'surface-container-high': '#eae7e7',
-              'surface-container-low': '#f6f3f2',
-              'surface-container-lowest': '#ffffff',
-      
-              'primary-fixed-dim': '#ffb3b5',
-      
-              'on-tertiary-fixed-variant': '#574500',
-      
-              secondary: '#516353',
-      
-              'on-primary-container': '#ff828a',
-      
-              'tertiary-fixed-dim': '#e9c349',
-      
-              'on-surface-variant': '#584141',
-              'on-surface': '#1b1c1c',
-      
-              'on-error-container': '#93000a',
-      
-              'on-tertiary': '#ffffff',
-      
-              'tertiary-container': '#cca730',
-      
-              'surface-dim': '#dcd9d9',
-      
-              'inverse-primary': '#ffb3b5',
-      
-              'error-container': '#ffdad6',
-      
-              'on-primary-fixed': '#40000b',
-      
-              'on-primary': '#ffffff',
-      
-              'surface-tint': '#af2b3e',
-      
-              surface: '#fcf9f8',
-      
-              tertiary: '#735c00',
-      
-              'on-tertiary-fixed': '#241a00',
-      
-              'on-tertiary-container': '#4f3d00',
-      
-              'outline-variant': '#e0bfbf',
-      
-              'surface-variant': '#e4e2e1',
-      
-              'secondary-fixed-dim': '#b8ccb8',
-      
-              'on-secondary-fixed': '#0f1f13',
-      
-              'inverse-surface': '#303030'
-            },
-      
-            /* =========================
-                             BORDER RADIUS
-                          ========================= */
-      
-            borderRadius: {
-              DEFAULT: '0.25rem',
-              lg: '0.5rem',
-              xl: '0.75rem',
-              full: '9999px'
-            },
-      
-            /* =========================
-                             SPACING
-                          ========================= */
-      
-            spacing: {
-              gutter: '24px',
-              'margin-mobile': '16px',
-              'container-max': '1280px',
-              base: '8px',
-              'margin-desktop': '48px'
-            },
-      
-            /* =========================
-                             FONT FAMILY
-                          ========================= */
-      
-            fontFamily: {
-              'display-lg-mobile': ['Playfair Display'],
-      
-              'display-lg': ['Playfair Display'],
-      
-              'headline-sm': ['Playfair Display'],
-      
-              'headline-md': ['Playfair Display'],
-      
-              'body-lg': ['Inter'],
-      
-              'body-md': ['Inter'],
-      
-              'body-sm': ['Inter'],
-      
-              'label-caps': ['Inter']
-            },
-      
-            /* =========================
-                             FONT SIZE
-                          ========================= */
-      
-            fontSize: {
-              'display-lg-mobile': [
-                '32px',
-                {
-                  lineHeight: '1.2',
-                  fontWeight: '700'
-                }
-              ],
-      
-              'display-lg': [
-                '48px',
-                {
-                  lineHeight: '1.1',
-                  letterSpacing: '-0.02em',
-                  fontWeight: '700'
-                }
-              ],
-      
-              'headline-sm': [
-                '24px',
-                {
-                  lineHeight: '1.3',
-                  fontWeight: '600'
-                }
-              ],
-      
-              'headline-md': [
-                '32px',
-                {
-                  lineHeight: '1.2',
-                  fontWeight: '600'
-                }
-              ],
-      
-              'body-lg': [
-                '18px',
-                {
-                  lineHeight: '1.6',
-                  fontWeight: '400'
-                }
-              ],
-      
-              'body-md': [
-                '16px',
-                {
-                  lineHeight: '1.5',
-                  fontWeight: '400'
-                }
-              ],
-      
-              'body-sm': [
-                '14px',
-                {
-                  lineHeight: '1.4',
-                  fontWeight: '400'
-                }
-              ],
-      
-              'label-caps': [
-                '12px',
-                {
-                  lineHeight: '1',
-                  letterSpacing: '0.08em',
-                  fontWeight: '600'
-                }
-              ]
-            }
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+
+      theme: {
+        extend: {
+          /* =========================
+                           BOOKSWAP COLORS
+                        ========================= */
+
+          colors: {
+            'surface-container-highest': '#e4e2e1',
+            'on-secondary': '#ffffff',
+            'tertiary-fixed': '#ffe088',
+
+            error: '#ba1a1a',
+
+            primary: '#570013',
+            'primary-container': '#800020',
+
+            'surface-bright': '#fcf9f8',
+
+            'secondary-container': '#d4e8d4',
+            'on-secondary-container': '#576959',
+
+            'primary-fixed': '#ffdada',
+
+            background: '#fcf9f8',
+            'on-background': '#1b1c1c',
+
+            'secondary-fixed': '#d4e8d4',
+
+            'on-error': '#ffffff',
+
+            outline: '#8c7071',
+
+            'inverse-on-surface': '#f3f0f0',
+
+            'on-secondary-fixed-variant': '#3a4b3c',
+
+            'on-primary-fixed-variant': '#8e0f28',
+
+            'surface-container': '#f0eded',
+            'surface-container-high': '#eae7e7',
+            'surface-container-low': '#f6f3f2',
+            'surface-container-lowest': '#ffffff',
+
+            'primary-fixed-dim': '#ffb3b5',
+
+            'on-tertiary-fixed-variant': '#574500',
+
+            secondary: '#516353',
+
+            'on-primary-container': '#ff828a',
+
+            'tertiary-fixed-dim': '#e9c349',
+
+            'on-surface-variant': '#584141',
+            'on-surface': '#1b1c1c',
+
+            'on-error-container': '#93000a',
+
+            'on-tertiary': '#ffffff',
+
+            'tertiary-container': '#cca730',
+
+            'surface-dim': '#dcd9d9',
+
+            'inverse-primary': '#ffb3b5',
+
+            'error-container': '#ffdad6',
+
+            'on-primary-fixed': '#40000b',
+
+            'on-primary': '#ffffff',
+
+            'surface-tint': '#af2b3e',
+
+            surface: '#fcf9f8',
+
+            tertiary: '#735c00',
+
+            'on-tertiary-fixed': '#241a00',
+
+            'on-tertiary-container': '#4f3d00',
+
+            'outline-variant': '#e0bfbf',
+
+            'surface-variant': '#e4e2e1',
+
+            'secondary-fixed-dim': '#b8ccb8',
+
+            'on-secondary-fixed': '#0f1f13',
+
+            'inverse-surface': '#303030'
+          },
+
+          /* =========================
+                           BORDER RADIUS
+                        ========================= */
+
+          borderRadius: {
+            DEFAULT: '0.25rem',
+            lg: '0.5rem',
+            xl: '0.75rem',
+            full: '9999px'
+          },
+
+          /* =========================
+                           SPACING
+                        ========================= */
+
+          spacing: {
+            gutter: '24px',
+            'margin-mobile': '16px',
+            'container-max': '1280px',
+            base: '8px',
+            'margin-desktop': '48px'
+          },
+
+          /* =========================
+                           FONT FAMILY
+                        ========================= */
+
+          fontFamily: {
+            'display-lg-mobile': ['Playfair Display'],
+
+            'display-lg': ['Playfair Display'],
+
+            'headline-sm': ['Playfair Display'],
+
+            'headline-md': ['Playfair Display'],
+
+            'body-lg': ['Inter'],
+
+            'body-md': ['Inter'],
+
+            'body-sm': ['Inter'],
+
+            'label-caps': ['Inter']
+          },
+
+          /* =========================
+                           FONT SIZE
+                        ========================= */
+
+          fontSize: {
+            'display-lg-mobile': [
+              '32px',
+              {
+                lineHeight: '1.2',
+                fontWeight: '700'
+              }
+            ],
+
+            'display-lg': [
+              '48px',
+              {
+                lineHeight: '1.1',
+                letterSpacing: '-0.02em',
+                fontWeight: '700'
+              }
+            ],
+
+            'headline-sm': [
+              '24px',
+              {
+                lineHeight: '1.3',
+                fontWeight: '600'
+              }
+            ],
+
+            'headline-md': [
+              '32px',
+              {
+                lineHeight: '1.2',
+                fontWeight: '600'
+              }
+            ],
+
+            'body-lg': [
+              '18px',
+              {
+                lineHeight: '1.6',
+                fontWeight: '400'
+              }
+            ],
+
+            'body-md': [
+              '16px',
+              {
+                lineHeight: '1.5',
+                fontWeight: '400'
+              }
+            ],
+
+            'body-sm': [
+              '14px',
+              {
+                lineHeight: '1.4',
+                fontWeight: '400'
+              }
+            ],
+
+            'label-caps': [
+              '12px',
+              {
+                lineHeight: '1',
+                letterSpacing: '0.08em',
+                fontWeight: '600'
+              }
+            ]
           }
         }
       }
-    </script>
+    }
+  </script>
 
-    <!--  =========================================================
+  <!--  =========================================================
          GLOBAL CSS
     ==========================================================  -->
 
-    <style>
-      /* ==============================
+  <style>
+    /* ==============================
                  GLOBAL DESIGN SYSTEM
               ============================== */
-      
-      * {
-        box-sizing: border-box;
-      }
-      
-      html {
-        scroll-behavior: smooth;
-      }
-      
-      body {
-        margin: 0;
-      
-        background-color: #fcf9f8;
-      
-        color: #1b1c1c;
-      
-        font-family: 'Inter', sans-serif;
-      }
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-family: 'Playfair Display', serif;
-      }
-      
-      /* ==============================
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+
+      background-color: #fcf9f8;
+
+      color: #1b1c1c;
+
+      font-family: 'Inter', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ==============================
                  INPUTS
               ============================== */
-      
-      input,
-      select,
-      textarea {
-        font-family: 'Inter', sans-serif;
-      }
-      
-      input::placeholder,
-      textarea::placeholder {
-        color: #8c7071;
-        opacity: 0.75;
-      }
-      
-      /* ==============================
+
+    input,
+    select,
+    textarea {
+      font-family: 'Inter', sans-serif;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #8c7071;
+      opacity: 0.75;
+    }
+
+    /* ==============================
                  TEXT SELECTION
               ============================== */
-      
-      ::selection {
-        background: #800020;
-        color: #ffffff;
-      }
-      
-      /* ==============================
+
+    ::selection {
+      background: #800020;
+      color: #ffffff;
+    }
+
+    /* ==============================
                  SCROLLBAR
               ============================== */
-      
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      
-      ::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      
-      ::-webkit-scrollbar-thumb {
-        background: #e4e2e1;
-        border-radius: 9999px;
-      }
-      
-      ::-webkit-scrollbar-thumb:hover {
-        background: #8c7071;
-      }
-      
-      /* ==============================
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #e4e2e1;
+      border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #8c7071;
+    }
+
+    /* ==============================
                  CHAT SCROLLBAR
               ============================== */
-      
-      .chat-scroll::-webkit-scrollbar {
-        width: 6px;
-      }
-      
-      .chat-scroll::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      
-      .chat-scroll::-webkit-scrollbar-thumb {
-        background: #e0bfbf;
-        border-radius: 9999px;
-      }
-      
-      .chat-scroll::-webkit-scrollbar-thumb:hover {
-        background: #8c7071;
-      }
-      
-      /* ==============================
+
+    .chat-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .chat-scroll::-webkit-scrollbar-thumb {
+      background: #e0bfbf;
+      border-radius: 9999px;
+    }
+
+    .chat-scroll::-webkit-scrollbar-thumb:hover {
+      background: #8c7071;
+    }
+
+    /* ==============================
                  FORM ELEMENTS
               ============================== */
-      
-      input:focus,
-      select:focus,
-      textarea:focus {
-        border-color: #570013 !important;
-      
-        box-shadow: 0 0 0 2px rgba(87, 0, 19, 0.08) !important;
-      
-        outline: none;
-      }
-      
-      /* ==============================
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #570013 !important;
+
+      box-shadow: 0 0 0 2px rgba(87, 0, 19, 0.08) !important;
+
+      outline: none;
+    }
+
+    /* ==============================
                  SMOOTH TRANSITIONS
               ============================== */
-      
-      input,
-      select,
-      textarea,
-      button,
-      a {
-        transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-      }
-      
-      /* ==============================
+
+    input,
+    select,
+    textarea,
+    button,
+    a {
+      transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    /* ==============================
                  CHAT BUBBLE
               ============================== */
-      
-      .chat-message {
-        word-break: break-word;
-      }
-      
-      /* ==============================
+
+    .chat-message {
+      word-break: break-word;
+    }
+
+    /* ==============================
                  RESPONSIVE
               ============================== */
-      
-      @media (max-width: 1024px) {
-        main {
-          margin-left: 0 !important;
-        }
-      }
-      
-      @media (max-width: 768px) {
-        .chat-message {
-          max-width: 90%;
-        }
-      }
-      
-      @media (max-width: 640px) {
-        main {
-          padding-top: 24px !important;
-          padding-bottom: 24px !important;
-        }
-      
-        .chat-message {
-          max-width: 95%;
-        }
-      }
-    </style>
-  </head>
 
-  <body class="min-h-screen bg-[#fcf9f8] text-[#1b1c1c]">
-    <!--  =========================================================
+    @media (max-width: 1024px) {
+      main {
+        margin-left: 0 !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .chat-message {
+        max-width: 90%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding-top: 24px !important;
+        padding-bottom: 24px !important;
+      }
+
+      .chat-message {
+        max-width: 95%;
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-[#fcf9f8] text-[#1b1c1c]">
+  <!--  =========================================================
          NAVBAR
     ==========================================================  -->
 
-    {% include 'navbar.html' %}
+  {% if not is_owner %}
+  {% include 'navbar.html' %}
+  {% endif %}
 
-    <!--  =========================================================
+  <!--  =========================================================
          MAIN CONTENT
     ==========================================================  -->
 
-    <main class="mx-auto max-w-4xl px-4 py-10">
-      <!--  =====================================================
+  <main class="mx-auto max-w-4xl px-4 py-10">
+    <!--  =====================================================
              BACK TO PROFILE
         ======================================================  -->
 
-      <a href="{% url 'user_profile' %}" class="inline-flex items-center gap-1 text-sm font-semibold text-[#570013] hover:text-[#800020]">
-        <span class="material-symbols-outlined text-lg">arrow_back</span>
+    <a href="{% url 'user_profile' %}"
+      class="inline-flex items-center gap-1 text-sm font-semibold text-[#570013] hover:text-[#800020]">
+      <span class="material-symbols-outlined text-lg">arrow_back</span>
 
-        Back to profile
-      </a>
+      Back to profile
+    </a>
 
-      <!--  =====================================================
+    <!--  =====================================================
              CHAT CONTAINER
         ======================================================  -->
 
-      <section class="mt-5 overflow-hidden rounded-xl border border-[#e0bfbf] bg-white shadow-sm">
-        <!--  =================================================
+    <section class="mt-5 overflow-hidden rounded-xl border border-[#e0bfbf] bg-white shadow-sm">
+      <!--  =================================================
                  CHAT HEADER
             ==================================================  -->
 
-        <header class="bg-[#570013] p-6 text-white">
-          <p class="text-xs font-semibold uppercase tracking-widest text-[#ffdada]">Private exchange room</p>
+      <header class="bg-[#570013] p-6 text-white">
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#ffdada]">Private exchange room</p>
 
-          <h1 class="mt-2 text-3xl font-semibold text-white">{{ exchange_request.exchange_book.book.title }}</h1>
+        <h1 class="mt-2 text-3xl font-semibold text-white">{{ exchange_request.exchange_book.book.title }}</h1>
 
-          <p class="mt-2 text-sm text-[#ffdada]">{{ exchange_request.requester.username }}
-            offered
-            {{ exchange_request.offered_book.title|default:'a book' }}</p>
+        <p class="mt-2 text-sm text-[#ffdada]">{{ exchange_request.requester.username }}
+          offered
+          {{ exchange_request.offered_book.title|default:'a book' }}</p>
 
-          <!-- Status -->
-          <span class="mt-4 inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white">{{ exchange_request.get_status_display }}</span>
-        </header>
+        <!-- Status -->
+        <span
+          class="mt-4 inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white">{{ exchange_request.get_status_display }}</span>
+      </header>
 
-        <!--  =================================================
+      <!--  =================================================
                  DJANGO MESSAGES
             ==================================================  -->
 
-        {% if messages %}
-          <div class="space-y-2 p-5">
-            {% for message in messages %}
-              <p class="rounded border border-[#e0bfbf] bg-[#fff4f3] px-4 py-3 text-sm text-[#800020]">{{ message }}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
+      {% if messages %}
+      <div class="space-y-2 p-5">
+        {% for message in messages %}
+        <p class="rounded border border-[#e0bfbf] bg-[#fff4f3] px-4 py-3 text-sm text-[#800020]">{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
 
-        <!--  =================================================
+      <!--  =================================================
                  CHAT MESSAGES
             ==================================================  -->
 
-        <div class="chat-scroll max-h-105 space-y-4 overflow-y-auto bg-[#f6f3f2] p-6">
-          {% for message in chat_messages %}
-            <div class="flex {% if message.sender_id == request.user.id %}justify-end{% endif %}">
-              <div class="chat-message max-w-[80%] rounded-xl px-4 py-3
+      <div class="chat-scroll max-h-[400px] space-y-4 overflow-y-auto bg-[#f6f3f2] p-6" id="chat-container">
+        {% for message in chat_messages %}
+        <div class="flex {% if message.sender_id == request.user.id %}justify-end{% endif %}">
+          <div class="chat-message max-w-[80%] rounded-xl px-4 py-3
                             {% if message.sender_id == request.user.id %}
                   
                                 bg-[#800020] text-white shadow-sm
@@ -487,129 +496,166 @@
                                 bg-white text-[#1b1c1c] shadow-sm
 
                 {% endif %}">
-                <!-- Sender -->
-                <p class="mb-1 text-[11px] font-semibold uppercase tracking-wider opacity-70">{{ message.sender.username }}</p>
+            <!-- Sender -->
+            <p class="mb-1 text-[11px] font-semibold uppercase tracking-wider opacity-70">{{ message.sender.username }}
+            </p>
 
-                <!-- Message -->
-                <p class="whitespace-pre-line text-sm leading-relaxed">{{ message.body }}</p>
+            <!-- Message -->
+            <p class="whitespace-pre-line text-sm leading-relaxed">{{ message.body }}</p>
 
-                <!-- Time -->
-                <time class="mt-2 block text-[10px] opacity-60">{{ message.created_at|date:'M d, H:i' }}</time>
-              </div>
+            <!-- Time & Read Status -->
+            <div class="mt-2 flex items-center justify-end gap-1 text-[10px] opacity-60">
+              <time>{{ message.created_at|date:'M d, H:i' }}</time>
+              {% if message.sender_id == request.user.id %}
+              {% if message.is_read %}
+              <span class="material-symbols-outlined text-[14px] text-blue-500" title="Seen">done_all</span>
+              {% else %}
+              <span class="material-symbols-outlined text-[14px] text-gray-400" title="Delivered">done_all</span>
+              {% endif %}
+              {% endif %}
             </div>
-          {% empty %}
-            <div class="py-10 text-center">
-              <span class="material-symbols-outlined text-4xl text-[#8c7071]">forum</span>
-
-              <p class="mt-3 text-sm text-[#584141]">Start the conversation about the exchange.</p>
-            </div>
-          {% endfor %}
+          </div>
         </div>
+        {% empty %}
+        <div class="py-10 text-center">
+          <span class="material-symbols-outlined text-4xl text-[#8c7071]">forum</span>
 
-        <!--  =================================================
+          <p class="mt-3 text-sm text-[#584141]">Start the conversation about the exchange.</p>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!--  =================================================
                  CHAT ACTION AREA
             ==================================================  -->
 
-        <div class="border-t border-[#e0bfbf] p-6">
-          <!--  =================================================
+      <div class="border-t border-[#e0bfbf] p-6">
+        <!--  =================================================
                      CONTACT DETAILS
                 ==================================================  -->
 
-          {% if contact_shared and other_profile %}
-            <div class="mb-5 rounded-lg border border-[#b8ccb8] bg-[#d4e8d4] p-4 text-sm text-[#0f1f13]">
-              <div class="flex items-start gap-3">
-                <span class="material-symbols-outlined mt-0.5">verified</span>
+        {% if contact_shared and other_profile %}
+        <div class="mb-5 rounded-lg border border-[#b8ccb8] bg-[#d4e8d4] p-4 text-sm text-[#0f1f13]">
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined mt-0.5">verified</span>
 
-                <div>
-                  <p class="font-semibold">Exchange accepted: partner contact details</p>
+            <div>
+              <p class="font-semibold">Exchange accepted: partner contact details</p>
 
-                  <p class="mt-2">{{ other_profile.full_name }}
-                    · Phone:
-                    {{ other_profile.phone }}</p>
+              <p class="mt-2">{{ other_profile.full_name }}
+                · Phone:
+                {{ other_profile.phone }}</p>
 
-                  <p class="mt-1">Address / city:
-                    {{ other_profile.location }}</p>
+              <p class="mt-1">Address / city:
+                {{ other_profile.location }}</p>
 
-                  <p class="mt-2 text-xs opacity-75">Share exact meeting details in chat and meet in a public place.</p>
-                </div>
-              </div>
+              <p class="mt-2 text-xs opacity-75">Share exact meeting details in chat and meet in a public place.</p>
             </div>
-          {% elif exchange_request.status == 'pending' %}
-            <div class="mb-4 rounded border border-[#e0bfbf] bg-[#fffaf8] px-4 py-3 text-sm text-[#584141]">
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-lg text-[#8c7071]">lock</span>
+          </div>
+        </div>
+        {% elif exchange_request.status == 'pending' %}
+        <div class="mb-4 rounded border border-[#e0bfbf] bg-[#fffaf8] px-4 py-3 text-sm text-[#584141]">
+          <div class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-lg text-[#8c7071]">lock</span>
 
-                <p>Contact details will appear here after the owner accepts the exchange.</p>
-              </div>
-            </div>
-          {% endif %}
+            <p>Contact details will appear here after the owner accepts the exchange.</p>
+          </div>
+        </div>
+        {% endif %}
 
-          <!--  =================================================
+        <!--  =================================================
                      MESSAGE FORM
                 ==================================================  -->
 
-          <form method="post" class="flex gap-3">
-            {% csrf_token %}
+        {% if exchange_request.status == 'accepted' %}
+        <form method="post" class="flex gap-3">
+          {% csrf_token %}
 
-            <input name="body" maxlength="2000" required placeholder="Write a private message..." class="min-w-0 flex-1 rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none placeholder:text-[#8c7071] focus:border-[#570013]" />
+          <input name="body" maxlength="2000" required placeholder="Write a private message..."
+            class="min-w-0 flex-1 rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none placeholder:text-[#8c7071] focus:border-[#570013]" />
 
-            <button type="submit" class="inline-flex items-center justify-center gap-2 rounded bg-[#800020] px-5 py-3 text-sm font-semibold text-white hover:bg-[#570013]">
-              <span class="material-symbols-outlined text-lg">send</span>
+          <button type="submit"
+            class="inline-flex items-center justify-center gap-2 rounded bg-[#800020] px-5 py-3 text-sm font-semibold text-white hover:bg-[#570013]">
+            <span class="material-symbols-outlined text-lg">send</span>
 
-              Send
-            </button>
-          </form>
+            Send
+          </button>
+        </form>
+        {% else %}
+        <div class="rounded border border-[#e0bfbf] bg-[#fffaf8] px-4 py-3 text-sm text-[#584141]">
+          <div class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-lg text-[#8c7071]">info</span>
+            <p>Messaging will be enabled once the exchange request is accepted.</p>
+          </div>
+        </div>
+        {% endif %}
 
-          <!--  =================================================
+        <!--  =================================================
                      EXCHANGE ACTIONS
                 ==================================================  -->
 
-          <div class="mt-4 flex flex-wrap gap-3">
-            <!-- OWNER ACTIONS -->
-            {% if is_owner and exchange_request.status == 'pending' %}
-              <!-- Accept -->
-              <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'accepted' %}">
-                {% csrf_token %}
+        <div class="mt-4 flex flex-wrap gap-3">
+          <!-- OWNER ACTIONS -->
+          {% if is_owner and exchange_request.status == 'pending' %}
+          <!-- Accept -->
+          <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'accepted' %}">
+            {% csrf_token %}
 
-                <button type="submit" class="inline-flex items-center gap-2 rounded bg-[#516353] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#3a4b3c]">
-                  <span class="material-symbols-outlined text-base">check_circle</span>
+            <button type="submit"
+              class="inline-flex items-center gap-2 rounded bg-[#516353] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#3a4b3c]">
+              <span class="material-symbols-outlined text-base">check_circle</span>
 
-                  Accept exchange
-                </button>
-              </form>
+              Accept exchange
+            </button>
+          </form>
 
-              <!-- Reject -->
-              <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'rejected' %}">
-                {% csrf_token %}
+          <!-- Reject -->
+          <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'rejected' %}">
+            {% csrf_token %}
 
-                <button type="submit" class="inline-flex items-center gap-2 rounded border border-[#ba1a1a] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#ba1a1a] hover:bg-[#ba1a1a] hover:text-white">
-                  <span class="material-symbols-outlined text-base">close</span>
+            <button type="submit"
+              class="inline-flex items-center gap-2 rounded border border-[#ba1a1a] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#ba1a1a] hover:bg-[#ba1a1a] hover:text-white">
+              <span class="material-symbols-outlined text-base">close</span>
 
-                  Reject
-                </button>
-              </form>
+              Reject
+            </button>
+          </form>
 
-              <!-- REQUESTER ACTION -->
-            {% elif not is_owner and exchange_request.status == 'pending' %}
-              <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'cancelled' %}">
-                {% csrf_token %}
+          <!-- REQUESTER ACTION -->
+          {% elif not is_owner and exchange_request.status == 'pending' %}
+          <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'cancelled' %}">
+            {% csrf_token %}
 
-                <button type="submit" class="inline-flex items-center gap-2 rounded border border-[#8c7071] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#584141] hover:bg-[#f0eded]">
-                  <span class="material-symbols-outlined text-base">cancel</span>
+            <button type="submit"
+              class="inline-flex items-center gap-2 rounded border border-[#8c7071] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#584141] hover:bg-[#f0eded]">
+              <span class="material-symbols-outlined text-base">cancel</span>
 
-                  Cancel request
-                </button>
-              </form>
-            {% endif %}
-          </div>
+              Cancel request
+            </button>
+          </form>
+          {% endif %}
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
+  </main>
 
-    <!--  =========================================================
+  <!--  =========================================================
          FOOTER
     ==========================================================  -->
 
-    {% include 'footer.html' %}
-  </body>
+  {% include 'footer.html' %}
+
+  <!--  =========================================================
+       AUTO SCROLL SCRIPT
+  ==========================================================  -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const chatContainer = document.getElementById("chat-container");
+      if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    });
+  </script>
+</body>
+
 </html>

@@ -1,3 +1,7 @@
+import razorpay
+import json
+import random
+from django.conf import settings
 from decimal import Decimal, InvalidOperation
 from functools import wraps
 import re
@@ -6,13 +10,19 @@ from django.db.models import Q, Sum
 from django.db.models.deletion import ProtectedError
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, update_session_auth_hash
+from django.db.models import Q
+import random
 from django.contrib.auth.decorators import login_required
 from myapp.models import *
 from django.contrib import messages
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
+from django.db import IntegrityError, transaction
+from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 from django.utils.text import slugify
 from django.utils import timezone
 
@@ -290,18 +300,18 @@ def login(request):
             return redirect("/admin/")
 
         # ==========================
-        # SELLER
-        # ==========================
-
-        if hasattr(request.user, "seller_profile"):
-            return redirect("seller_profile")
-
-        # ==========================
         # READER / USER
         # ==========================
 
         if hasattr(request.user, "reader_profile"):
             return redirect("user_profile")
+
+        # ==========================
+        # SELLER
+        # ==========================
+
+        if hasattr(request.user, "seller_profile"):
+            return redirect("seller_profile")
 
         # ==========================
         # PROFILE NOT FOUND
@@ -325,6 +335,177 @@ def logout(request):
     return redirect("index")
 
 
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        current_password = request.POST.get("current_password", "")
+        new_password = request.POST.get("new_password", "")
+        confirm_password = request.POST.get("confirm_password", "")
+
+        if not current_password or not new_password or not confirm_password:
+            messages.error(request, "All fields are required.")
+            return render(request, "change_password.html")
+
+        if not request.user.check_password(current_password):
+            messages.error(request, "Current password is incorrect.")
+            return render(request, "change_password.html")
+
+        if new_password != confirm_password:
+            messages.error(request, "New password and confirm password do not match.")
+            return render(request, "change_password.html")
+
+        if len(new_password) < 8:
+            messages.error(request, "Password must contain at least 8 characters.")
+            return render(request, "change_password.html")
+
+        request.user.set_password(new_password)
+        request.user.save()
+        update_session_auth_hash(request, request.user)
+        messages.success(request, "Your password has been changed successfully.")
+        return redirect("user_profile") if hasattr(request.user, "reader_profile") else redirect("seller_profile")
+
+    return render(request, "change_password.html")
+
+
+def forgot_password(request):
+    if request.method == "POST":
+        email_or_phone = request.POST.get("email_or_phone", "").strip()
+        
+        if not email_or_phone:
+            messages.error(request, "Please enter your email or phone number.")
+            return render(request, "forgot_password.html")
+            
+        user = User.objects.filter(
+            Q(email__iexact=email_or_phone) | 
+            Q(reader_profile__phone=email_or_phone) | 
+            Q(seller_profile__phone=email_or_phone)
+        ).distinct().first()
+        
+        if not user:
+            messages.error(request, "No account found with that email or phone number.")
+            return render(request, "forgot_password.html")
+            
+        # Generate 6-digit OTP
+        otp_code = str(random.randint(100000, 999999))
+        
+        # Save OTP
+        PasswordResetOTP.objects.update_or_create(
+            user=user,
+            defaults={'otp': otp_code}
+        )
+        
+        # Send OTP
+        if '@' in email_or_phone:
+            try:
+                from django.core.mail import send_mail
+                send_mail(
+                    'Your Password Reset OTP',
+                    f'Your OTP for password reset is: {otp_code}. It is valid for 5 minutes.',
+                    'noreply@bookswap.com',
+                    [user.email],
+                    fail_silently=False,
+                )
+                messages.success(request, f"An OTP has been sent to your email address: {user.email}")
+            except Exception as e:
+                print(f"Error sending email: {e}")
+                # Fallback for development if email fails
+                messages.info(request, f"DEVELOPMENT OTP (Email Failed): {otp_code}")
+        else:
+            # Simulate sending SMS
+            print(f"--- SIMULATED SMS to {email_or_phone} ---")
+            print(f"Your OTP for password reset is: {otp_code}")
+            print(f"----------------------------------------")
+            messages.success(request, f"An OTP has been sent to your phone number: {email_or_phone}")
+            # Also show on screen for development testing
+            messages.info(request, f"DEVELOPMENT OTP: {otp_code}")
+        
+        # Save user id to session
+        request.session['reset_user_id'] = user.id
+        request.session['otp_verified'] = False
+        
+        return redirect("forgot_password_verify")
+        
+    return render(request, "forgot_password.html")
+
+
+def forgot_password_verify(request):
+    user_id = request.session.get('reset_user_id')
+    if not user_id:
+        messages.error(request, "Session expired. Please restart the password reset process.")
+        return redirect("forgot_password")
+        
+    if request.method == "POST":
+        otp_input = request.POST.get("otp", "").strip()
+        
+        if not otp_input:
+            messages.error(request, "Please enter the OTP.")
+            return render(request, "forgot_password_verify.html")
+            
+        try:
+            otp_obj = PasswordResetOTP.objects.get(user_id=user_id)
+        except PasswordResetOTP.DoesNotExist:
+            messages.error(request, "Invalid or expired OTP.")
+            return redirect("forgot_password")
+            
+        if not otp_obj.is_valid():
+            messages.error(request, "OTP has expired. Please request a new one.")
+            return redirect("forgot_password")
+            
+        if otp_obj.otp != otp_input:
+            messages.error(request, "Invalid OTP.")
+            return render(request, "forgot_password_verify.html")
+            
+        # OTP is valid
+        request.session['otp_verified'] = True
+        return redirect("forgot_password_reset")
+        
+    return render(request, "forgot_password_verify.html")
+
+
+def forgot_password_reset(request):
+    user_id = request.session.get('reset_user_id')
+    is_verified = request.session.get('otp_verified')
+    
+    if not user_id or not is_verified:
+        messages.error(request, "Unauthorized access. Please restart the process.")
+        return redirect("forgot_password")
+        
+    if request.method == "POST":
+        new_password = request.POST.get("new_password", "")
+        confirm_password = request.POST.get("confirm_password", "")
+        
+        if not new_password or not confirm_password:
+            messages.error(request, "All fields are required.")
+            return render(request, "forgot_password_reset.html")
+            
+        if new_password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return render(request, "forgot_password_reset.html")
+            
+        if len(new_password) < 8:
+            messages.error(request, "Password must contain at least 8 characters.")
+            return render(request, "forgot_password_reset.html")
+            
+        user = User.objects.get(id=user_id)
+        user.set_password(new_password)
+        user.save()
+        
+        # Delete OTP
+        PasswordResetOTP.objects.filter(user_id=user_id).delete()
+        
+        # Clear session
+        del request.session['reset_user_id']
+        del request.session['otp_verified']
+        
+        return redirect("forgot_password_success")
+        
+    return render(request, "forgot_password_reset.html")
+
+
+def forgot_password_success(request):
+    return render(request, "forgot_password_success.html")
+
+
 # reader_required
 def reader_required(view_func):
 
@@ -338,13 +519,13 @@ def reader_required(view_func):
         if request.user.is_superuser:
             return redirect("/admin/")
 
-        # Seller cannot access reader side
-        if hasattr(request.user, "seller_profile"):
-            return redirect("seller_profile")
-
         # Reader allowed
         if hasattr(request.user, "reader_profile"):
             return view_func(request, *args, **kwargs)
+
+        # Seller cannot access reader side
+        if hasattr(request.user, "seller_profile"):
+            return redirect("seller_profile")
 
         return redirect("login")
 
@@ -366,7 +547,7 @@ def seller_required(view_func):
 
         # Reader cannot access seller side
         if hasattr(request.user, "reader_profile"):
-            return redirect("index")
+            return redirect("user_profile")
 
         # Seller allowed
         if hasattr(request.user, "seller_profile"):
@@ -415,7 +596,15 @@ def notifications(request):
     user_notifications = Notification.objects.select_related("book", "book__seller").filter(
         user=request.user, is_removed=False
     )
-    return render(request, "notifications.html", {"notifications": user_notifications})
+    
+    as_seller_param = request.GET.get('as_seller') == 'true'
+    is_seller = hasattr(request.user, "seller_profile") and (not hasattr(request.user, "reader_profile") or as_seller_param)
+    
+    # Hide 'offer' notifications for sellers, only show 'chat' and 'exchange'
+    if is_seller:
+        user_notifications = user_notifications.filter(notification_type__in=["chat", "exchange"])
+        
+    return render(request, "notifications.html", {"notifications": user_notifications, "is_seller": is_seller})
 
 
 @login_required
@@ -425,7 +614,15 @@ def open_notification(request, notification_id):
     )
     notification.is_read = True
     notification.save(update_fields=["is_read"])
-    return redirect("sell_book_detail", book_id=notification.book_id)
+    
+    if notification.notification_type in ["chat", "exchange"] and notification.exchange_request:
+        return redirect("exchange_chat", request_id=notification.exchange_request.id)
+        
+    if notification.book_id:
+        return redirect("sell_book_detail", book_id=notification.book_id)
+        
+    messages.error(request, "The related item for this notification is no longer available.")
+    return redirect("notifications")
 
 
 @login_required
@@ -540,8 +737,15 @@ def buy_book(request, book_id):
         return redirect("user_profile")
 
     amount = book.offer_price if book.offer_percentage is not None else book.price
+    estimated_delivery_date = timezone.now().date() + timedelta(days=7)
+    
     if request.method == "GET":
-        return render(request, "checkout.html", {"book": book, "amount": amount})
+        context = {
+            "book": book, 
+            "amount": amount, 
+            "estimated_delivery_date": estimated_delivery_date,
+        }
+        return render(request, "checkout.html", context)
 
     recipient_name = request.POST.get("recipient_name", "").strip()
     recipient_phone = request.POST.get("recipient_phone", "").strip()
@@ -577,24 +781,27 @@ def buy_book(request, book_id):
 
     if validation_errors:
         messages.error(request, " ".join(validation_errors))
-        return render(request, "checkout.html", {"book": book, "amount": amount})
+        context = {
+            "book": book, 
+            "amount": amount,
+            "estimated_delivery_date": estimated_delivery_date,
+            "form_data": request.POST
+        }
+        return render(request, "checkout.html", context)
 
     payment_method = request.POST.get("payment_method", "").strip()
-    if payment_method not in {"cash", "online"}:
-        messages.error(request, "Select a valid payment method.")
-        return render(request, "checkout.html", {"book": book, "amount": amount})
-
-    payment_confirmed = request.POST.get("payment_confirmed") == "1"
-    if payment_method == "online" and not payment_confirmed:
-        messages.error(request, "Confirm the online payment before placing the order.")
-        return render(request, "checkout.html", {"book": book, "amount": amount})
+    if payment_method != "online":
+        messages.error(request, "Only online payments are accepted.")
+        return render(request, "checkout.html", {"book": book, "amount": amount, "estimated_delivery_date": estimated_delivery_date})
 
     order = BookOrder.objects.create(
         book=book,
         buyer=request.user,
         amount=amount,
-        payment_method=payment_method,
-        payment_status="paid" if payment_method == "online" else "pending",
+        payment_method="online",
+        payment_status="pending",
+        status="pending",
+        payment_reference="",
         recipient_name=recipient_name,
         recipient_phone=recipient_phone,
         address_line1=address_line1,
@@ -603,15 +810,157 @@ def buy_book(request, book_id):
         state=state,
         postal_code=postal_code,
     )
-    if payment_method == "cash":
-        messages.success(
-            request, f"Order #{order.id} placed. Pay cash when the book is delivered."
+    return redirect("order_payment", order_id=order.id)
+
+@login_required
+def order_payment(request, order_id):
+    order = get_object_or_404(BookOrder, id=order_id, buyer=request.user)
+    if order.payment_status == "paid":
+        messages.info(request, "This order is already paid.")
+        return redirect("user_profile")
+
+    client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+    
+    payment_data = {
+        "amount": int(order.amount * 100),
+        "currency": "INR",
+        "receipt": f"order_rcptid_{order.id}"
+    }
+    
+    razorpay_order_id = ""
+    try:
+        razorpay_order = client.order.create(data=payment_data)
+        razorpay_order_id = razorpay_order["id"]
+    except Exception as e:
+        print(f"Razorpay order creation failed: {e}")
+        
+    context = {
+        "order": order,
+        "razorpay_order_id": razorpay_order_id,
+        "razorpay_key_id": settings.RAZORPAY_KEY_ID,
+    }
+    return render(request, "payment.html", context)
+
+@login_required
+def verify_payment(request, order_id):
+    if request.method != "POST":
+        return redirect("user_profile")
+        
+    order = get_object_or_404(BookOrder, id=order_id, buyer=request.user)
+    
+    razorpay_payment_id = request.POST.get("razorpay_payment_id")
+    razorpay_order_id = request.POST.get("razorpay_order_id")
+    razorpay_signature = request.POST.get("razorpay_signature")
+    
+    client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+    
+    try:
+        if settings.RAZORPAY_KEY_ID == 'rzp_test_placeholder_key' and razorpay_payment_id == 'pay_dummy123456':
+            order.razorpay_payment_id = "pay_dummy123456"
+            order.razorpay_order_id = razorpay_order_id
+            order.razorpay_signature = razorpay_signature
+        else:
+            client.utility.verify_payment_signature({
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': razorpay_payment_id,
+                'razorpay_signature': razorpay_signature
+            })
+            order.razorpay_payment_id = razorpay_payment_id
+            order.razorpay_order_id = razorpay_order_id
+            order.razorpay_signature = razorpay_signature
+            
+        order.payment_status = "paid"
+        order.status = "confirmed"
+        
+        # Mark book as sold/draft to prevent duplicate purchase
+        book = order.book
+        book.status = "draft"
+        book.save()
+        
+        order.save()
+        return redirect("payment_success", order_id=order.id)
+        
+    except razorpay.errors.SignatureVerificationError:
+        order.payment_status = "failed"
+        order.save()
+        return redirect("payment_failed", order_id=order.id)
+
+@login_required
+def payment_success(request, order_id):
+    order = get_object_or_404(BookOrder, id=order_id, buyer=request.user)
+    return render(request, "payment_success.html", {"order": order})
+
+@login_required
+def payment_failed(request, order_id):
+    order = get_object_or_404(BookOrder, id=order_id, buyer=request.user)
+    return render(request, "payment_failed.html", {"order": order})
+
+@csrf_exempt
+def payment_webhook(request):
+    if request.method != "POST":
+        return HttpResponse(status=405)
+        
+    webhook_secret = settings.RAZORPAY_WEBHOOK_SECRET
+    webhook_signature = request.headers.get('X-Razorpay-Signature')
+    
+    try:
+        body_unicode = request.body.decode('utf-8')
+        payload = json.loads(body_unicode)
+        
+        # Verify webhook signature using razorpay client
+        if webhook_secret != 'placeholder_webhook_secret':
+            client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+            client.utility.verify_webhook_signature(body_unicode, webhook_signature, webhook_secret)
+            
+        event_id = payload.get('id')
+        event_type = payload.get('event')
+        
+        # Process idempotently
+        if WebhookEvent.objects.filter(event_id=event_id).exists():
+            return HttpResponse(status=200)
+            
+        WebhookEvent.objects.create(
+            event_id=event_id,
+            event_type=event_type,
+            payload=payload,
+            processed=True
         )
-    else:
-        messages.success(
-            request, f"Payment successful. Order #{order.id} has been placed."
-        )
-    return redirect("user_profile")
+        
+        # Handle payment.captured
+        if event_type == 'payment.captured':
+            payment_entity = payload.get('payload', {}).get('payment', {}).get('entity', {})
+            razorpay_order_id = payment_entity.get('order_id')
+            
+            if razorpay_order_id:
+                try:
+                    order = BookOrder.objects.get(razorpay_order_id=razorpay_order_id)
+                    if order.payment_status != "paid":
+                        order.payment_status = "paid"
+                        order.status = "confirmed"
+                        order.save()
+                except BookOrder.DoesNotExist:
+                    pass
+
+        # Handle payment.failed
+        elif event_type == 'payment.failed':
+            payment_entity = payload.get('payload', {}).get('payment', {}).get('entity', {})
+            razorpay_order_id = payment_entity.get('order_id')
+            
+            if razorpay_order_id:
+                try:
+                    order = BookOrder.objects.get(razorpay_order_id=razorpay_order_id)
+                    if order.payment_status != "paid":
+                        order.payment_status = "failed"
+                        order.save()
+                except BookOrder.DoesNotExist:
+                    pass
+
+        return HttpResponse(status=200)
+        
+    except Exception as e:
+        print(f"Webhook error: {e}")
+        return HttpResponse(status=400)
+
 
 
 @login_required
@@ -695,6 +1044,7 @@ def user_profile(request):
         .select_related("book")
         .prefetch_related("photos")
     )
+    my_sell_books = Book.objects.filter(seller__user=request.user, exchange_details__isnull=True)
     orders = BookOrder.objects.filter(buyer=request.user).select_related(
         "book", "book__seller"
     )
@@ -707,6 +1057,7 @@ def user_profile(request):
             "sent_requests": sent_requests,
             "received_requests": received_requests,
             "my_exchange_books": my_exchange_books,
+            "my_sell_books": my_sell_books,
             "orders": orders,
         },
     )
@@ -884,9 +1235,23 @@ def create_exchange_request(request, exchange_id):
             exchange_request.save(
                 update_fields=["status", "offered_book", "note", "updated_at"]
             )
+            # Create notification for the seller
+            Notification.objects.create(
+                user=exchange_book.seller.user,
+                notification_type="exchange",
+                exchange_request=exchange_request,
+            )
         else:
             messages.info(request, "You already have an active request for this book.")
             return redirect("exchange_chat", request_id=exchange_request.id)
+    else:
+        # Create notification for the seller
+        Notification.objects.create(
+            user=exchange_book.seller.user,
+            notification_type="exchange",
+            exchange_request=exchange_request,
+        )
+
     messages.success(request, "Exchange request sent to the book owner.")
     return redirect("exchange_chat", request_id=exchange_request.id)
 
@@ -910,6 +1275,15 @@ def exchange_request_status(request, request_id, status):
     else:
         exchange_request.status = status
         exchange_request.save(update_fields=["status", "updated_at"])
+        
+        # Notify the requester that seller accepted or rejected
+        if status in {"accepted", "rejected"}:
+            Notification.objects.create(
+                user=exchange_request.requester,
+                notification_type="exchange",
+                exchange_request=exchange_request,
+            )
+
         messages.success(request, f"Exchange request marked {status}.")
     return redirect("exchange_chat", request_id=request_id)
 
@@ -918,6 +1292,10 @@ def exchange_request_status(request, request_id, status):
 def exchange_chat(request, request_id):
     exchange_request = get_exchange_request_for_user(request, request_id)
     if request.method == "POST":
+        if exchange_request.status != "accepted":
+            messages.error(request, "You can only send messages after the exchange request is accepted.")
+            return redirect("exchange_chat", request_id=request_id)
+        
         body = request.POST.get("body", "").strip()
         if not body:
             messages.error(request, "Message cannot be empty.")
@@ -927,12 +1305,29 @@ def exchange_chat(request, request_id):
             ExchangeMessage.objects.create(
                 exchange_request=exchange_request, sender=request.user, body=body
             )
+            
+            # Create notification for the other user
+            other_user = (
+                exchange_request.exchange_book.seller.user
+                if exchange_request.requester_id == request.user.id
+                else exchange_request.requester
+            )
+            Notification.objects.create(
+                user=other_user,
+                notification_type="chat",
+                exchange_request=exchange_request,
+            )
+            
             return redirect("exchange_chat", request_id=request_id)
     other_user = (
         exchange_request.exchange_book.seller.user
         if exchange_request.requester_id == request.user.id
         else exchange_request.requester
     )
+    
+    # Mark messages from the other user as read
+    exchange_request.messages.filter(sender=other_user, is_read=False).update(is_read=True)
+
     other_profile = getattr(other_user, "reader_profile", None) or getattr(
         other_user, "seller_profile", None
     )
@@ -953,10 +1348,10 @@ def exchange_chat(request, request_id):
 # seller
 
 
-@login_required
+@seller_required
 def seller_profile(request):
     seller = get_object_or_404(sellerprofile, user=request.user)
-    books = Book.objects.filter(seller=seller).order_by("-created_at")
+    books = Book.objects.filter(seller=seller, exchange_details__isnull=True).order_by("-created_at")
     orders = BookOrder.objects.filter(book__seller=seller).select_related(
         "book", "buyer"
     )
@@ -992,7 +1387,7 @@ def seller_profile(request):
     )
 
 
-@login_required
+@seller_required
 def seller_orders(request):
     orders = BookOrder.objects.filter(book__seller__user=request.user).select_related(
         "book", "buyer"
@@ -1007,7 +1402,7 @@ def seller_orders(request):
     )
 
 
-@login_required
+@seller_required
 def seller_update_order(request, order_id):
     order = get_object_or_404(BookOrder, id=order_id, book__seller__user=request.user)
     if request.method == "POST":
@@ -1015,24 +1410,26 @@ def seller_update_order(request, order_id):
             messages.error(request, f"Cancelled order #{order.id} cannot be updated.")
             return redirect("seller_orders")
         delivery_status = request.POST.get("delivery_status", "").strip()
-        payment_status = request.POST.get("payment_status", "").strip()
-        if delivery_status not in dict(
-            BookOrder.DELIVERY_STATUS_CHOICES
-        ) or payment_status not in dict(BookOrder.PAYMENT_STATUS_CHOICES):
-            messages.error(request, "Select valid payment and delivery statuses.")
+        tracking_reference = request.POST.get("tracking_reference", "").strip()
+        delivery_note = request.POST.get("delivery_note", "").strip()
+
+        if delivery_status not in dict(BookOrder.DELIVERY_STATUS_CHOICES):
+            messages.error(request, "Select a valid delivery status.")
         elif order.delivery_status != "pending" and delivery_status == "pending":
             messages.error(request, "A started delivery cannot be moved back to pending.")
+        elif delivery_status in ["shipped", "out_for_delivery", "delivered"] and not tracking_reference:
+            messages.error(request, "Tracking reference is required for shipped or delivered orders.")
+        elif len(tracking_reference) > 100:
+            messages.error(request, "Tracking reference cannot exceed 100 characters.")
+        elif len(delivery_note) > 500:
+            messages.error(request, "Delivery note cannot exceed 500 characters.")
         else:
             order.delivery_status = delivery_status
-            order.payment_status = payment_status
-            order.tracking_reference = request.POST.get(
-                "tracking_reference", ""
-            ).strip()
-            order.delivery_note = request.POST.get("delivery_note", "").strip()
+            order.tracking_reference = tracking_reference
+            order.delivery_note = delivery_note
             order.save(
                 update_fields=[
                     "delivery_status",
-                    "payment_status",
                     "tracking_reference",
                     "delivery_note",
                     "updated_at",
@@ -1042,12 +1439,78 @@ def seller_update_order(request, order_id):
     return redirect("seller_orders")
 
 
+@seller_required
+def seller_cancel_order(request, order_id):
+    order = get_object_or_404(BookOrder, id=order_id, book__seller__user=request.user)
+    if request.method != "POST":
+        return redirect("seller_orders")
+
+    if order.status == "cancelled":
+        messages.info(request, f"Order #{order.id} is already cancelled.")
+    elif order.delivery_status != "pending":
+        messages.error(
+            request,
+            "This order cannot be cancelled because packing or delivery has started.",
+        )
+    else:
+        reason = request.POST.get("cancellation_reason", "").strip()
+        if not reason:
+            messages.error(request, "Please provide a reason for cancelling the order.")
+        elif len(reason) > 500:
+            messages.error(request, "Cancellation reason cannot exceed 500 characters.")
+        else:
+            order.status = "cancelled"
+            order.cancelled_at = timezone.now()
+            order.cancellation_reason = f"Cancelled by seller: {reason}"
+            order.refund_status = (
+                "pending" if order.payment_method == "online" else "not_applicable"
+            )
+            order.save(
+                update_fields=[
+                    "status",
+                    "cancelled_at",
+                    "cancellation_reason",
+                    "refund_status",
+                ]
+            )
+            messages.success(request, f"Order #{order.id} has been cancelled.")
+
+    return redirect("seller_orders")
+
+
+@seller_required
+def seller_process_refund(request, order_id):
+    order = get_object_or_404(BookOrder, id=order_id, book__seller__user=request.user)
+    if request.method == "POST":
+        if order.status == "cancelled" and order.refund_status == "pending":
+            order.refund_status = "completed"
+            order.save(update_fields=["refund_status"])
+            messages.success(request, f"Refund for Order #{order.id} marked as completed.")
+        else:
+            messages.error(request, "This order is not eligible for a refund update.")
+    return redirect("seller_orders")
+
+
+@login_required
+def user_confirm_delivery(request, order_id):
+    order = get_object_or_404(BookOrder, id=order_id, buyer=request.user)
+    if request.method == "POST":
+        if order.delivery_status in ["shipped", "out_for_delivery"]:
+            order.delivery_status = "delivered"
+            order.status = "confirmed"
+            order.save(update_fields=["delivery_status", "status", "updated_at"])
+            messages.success(request, f"Order #{order.id} marked as delivered. Thank you!")
+        else:
+            messages.error(request, "This order cannot be marked as delivered yet.")
+    return redirect("user_profile")
+
+
 # =========================================================
 # ALL SELL BOOKS
 # =========================================================
 
 
-@login_required
+@seller_required
 def all_sell_books(request):
 
     if hasattr(request.user, "reader_profile"):
@@ -1080,7 +1543,7 @@ def all_sell_books(request):
     # Get seller's books
     # -----------------------------------------------------
 
-    books = Book.objects.filter(seller=seller).select_related("seller").order_by("-id")
+    books = Book.objects.filter(seller=seller, exchange_details__isnull=True).select_related("seller").order_by("-id")
 
     print("\n======================================")
     print("SELLER:", seller)
@@ -1557,6 +2020,7 @@ def seller_edit_book(request, id):
             "exchange_mode": False,
             "category_choices": book_category_choices(),
             "language_choices": book_language_choices(),
+            "user_side": hasattr(request.user, "reader_profile"),
         },
     )
 
@@ -1865,6 +2329,7 @@ def seller_exchange_condition(request, book_id):
                         "current_step": 2,
                         "edit_mode": True,
                         "exchange_mode": True,
+                        "user_side": hasattr(request.user, "reader_profile"),
                     },
                 )
 
@@ -1894,7 +2359,7 @@ def seller_exchange_condition(request, book_id):
 
             messages.success(request, "Exchange book saved as draft.")
 
-            return redirect("all_exchange_books")
+            return redirect("user_profile")
 
         # --------------------------------------------------
         # CONTINUE STEP 3
@@ -1912,6 +2377,7 @@ def seller_exchange_condition(request, book_id):
             "current_step": 2,
             "edit_mode": True,
             "exchange_mode": True,
+            "user_side": hasattr(request.user, "reader_profile"),
         },
     )
 
@@ -2020,7 +2486,7 @@ def seller_exchange_delivery(request, book_id):
 
             messages.success(request, "Exchange book saved as draft.")
 
-            return redirect("all_exchange_books")
+            return redirect("user_profile")
 
         # --------------------------------------------------
         # VALIDATE
@@ -2059,6 +2525,7 @@ def seller_exchange_delivery(request, book_id):
             "current_step": 4,
             "edit_mode": True,
             "exchange_mode": True,
+            "user_side": hasattr(request.user, "reader_profile"),
         },
     )
 
@@ -2095,7 +2562,7 @@ def seller_exchange_review(request, book_id):
 
             messages.success(request, "Exchange book saved as draft.")
 
-            return redirect("all_exchange_books")
+            return redirect("user_profile")
 
         # --------------------------------------------------
         # PUBLISH / UPDATE
@@ -2178,7 +2645,7 @@ def seller_exchange_review(request, book_id):
 
             messages.success(request, "Exchange book updated successfully.")
 
-            return redirect("all_exchange_books")
+            return redirect("user_profile")
 
     return render(
         request,
@@ -2212,7 +2679,7 @@ def seller_delete_exchange(request, exchange_id):
 
     if exchange_book is None:
         messages.info(request, "This exchange listing was already deleted.")
-        return redirect("all_exchange_books")
+        return redirect("user_profile")
 
     if request.method == "POST":
 
@@ -2229,7 +2696,7 @@ def seller_delete_exchange(request, exchange_id):
             book.delete()
             messages.success(request, "Exchange book deleted successfully.")
 
-    return redirect("all_exchange_books")
+    return redirect("user_profile")
 
 
 # ============================================================
@@ -2270,6 +2737,7 @@ def seller_edit_exchange(request, exchange_id):
                 "current_step": 1,
                 "category_choices": category_choices,
                 "language_choices": language_choices,
+                "user_side": hasattr(request.user, "reader_profile"),
             },
         )
 
@@ -2456,7 +2924,7 @@ def client_exchange_book_detail(request, exchange_id):
 
 
 #  seller Support Center
-@login_required
+@seller_required
 def seller_support(request):
     tickets = SupportTicket.objects.filter(seller=request.user).order_by("-created_at")
 
@@ -2477,7 +2945,7 @@ def seller_support(request):
 
 
 # Create a new support ticket.
-@login_required
+@seller_required
 def seller_create_support_ticket(request):
     if request.method == "POST":
 
@@ -2523,7 +2991,7 @@ def seller_create_support_ticket(request):
 
 
 # View a single seller support ticket.
-@login_required
+@seller_required
 def seller_support_ticket_detail(request, ticket_id):
     ticket = get_object_or_404(SupportTicket, id=ticket_id, seller=request.user)
 

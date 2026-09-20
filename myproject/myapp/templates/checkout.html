@@ -13,14 +13,11 @@
 
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
-    rel="stylesheet"
-  />
+    rel="stylesheet" />
 
   <!-- Material Symbols -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
+    rel="stylesheet" />
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -351,29 +348,18 @@
 
     <!-- Messages -->
     {% if messages %}
-      {% for message in messages %}
-        <p class="mb-4 rounded border border-outline-variant bg-[#fff4f3] px-4 py-3 text-sm text-primary">
-          {{ message }}
-        </p>
-      {% endfor %}
+    {% for message in messages %}
+    <p class="mb-4 rounded border border-outline-variant bg-[#fff4f3] px-4 py-3 text-sm text-primary">
+      {{ message }}
+    </p>
+    {% endfor %}
     {% endif %}
 
 
     <!-- Checkout Form -->
-    <form
-      method="post"
-      id="checkoutForm"
-      class="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]"
-    >
+    <form method="post" id="checkoutForm" class="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
 
       {% csrf_token %}
-
-      <input
-        type="hidden"
-        name="payment_confirmed"
-        id="paymentConfirmed"
-        value="0"
-      >
 
 
       <!-- Delivery Address -->
@@ -389,17 +375,9 @@
           <label class="sm:col-span-2">
             Full name
 
-            <input
-              name="recipient_name"
-              required
-              minlength="2"
-              maxlength="100"
-              pattern="[A-Za-z][A-Za-z .'-]*"
-              title="Enter a valid name using letters and spaces only"
-              autocomplete="name"
-              value="{{ request.POST.recipient_name|default:'' }}"
-              class="mt-1 w-full rounded border-outline-variant"
-            >
+            <input name="recipient_name" required minlength="2" maxlength="100" pattern="[A-Za-z][A-Za-z .'-]*"
+              title="Enter a valid name using letters and spaces only" autocomplete="name"
+              value="{{ form_data.recipient_name|default:'' }}" class="mt-1 w-full rounded border-outline-variant">
           </label>
 
 
@@ -407,18 +385,9 @@
           <label>
             Phone number
 
-            <input
-              name="recipient_phone"
-              required
-              minlength="10"
-              maxlength="10"
-              pattern="[0-9]{10}"
-              inputmode="numeric"
-              title="Enter exactly 10 digits"
-              autocomplete="tel"
-              value="{{ request.POST.recipient_phone|default:'' }}"
-              class="mt-1 w-full rounded border-outline-variant"
-            >
+            <input name="recipient_phone" required minlength="10" maxlength="10" pattern="[0-9]{10}" inputmode="numeric"
+              title="Enter exactly 10 digits" autocomplete="tel" value="{{ form_data.recipient_phone|default:'' }}" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              class="mt-1 w-full rounded border-outline-variant">
           </label>
 
 
@@ -426,18 +395,9 @@
           <label>
             Postal code
 
-            <input
-              name="postal_code"
-              required
-              minlength="6"
-              maxlength="6"
-              pattern="[0-9]{6}"
-              inputmode="numeric"
-              title="Enter exactly 6 digits"
-              autocomplete="postal-code"
-              value="{{ request.POST.postal_code|default:'' }}"
-              class="mt-1 w-full rounded border-outline-variant"
-            >
+            <input name="postal_code" required minlength="6" maxlength="6" pattern="[0-9]{6}" inputmode="numeric"
+              title="Enter exactly 6 digits" autocomplete="postal-code"
+              value="{{ form_data.postal_code|default:'' }}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="mt-1 w-full rounded border-outline-variant">
           </label>
 
 
@@ -445,15 +405,8 @@
           <label class="sm:col-span-2">
             Address line 1
 
-            <input
-              name="address_line1"
-              required
-              minlength="5"
-              maxlength="200"
-              autocomplete="address-line1"
-              value="{{ request.POST.address_line1|default:'' }}"
-              class="mt-1 w-full rounded border-outline-variant"
-            >
+            <input name="address_line1" required minlength="5" maxlength="200" autocomplete="address-line1"
+              value="{{ form_data.address_line1|default:'' }}" class="mt-1 w-full rounded border-outline-variant">
           </label>
 
 
@@ -465,13 +418,8 @@
               (optional)
             </span>
 
-            <input
-              name="address_line2"
-              maxlength="200"
-              autocomplete="address-line2"
-              value="{{ request.POST.address_line2|default:'' }}"
-              class="mt-1 w-full rounded border-outline-variant"
-            >
+            <input name="address_line2" maxlength="200" autocomplete="address-line2"
+              value="{{ form_data.address_line2|default:'' }}" class="mt-1 w-full rounded border-outline-variant">
           </label>
 
 
@@ -479,17 +427,9 @@
           <label>
             City
 
-            <input
-              name="city"
-              required
-              minlength="2"
-              maxlength="80"
-              pattern="[A-Za-z][A-Za-z .'-]*"
-              title="Enter a valid city name"
-              autocomplete="address-level2"
-              value="{{ request.POST.city|default:'' }}"
-              class="mt-1 w-full rounded border-outline-variant"
-            >
+            <input name="city" required minlength="2" maxlength="80" pattern="[A-Za-z][A-Za-z .'-]*"
+              title="Enter a valid city name" autocomplete="address-level2" value="{{ form_data.city|default:'' }}"
+              class="mt-1 w-full rounded border-outline-variant">
           </label>
 
 
@@ -497,17 +437,9 @@
           <label>
             State
 
-            <input
-              name="state"
-              required
-              minlength="2"
-              maxlength="80"
-              pattern="[A-Za-z][A-Za-z .'-]*"
-              title="Enter a valid state name"
-              autocomplete="address-level1"
-              value="{{ request.POST.state|default:'' }}"
-              class="mt-1 w-full rounded border-outline-variant"
-            >
+            <input name="state" required minlength="2" maxlength="80" pattern="[A-Za-z][A-Za-z .'-]*"
+              title="Enter a valid state name" autocomplete="address-level1" value="{{ form_data.state|default:'' }}"
+              class="mt-1 w-full rounded border-outline-variant">
           </label>
 
         </div>
@@ -526,11 +458,7 @@
         <div class="mt-5 flex gap-4 border-b border-surface-container-high pb-5">
 
           {% if book.cover_image %}
-            <img
-              src="{{ book.cover_image.url }}"
-              alt="{{ book.title }}"
-              class="h-24 w-16 rounded object-cover"
-            >
+          <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="h-24 w-16 rounded object-cover">
           {% endif %}
 
           <div>
@@ -557,17 +485,9 @@
 
 
         <!-- Online Payment -->
-        <label
-          class="mt-4 flex cursor-pointer gap-3 rounded border border-outline-variant p-4"
-        >
+        <label class="mt-4 flex cursor-pointer gap-3 rounded border border-outline-variant p-4">
 
-          <input
-            type="radio"
-            name="payment_method"
-            value="online"
-            checked
-            class="mt-1"
-          >
+          <input type="radio" name="payment_method" value="online" class="mt-1" checked>
 
           <span>
             <strong>Online payment</strong>
@@ -580,41 +500,26 @@
         </label>
 
 
-        <!-- Cash on Delivery -->
-        <label
-          class="mt-3 flex cursor-pointer gap-3 rounded border border-outline-variant p-4"
-        >
+        <!-- Cash on Delivery Removed as per request -->
 
-          <input
-            type="radio"
-            name="payment_method"
-            value="cash"
-            class="mt-1"
-          >
 
-          <span>
-            <strong>Cash on delivery</strong>
-
-            <small class="block text-sm text-on-surface-variant">
-              Pay when the book arrives
-            </small>
-          </span>
-
-        </label>
-
+        <!-- Delivery & Cancellation Info -->
+        <div class="mt-4 rounded border border-outline-variant bg-[#f6f3f2] p-4 text-xs text-on-surface-variant">
+          <p class="mb-2 flex items-center gap-2 font-semibold text-secondary">
+            <span class="material-symbols-outlined text-[16px]">local_shipping</span>
+            Expected delivery by {{ estimated_delivery_date|date:'d M Y' }}
+          </p>
+          <p class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px]">event_busy</span>
+            Cancellation available up to 3 days after ordering.
+          </p>
+        </div>
 
         <!-- Place Order -->
-        <button
-          type="submit"
-          class="mt-6 w-full rounded bg-primary-container px-5 py-3 text-sm font-semibold uppercase tracking-widest text-white hover:bg-primary"
-        >
-          Place order
+        <button type="submit"
+          class="mt-6 w-full rounded bg-primary-container px-5 py-3 text-sm font-semibold uppercase tracking-widest text-white hover:bg-primary">
+          Continue to Payment
         </button>
-
-
-        <p class="mt-3 text-center text-xs text-on-surface-variant">
-          Expected delivery: within 7 days
-        </p>
 
       </aside>
 
@@ -622,99 +527,8 @@
   </main>
 
 
-  <!-- Payment Confirmation Modal -->
-  <div
-    id="paymentModal"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="paymentTitle"
-  >
 
-    <div class="modal-box w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-
-      <h2
-        id="paymentTitle"
-        class="text-2xl font-semibold text-primary"
-      >
-        Confirm payment
-      </h2>
-
-      <p class="mt-3 text-sm text-on-surface-variant">
-        Confirm one payment of
-        <strong>₹{{ amount }}</strong>
-        for {{ book.title }}.
-      </p>
-
-      <div class="mt-6 flex justify-end gap-3">
-
-        <button
-          type="button"
-          id="cancelPayment"
-          class="rounded border border-primary-container px-4 py-2 text-sm font-semibold text-primary-container hover:bg-primary-container hover:text-white"
-        >
-          Cancel
-        </button>
-
-        <button
-          type="button"
-          id="confirmPayment"
-          class="rounded bg-primary-container px-4 py-2 text-sm font-semibold text-white hover:bg-primary"
-        >
-          Confirm and pay
-        </button>
-
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- Payment Script -->
-  <script>
-    const form = document.getElementById('checkoutForm');
-    const modal = document.getElementById('paymentModal');
-    const confirmed = document.getElementById('paymentConfirmed');
-
-    const online = () =>
-      form.querySelector(
-        'input[name="payment_method"]:checked'
-      ).value === 'online';
-
-
-    form.addEventListener('submit', (event) => {
-
-      if (online() && confirmed.value !== '1') {
-
-        event.preventDefault();
-
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-      }
-
-    });
-
-
-    document
-      .getElementById('cancelPayment')
-      .addEventListener('click', () => {
-
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-
-      });
-
-
-    document
-      .getElementById('confirmPayment')
-      .addEventListener('click', () => {
-
-        confirmed.value = '1';
-
-        form.submit();
-
-      });
-  </script>
   {% include "footer.html" %}
 </body>
+
 </html>

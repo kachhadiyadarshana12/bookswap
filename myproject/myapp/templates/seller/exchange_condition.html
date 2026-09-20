@@ -113,6 +113,28 @@
         /* Subtle grain texture for premium feel */
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
       }
+
+      /* =========================================================
+         SCROLLBAR
+      ========================================================= */
+
+      ::-webkit-scrollbar {
+        width: 7px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #d5c5c5;
+        border-radius: 999px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #8c7071;
+      }
+      
       .material-symbols-outlined {
         font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
       }
@@ -133,10 +155,11 @@
     <script src="{% static 'js/exchange_condition.js' %}"></script>
   </head>
   <body class="text-on-surface antialiased flex h-screen">
-    {% if not request.user.reader_profile %}{% include 'seller/seller_header.html' %}{% endif %}
+    <!-- Shared Component: TopNavBar -->
+    {% if not user_side %}{% include 'seller/seller_header.html' %}{% endif %}
     <div class="w-full min-h-screen">
     <!-- Shared Component: SideNavBar -->
-    {% if not request.user.reader_profile %}{% include 'seller/seller_sidebar.html' %}{% endif %}
+    {% if not user_side %}{% include 'seller/seller_sidebar.html' %}{% endif %}
     <!-- Main Content Canvas -->
     <main
         class="flex-1 flex flex-col min-h-screen overflow-y-auto {% if not user_side %}ml-64{% endif %} bg-background">

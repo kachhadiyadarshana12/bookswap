@@ -145,13 +145,36 @@
       input[type='checkbox'] {
         accent-color: #800020;
       }
+
+      /* =========================================================
+         SCROLLBAR
+      ========================================================= */
+
+      ::-webkit-scrollbar {
+        width: 7px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #d5c5c5;
+        border-radius: 999px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #8c7071;
+      }
+      
     </style>
   </head>
-  <body class="antialiased min-h-screen flex font-body-md text-body-md">
-    {% if not request.user.reader_profile %}{% include 'seller/seller_header.html' %}{% endif %}
+  <body class="text-on-surface antialiased flex h-screen">
+    <!-- Shared Component: TopNavBar -->
+    {% if not user_side %}{% include 'seller/seller_header.html' %}{% endif %}
     <div class="w-full min-h-screen">
-      <!-- SideNavBar -->
-      {% if not request.user.reader_profile %}{% include 'seller/seller_sidebar.html' %}{% endif %}
+      <!-- Shared Component: SideNavBar -->
+      {% if not user_side %}{% include 'seller/seller_sidebar.html' %}{% endif %}
       <!-- Main Content Canvas -->
       <main
         class="flex-1 flex flex-col min-h-screen overflow-y-auto {% if not user_side %}ml-64{% endif %} bg-background">

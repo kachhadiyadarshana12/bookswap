@@ -242,11 +242,23 @@ class Wishlist(models.Model):
 
 
 class Notification(models.Model):
+    NOTIFICATION_TYPES = [
+        ("offer", "New Offer"),
+        ("chat", "New Chat Message"),
+        ("exchange", "Exchange Request"),
+    ]
+    
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="notifications"
     )
     book = models.ForeignKey(
-        Book, on_delete=models.CASCADE, related_name="notifications"
+        Book, on_delete=models.CASCADE, null=True, blank=True, related_name="notifications"
+    )
+    notification_type = models.CharField(
+        max_length=20, choices=NOTIFICATION_TYPES, default="offer"
+    )
+    exchange_request = models.ForeignKey(
+        "ExchangeRequest", on_delete=models.CASCADE, null=True, blank=True, related_name="notifications"
     )
     is_read = models.BooleanField(default=False)
     is_removed = models.BooleanField(default=False)
@@ -254,14 +266,13 @@ class Notification(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
-        constraints = [
-            models.UniqueConstraint(
-                fields=["user", "book"], name="unique_book_notification"
-            )
-        ]
 
     def __str__(self):
-        return f"{self.user.username} - New offer on {self.book.title}"
+        if self.notification_type == "chat":
+            return f"{self.user.username} - New chat message"
+        if self.book:
+            return f"{self.user.username} - New offer on {self.book.title}"
+        return f"{self.user.username} - Notification"
 
 
 class BookOrder(models.Model):
@@ -303,6 +314,9 @@ class BookOrder(models.Model):
     payment_status = models.CharField(
         max_length=20, choices=PAYMENT_STATUS_CHOICES, default="pending"
     )
+    razorpay_order_id = models.CharField(max_length=100, blank=True)
+    razorpay_payment_id = models.CharField(max_length=100, blank=True)
+    razorpay_signature = models.CharField(max_length=255, blank=True)
     recipient_name = models.CharField(max_length=100)
     recipient_phone = models.CharField(max_length=15)
     address_line1 = models.CharField(max_length=200)
@@ -396,6 +410,7 @@ class ExchangeMessage(models.Model):
         User, on_delete=models.CASCADE, related_name="exchange_messages"
     )
     body = models.TextField(max_length=2000)
+    is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -462,4 +477,27 @@ class SupportTicket(models.Model):
 
     def __str__(self):
         return f"#{self.id} - {self.subject}"
+
+
+class WebhookEvent(models.Model):
+    event_id = models.CharField(max_length=100, unique=True)
+    event_type = models.CharField(max_length=100)
+    payload = models.JSONField()
+    processed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.event_type} - {self.event_id}"
+
+
+class PasswordResetOTP(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='password_reset_otp')
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now=True)
+
+    def is_valid(self):
+        return timezone.now() < self.created_at + timedelta(minutes=5)
 

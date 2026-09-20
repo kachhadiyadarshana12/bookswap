@@ -4,20 +4,12 @@
 <head>
     <meta charset="utf-8" />
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta
-        name="description"
-        content="Your BookSwap profile, orders, wishlist, exchange listings and exchange activity."
-    />
+    <meta name="description"
+        content="Your BookSwap profile, orders, wishlist, exchange listings and exchange activity." />
 
-    <meta
-        name="theme-color"
-        content="#570013"
-    />
+    <meta name="theme-color" content="#570013" />
 
     <title>BookSwap - Profile</title>
 
@@ -25,28 +17,18 @@
          Google Fonts
          ================================================== -->
 
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Material Symbols -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
 
     <!-- Inter + Playfair Display -->
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
-        rel="stylesheet"
-    />
+        rel="stylesheet" />
 
     <!-- ==================================================
          Tailwind CSS
@@ -219,6 +201,26 @@
          ================================================== -->
 
     <style>
+        /* =========================================================
+         SCROLLBAR
+      ========================================================= */
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d5c5c5;
+            border-radius: 999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8c7071;
+        }
 
         /* --------------------------------------
            Global
@@ -343,7 +345,6 @@
             outline: 2px solid #570013;
             outline-offset: 2px;
         }
-
     </style>
 </head>
 
@@ -359,22 +360,17 @@
 
         {% if messages %}
 
-            <div
-                class="mb-5 space-y-2"
-                aria-live="polite"
-            >
+        <div class="mb-5 space-y-2" aria-live="polite">
 
-                {% for message in messages %}
+            {% for message in messages %}
 
-                    <p
-                        class="border-l-4 border-sage bg-[#e5eee5] px-4 py-3 text-sm text-[#334839]"
-                    >
-                        {{ message }}
-                    </p>
+            <p class="border-l-4 border-sage bg-[#e5eee5] px-4 py-3 text-sm text-[#334839]">
+                {{ message }}
+            </p>
 
-                {% endfor %}
+            {% endfor %}
 
-            </div>
+        </div>
 
         {% endif %}
 
@@ -384,16 +380,11 @@
              ================================================== -->
 
         <section
-            class="relative overflow-hidden border border-rule bg-[#eee5d8] px-6 py-8 shadow-paper sm:px-10 sm:py-10"
-        >
+            class="relative overflow-hidden border border-rule bg-[#eee5d8] px-6 py-8 shadow-paper sm:px-10 sm:py-10">
 
-            <div
-                class="absolute -right-20 -top-28 h-72 w-72 rounded-full border-28 border-[#d8c4b2] opacity-50"
-            ></div>
+            <div class="absolute -right-20 -top-28 h-72 w-72 rounded-full border-28 border-[#d8c4b2] opacity-50"></div>
 
-            <div
-                class="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end"
-            >
+            <div class="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
 
                 <div>
 
@@ -401,35 +392,27 @@
                         Your reading room
                     </p>
 
-                    <h1
-                        class="mt-3 max-w-2xl text-4xl leading-[1.02] text-primary sm:text-6xl"
-                    >
+                    <h1 class="mt-3 max-w-2xl text-4xl leading-[1.02] text-primary sm:text-6xl">
                         A thoughtful place for your next chapter.
                     </h1>
 
-                    <p
-                        class="mt-4 max-w-xl text-sm leading-6 text-on-surface-variant"
-                    >
+                    <p class="mt-4 max-w-xl text-sm leading-6 text-on-surface-variant">
                         Keep your saved books close, follow every delivery,
                         and make room for the stories you are ready to pass on.
                     </p>
 
                     <div class="mt-7 flex flex-wrap gap-3">
 
-                        <a
-                            href="{% url 'browse' %}"
-                            class="inline-flex items-center gap-2 bg-primary px-5 py-3 text-xs font-bold uppercase tracking-[.14em] text-white transition hover:bg-[#4d0e1f]"
-                        >
+                        <a href="{% url 'browse' %}"
+                            class="inline-flex items-center gap-2 bg-primary px-5 py-3 text-xs font-bold uppercase tracking-[.14em] text-white transition hover:bg-[#4d0e1f]">
                             <span class="material-symbols-outlined text-base">
                                 menu_book
                             </span>
                             Browse books
                         </a>
 
-                        <a
-                            href="{% url 'seller_add_book' %}"
-                            class="inline-flex items-center gap-2 border border-primary px-5 py-3 text-xs font-bold uppercase tracking-[.14em] text-primary transition hover:bg-primary hover:text-white"
-                        >
+                        <a href="{% url 'seller_add_book' %}"
+                            class="inline-flex items-center gap-2 border border-primary px-5 py-3 text-xs font-bold uppercase tracking-[.14em] text-primary transition hover:bg-primary hover:text-white">
                             <span class="material-symbols-outlined text-base">
                                 add
                             </span>
@@ -445,22 +428,18 @@
                 <div class="flex items-center gap-4 lg:pb-1">
 
                     <div
-                        class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-[#f8f1e8] bg-[#d9c7b4] shadow-sm"
-                    >
+                        class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-[#f8f1e8] bg-[#d9c7b4] shadow-sm">
 
                         {% if profile and profile.profile_photo %}
 
-                            <img
-                                src="{{ profile.profile_photo.url }}"
-                                alt="{{ profile.full_name }}"
-                                class="h-full w-full object-cover"
-                            />
+                        <img src="{{ profile.profile_photo.url }}" alt="{{ profile.full_name }}"
+                            class="h-full w-full object-cover" />
 
                         {% else %}
 
-                            <span class="material-symbols-outlined text-4xl text-primary">
-                                account_circle
-                            </span>
+                        <span class="material-symbols-outlined text-4xl text-primary">
+                            account_circle
+                        </span>
 
                         {% endif %}
 
@@ -482,17 +461,24 @@
 
                         {% if profile.location %}
 
-                            <p class="mt-1 flex items-center gap-1 text-xs text-on-surface-variant">
+                        <p class="mt-1 flex items-center gap-1 text-xs text-on-surface-variant">
 
-                                <span class="material-symbols-outlined text-sm">
-                                    location_on
-                                </span>
+                            <span class="material-symbols-outlined text-sm">
+                                location_on
+                            </span>
 
-                                {{ profile.location }}
+                            {{ profile.location }}
 
-                            </p>
+                        </p>
 
                         {% endif %}
+                        
+                        <div class="mt-4 flex flex-wrap gap-3">
+                            <a href="{% url 'edit_profile' %}" class="inline-flex items-center gap-2 rounded-lg border border-outline px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container-high transition-colors">
+                                <span class="material-symbols-outlined text-[18px]">edit</span>
+                                Edit Profile
+                            </a>
+                        </div>
 
                     </div>
 
@@ -507,53 +493,42 @@
              Profile Navigation
              ================================================== -->
 
-        <nav
-            class="sticky top-20 z-30 -mx-4 mt-6 overflow-x-auto border-y border-outline-variant bg-surface/95 px-4 py-3 backdrop-blur sm:mx-0 sm:px-0"
-            aria-label="Profile sections"
-        >
+        <nav class="sticky top-20 z-30 -mx-4 mt-6 overflow-x-auto border-y border-outline-variant bg-surface/95 px-4 py-3 backdrop-blur sm:mx-0 sm:px-0"
+            aria-label="Profile sections">
 
             <div class="flex min-w-max items-center gap-6 sm:gap-8">
 
-                <a
-                    class="nav-link"
-                    href="#orders"
-                >
+                <a class="nav-link" href="#orders">
                     Orders
                 </a>
 
-                <a
-                    class="nav-link"
-                    href="#wishlist"
-                >
+                <a class="nav-link" href="#wishlist">
                     Wishlist
                 </a>
 
-                <a
-                    class="nav-link"
-                    href="#my-exchange-books"
-                >
-                    My listings
+                <a class="nav-link" href="#my-exchange-books">
+                    Exchange listings
                 </a>
 
-                <a
-                    class="nav-link"
-                    href="#exchange-requests"
-                >
+                <a class="nav-link" href="#my-sell-books">
+                    Sell listings
+                </a>
+
+                <a class="nav-link" href="#exchange-requests">
                     Exchange activity
                 </a>
 
-                <a
-                    class="ml-auto hidden items-center gap-1 text-xs font-bold text-primary sm:flex"
-                    href="{% url 'edit_profile' %}"
-                >
-
-                    <span class="material-symbols-outlined text-base">
-                        edit
-                    </span>
-
-                    Edit profile
-
-                </a>
+                <div class="ml-auto hidden items-center gap-4 sm:flex">
+                    <a class="flex items-center gap-1 text-xs font-bold text-primary" href="{% url 'edit_profile' %}">
+                        <span class="material-symbols-outlined text-base">edit</span>
+                        Edit profile
+                    </a>
+                    
+                    <a class="flex items-center gap-1 text-xs font-bold text-primary" href="{% url 'change_password' %}">
+                        <span class="material-symbols-outlined text-base">key</span>
+                        Change password
+                    </a>
+                </div>
 
             </div>
 
@@ -565,15 +540,11 @@
              ================================================== -->
 
         <section
-            class="mt-7 grid grid-cols-2 gap-px overflow-hidden border border-outline-variant bg-outline-variant sm:grid-cols-4"
-        >
+            class="mt-7 grid grid-cols-2 gap-px overflow-hidden border border-outline-variant bg-outline-variant sm:grid-cols-5">
 
             <!-- Orders -->
 
-            <a
-                href="#orders"
-                class="bg-surface p-5 transition hover:bg-white"
-            >
+            <a href="#orders" class="bg-surface p-5 transition hover:bg-white">
 
                 <p class="eyebrow">
                     Orders
@@ -592,10 +563,7 @@
 
             <!-- Wishlist -->
 
-            <a
-                href="#wishlist"
-                class="bg-surface p-5 transition hover:bg-white"
-            >
+            <a href="#wishlist" class="bg-surface p-5 transition hover:bg-white">
 
                 <p class="eyebrow">
                     Saved
@@ -614,13 +582,10 @@
 
             <!-- Exchange Listings -->
 
-            <a
-                href="#my-exchange-books"
-                class="bg-surface p-5 transition hover:bg-white"
-            >
+            <a href="#my-exchange-books" class="bg-surface p-5 transition hover:bg-white">
 
                 <p class="eyebrow">
-                    Listings
+                    Exchange Listings
                 </p>
 
                 <p class="mt-2 font-display text-3xl text-primary">
@@ -634,12 +599,28 @@
             </a>
 
 
+            <!-- Sell Listings -->
+
+            <a href="#my-sell-books" class="bg-surface p-5 transition hover:bg-white">
+
+                <p class="eyebrow">
+                    Sell Listings
+                </p>
+
+                <p class="mt-2 font-display text-3xl text-primary">
+                    {{ my_sell_books|length }}
+                </p>
+
+                <p class="mt-1 text-xs text-on-surface-variant">
+                    books for sale
+                </p>
+
+            </a>
+
+
             <!-- Offers -->
 
-            <a
-                href="#exchange-requests"
-                class="bg-surface p-5 transition hover:bg-white"
-            >
+            <a href="#exchange-requests" class="bg-surface p-5 transition hover:bg-white">
 
                 <p class="eyebrow">
                     Offers
@@ -662,14 +643,9 @@
              ORDERS
              ================================================== -->
 
-        <section
-            id="orders"
-            class="section-card mt-8 scroll-mt-36 p-5 sm:p-7"
-        >
+        <section id="orders" class="section-card mt-8 scroll-mt-36 p-5 sm:p-7">
 
-            <div
-                class="flex flex-wrap items-end justify-between gap-4 border-b border-outline-variant pb-5"
-            >
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-outline-variant pb-5">
 
                 <div>
 
@@ -691,7 +667,10 @@
 
             <div class="mt-5 border border-[#e0bfbf] bg-[#fff4f3] p-4 text-sm text-on-surface-variant">
                 <p class="font-bold text-primary">Cancellation and refund policy</p>
-                <p class="mt-1 leading-6">You can cancel an order within 3 calendar days of placing it, only while delivery status is pending. Cancellation is not available after packing, shipping, out-for-delivery or delivery starts. Online payment refunds are processed within 5–7 business days after cancellation; cash-on-delivery orders have no payment refund.</p>
+                <p class="mt-1 leading-6">You can cancel an order within 3 calendar days of placing it, only while
+                    delivery status is pending. Cancellation is not available after packing, shipping, out-for-delivery
+                    or delivery starts. Online payment refunds are processed within 5–7 business days after
+                    cancellation; cash-on-delivery orders have no payment refund.</p>
             </div>
 
 
@@ -699,195 +678,223 @@
 
                 {% for order in orders %}
 
-                    <article
-                        class="border border-outline-variant bg-[#fffdfa] p-5"
-                    >
+                <article class="border border-outline-variant bg-[#fffdfa] p-5">
 
-                        <div
-                            class="flex flex-wrap items-start justify-between gap-4"
-                        >
+                    <div class="flex flex-wrap items-start justify-between gap-4">
 
-                            <div class="flex gap-4">
+                        <div class="flex gap-4">
 
-                                <div
-                                    class="hidden h-20 w-14 shrink-0 overflow-hidden bg-[#f0eded] sm:block"
-                                >
+                            <div class="hidden h-20 w-14 shrink-0 overflow-hidden bg-[#f0eded] sm:block">
 
-                                    {% if order.book.cover_image %}
+                                {% if order.book.cover_image %}
 
-                                        <img
-                                            src="{{ order.book.cover_image.url }}"
-                                            alt="{{ order.book.title }}"
-                                            class="h-full w-full object-cover"
-                                        />
+                                <img src="{{ order.book.cover_image.url }}" alt="{{ order.book.title }}"
+                                    class="h-full w-full object-cover" />
 
-                                    {% else %}
+                                {% else %}
 
-                                        <span class="material-symbols-outlined p-4 text-3xl text-[#b9a89a]">
-                                            menu_book
-                                        </span>
+                                <span class="material-symbols-outlined p-4 text-3xl text-[#b9a89a]">
+                                    menu_book
+                                </span>
 
-                                    {% endif %}
-
-                                </div>
-
-                                <div>
-
-                                    <p class="eyebrow">
-                                        Order #{{ order.id }}
-                                        ·
-                                        {{ order.created_at|date:'d M Y' }}
-                                    </p>
-
-                                    <h3 class="mt-1 text-2xl text-on-surface">
-                                        {{ order.book.title }}
-                                    </h3>
-
-                                    <p class="text-sm text-on-surface-variant">
-                                        {{ order.book.author }}
-                                    </p>
-
-                                </div>
+                                {% endif %}
 
                             </div>
 
+                            <div>
 
-                            <span
-                                class="inline-flex items-center gap-2 border border-[#bdd0bd] bg-[#edf4ed] px-3 py-2 text-xs font-bold uppercase tracking-wider text-secondary"
-                            >
+                                <p class="eyebrow">
+                                    Order #{{ order.id }}
+                                    ·
+                                    {{ order.created_at|date:'d M Y' }}
+                                </p>
 
-                                <span class="status-dot"></span>
+                                <h3 class="mt-1 text-2xl text-on-surface">
+                                    {{ order.book.title }}
+                                </h3>
 
-                                {% if order.status == 'cancelled' %}Cancelled{% else %}{{ order.get_delivery_status_display }}{% endif %}
+                                <p class="text-sm text-on-surface-variant">
+                                    {{ order.book.author }}
+                                </p>
 
+                            </div>
+
+                        </div>
+
+
+                        <span
+                            class="inline-flex items-center gap-2 border border-[#bdd0bd] bg-[#edf4ed] px-3 py-2 text-xs font-bold uppercase tracking-wider text-secondary">
+
+                            <span class="status-dot"></span>
+
+                            {% if order.status == 'cancelled' %}Cancelled{% else %}{{ order.get_delivery_status_display }}{% endif %}
+
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="mt-5 grid gap-3 border-t border-outline-variant pt-4 text-sm text-on-surface-variant sm:grid-cols-2 lg:grid-cols-4">
+
+                        <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
+                            Payment
+                        </span>
+
+                        {{ order.get_payment_status_display }}
+                        {% if order.payment_reference %}
+                        <br><span class="text-xs">Txn ID: {{ order.payment_reference }}</span>
+                        {% endif %}
+                        </p>
+
+                        <p>
+                            <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
+                                Amount
                             </span>
 
-                        </div>
+                            ₹{{ order.amount }}
+                        </p>
+
+                        <p>
+                            <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
+                                Expected by
+                            </span>
+
+                            {{ order.estimated_delivery_date|date:'d M Y' }}
+                        </p>
+
+                        <p>
+                            <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
+                                Tracking
+                            </span>
+
+                            {% if order.tracking_reference %}
+                            <a href="https://parcelsapp.com/en/tracking/{{ order.tracking_reference }}" target="_blank"
+                                class="mt-0.5 inline-flex items-center gap-1 font-semibold text-primary hover:text-primary-container hover:underline"
+                                title="Track package">
+                                {{ order.tracking_reference }}
+                                <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                            </a>
+                            {% else %}
+                            <span class="italic text-on-surface-variant text-xs">Available after dispatch</span>
+                            {% endif %}
+                        </p>
+
+                        <p class="sm:col-span-2 lg:col-span-4">
+
+                            <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
+                                Delivery address
+                            </span>
+
+                            {{ order.recipient_name }},
+                            {{ order.address_line1 }}
+
+                            {% if order.address_line2 %}
+                            , {{ order.address_line2 }}
+                            {% endif %}
+
+                            , {{ order.city }},
+                            {{ order.state }}
+                            -
+                            {{ order.postal_code }}
+                            ·
+                            {{ order.recipient_phone }}
+
+                        </p>
 
 
-                        <div
-                            class="mt-5 grid gap-3 border-t border-outline-variant pt-4 text-sm text-on-surface-variant sm:grid-cols-2 lg:grid-cols-4"
-                        >
+                        {% if order.delivery_note %}
 
-                            <p>
-                                <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
-                                    Payment
-                                </span>
+                        <p class="sm:col-span-2 lg:col-span-4">
 
-                                {{ order.get_payment_status_display }}
-                            </p>
+                            <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
+                                Courier note
+                            </span>
 
-                            <p>
-                                <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
-                                    Amount
-                                </span>
+                            {{ order.delivery_note }}
 
-                                ₹{{ order.amount }}
-                            </p>
+                        </p>
 
-                            <p>
-                                <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
-                                    Expected by
-                                </span>
+                        {% endif %}
 
-                                {{ order.estimated_delivery_date|date:'d M Y' }}
-                            </p>
-
-                            <p>
-                                <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
-                                    Tracking
-                                </span>
-
-                                {{ order.tracking_reference|default:'Not assigned yet' }}
-                            </p>
-
-                            <p class="sm:col-span-2 lg:col-span-4">
-
-                                <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
-                                    Delivery address
-                                </span>
-
-                                {{ order.recipient_name }},
-                                {{ order.address_line1 }}
-
-                                {% if order.address_line2 %}
-                                    , {{ order.address_line2 }}
+                        {% if order.status == 'cancelled' %}
+                        <p class="sm:col-span-2 lg:col-span-4 text-sm text-[#800020]">
+                            <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">Refund</span>
+                            {% if order.refund_status == 'pending' %}
+                                Online refund pending: expected within 5–7 business days.
+                            {% elif order.refund_status == 'completed' %}
+                                Online refund completed successfully.
+                            {% else %}
+                                No refund required for cash on delivery.
+                            {% endif %}
+                        </p>
+                        {% elif order.can_be_cancelled %}
+                        <div class="sm:col-span-2 lg:col-span-4 border-t border-outline-variant pt-4">
+                            <form method="post" action="{% url 'cancel_order' order.id %}"
+                                onsubmit="return confirm('Cancel this order?');"
+                                class="flex flex-col gap-3 sm:flex-row sm:items-end">
+                                {% csrf_token %}
+                                <label class="min-w-0 flex-1 text-sm font-semibold text-primary">Cancellation reason
+                                    <span class="text-[#ba1a1a]" aria-hidden="true">*</span>
+                                    <input type="text" name="cancellation_reason" maxlength="500" required
+                                        class="mt-2 w-full rounded border-outline-variant bg-surface text-sm"
+                                        placeholder="Tell us why you are cancelling" />
+                                </label>
+                                <button type="submit"
+                                    class="inline-flex items-center justify-center bg-[#ba1a1a] px-4 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-[#93000a]">Cancel
+                                    order</button>
+                            </form>
+                            <div class="mt-3 text-xs text-on-surface-variant">
+                                <p>Cancellation available until {{ order.cancellation_deadline|date:'d M Y, H:i' }}.</p>
+                                {% if order.payment_method == 'online' %}
+                                <p class="mt-1"><span class="font-semibold text-secondary">Refund Policy:</span> Since you paid online, the amount will be refunded to your original payment method within 5–7 business days after cancellation.</p>
                                 {% endif %}
-
-                                , {{ order.city }},
-                                {{ order.state }}
-                                -
-                                {{ order.postal_code }}
-                                ·
-                                {{ order.recipient_phone }}
-
-                            </p>
-
-
-                            {% if order.delivery_note %}
-
-                                <p class="sm:col-span-2 lg:col-span-4">
-
-                                    <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">
-                                        Courier note
-                                    </span>
-
-                                    {{ order.delivery_note }}
-
-                                </p>
-
-                            {% endif %}
-
-                            {% if order.status == 'cancelled' %}
-                                <p class="sm:col-span-2 lg:col-span-4 text-sm text-[#800020]">
-                                    <span class="block text-[10px] font-bold uppercase tracking-widest text-secondary">Refund</span>
-                                    {% if order.refund_status == 'pending' %}Online refund pending: expected within 5–7 business days.{% else %}No refund required for cash on delivery.{% endif %}
-                                </p>
-                            {% elif order.can_be_cancelled %}
-                                <div class="sm:col-span-2 lg:col-span-4 border-t border-outline-variant pt-4">
-                                    <form method="post" action="{% url 'cancel_order' order.id %}" onsubmit="return confirm('Cancel this order?');" class="flex flex-col gap-3 sm:flex-row sm:items-end">
-                                        {% csrf_token %}
-                                        <label class="min-w-0 flex-1 text-sm font-semibold text-primary">Cancellation reason <span class="text-[#ba1a1a]" aria-hidden="true">*</span>
-                                            <input type="text" name="cancellation_reason" maxlength="500" required class="mt-2 w-full rounded border-outline-variant bg-surface text-sm" placeholder="Tell us why you are cancelling" />
-                                        </label>
-                                        <button type="submit" class="inline-flex items-center justify-center bg-[#ba1a1a] px-4 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-[#93000a]">Cancel order</button>
-                                    </form>
-                                    <p class="mt-2 text-xs text-on-surface-variant">Cancellation available until {{ order.cancellation_deadline|date:'d M Y, H:i' }}.</p>
-                                </div>
-                            {% elif order.status != 'cancelled' %}
-                                <p class="sm:col-span-2 lg:col-span-4 text-xs text-on-surface-variant">This order cannot be cancelled because the 3-day window has expired or packing has started.</p>
-                            {% endif %}
-
+                            </div>
                         </div>
+                        {% elif order.status != 'cancelled' %}
+                        <p class="sm:col-span-2 lg:col-span-4 text-xs text-on-surface-variant">This order cannot be
+                            cancelled because the 3-day window has expired or packing has started.</p>
+                        {% endif %}
 
-                    </article>
+                        {% if order.delivery_status == 'shipped' or order.delivery_status == 'out_for_delivery' %}
+                        <div class="sm:col-span-2 lg:col-span-4 border-t border-outline-variant pt-4 mt-2">
+                            <form method="post" action="{% url 'user_confirm_delivery' order.id %}" onsubmit="return confirm('Have you received the book in good condition?');">
+                                {% csrf_token %}
+                                <button type="submit" class="inline-flex items-center justify-center bg-secondary px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-on-secondary shadow hover:bg-secondary-container hover:text-on-secondary-container transition-all">
+                                    <span class="material-symbols-outlined text-[16px] mr-2">check_circle</span>
+                                    Confirm Receipt
+                                </button>
+                                <p class="mt-2 text-xs text-on-surface-variant font-medium">Click this once you have received your order.</p>
+                            </form>
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                </article>
 
                 {% empty %}
 
-                    <div
-                        class="border border-dashed border-outline-variant px-6 py-12 text-center"
-                    >
+                <div class="border border-dashed border-outline-variant px-6 py-12 text-center">
 
-                        <span class="material-symbols-outlined text-4xl text-[#b9a89a]">
-                            local_shipping
-                        </span>
+                    <span class="material-symbols-outlined text-4xl text-[#b9a89a]">
+                        local_shipping
+                    </span>
 
-                        <h3 class="mt-3 text-2xl text-primary">
-                            No orders yet
-                        </h3>
+                    <h3 class="mt-3 text-2xl text-primary">
+                        No orders yet
+                    </h3>
 
-                        <p class="mt-1 text-sm text-on-surface-variant">
-                            Your next good read is waiting on the shelf.
-                        </p>
+                    <p class="mt-1 text-sm text-on-surface-variant">
+                        Your next good read is waiting on the shelf.
+                    </p>
 
-                        <a
-                            href="{% url 'browse' %}"
-                            class="mt-5 inline-flex bg-primary px-4 py-2 text-xs font-bold uppercase tracking-widest text-white"
-                        >
-                            Browse books
-                        </a>
+                    <a href="{% url 'browse' %}"
+                        class="mt-5 inline-flex bg-primary px-4 py-2 text-xs font-bold uppercase tracking-widest text-white">
+                        Browse books
+                    </a>
 
-                    </div>
+                </div>
 
                 {% endfor %}
 
@@ -900,14 +907,9 @@
              WISHLIST
              ================================================== -->
 
-        <section
-            id="wishlist"
-            class="section-card mt-8 scroll-mt-36 p-5 sm:p-7"
-        >
+        <section id="wishlist" class="section-card mt-8 scroll-mt-36 p-5 sm:p-7">
 
-            <div
-                class="flex flex-wrap items-end justify-between gap-4 border-b border-outline-variant pb-5"
-            >
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-outline-variant pb-5">
 
                 <div>
 
@@ -930,207 +932,173 @@
 
             {% if wishlist_items %}
 
-                <div
-                    class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
-                >
+            <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
 
-                    {% for item in wishlist_items %}
+                {% for item in wishlist_items %}
 
-                        {% if item.book %}
+                {% if item.book %}
 
-                            {% with saved_book=item.book detail_url='sell_book_detail' %}
+                {% with saved_book=item.book detail_url='sell_book_detail' %}
 
-                                <article
-                                    class="book-tile overflow-hidden border border-outline-variant bg-[#fffdfa]"
-                                >
+                <article class="book-tile overflow-hidden border border-outline-variant bg-[#fffdfa]">
 
-                                    <div class="aspect-3/4 bg-[#f0eded]">
+                    <div class="aspect-3/4 bg-[#f0eded]">
 
-                                        {% if saved_book.cover_image %}
+                        {% if saved_book.cover_image %}
 
-                                            <img
-                                                src="{{ saved_book.cover_image.url }}"
-                                                alt="{{ saved_book.title }}"
-                                                class="h-full w-full object-cover"
-                                            />
+                        <img src="{{ saved_book.cover_image.url }}" alt="{{ saved_book.title }}"
+                            class="h-full w-full object-cover" />
 
-                                        {% else %}
+                        {% else %}
 
-                                            <div class="flex h-full items-center justify-center">
+                        <div class="flex h-full items-center justify-center">
 
-                                                <span class="material-symbols-outlined text-4xl text-[#b9a89a]">
-                                                    menu_book
-                                                </span>
+                            <span class="material-symbols-outlined text-4xl text-[#b9a89a]">
+                                menu_book
+                            </span>
 
-                                            </div>
-
-                                        {% endif %}
-
-                                    </div>
-
-
-                                    <div class="p-3 sm:p-4">
-
-                                        <h3 class="truncate text-lg text-on-surface">
-                                            {{ saved_book.title }}
-                                        </h3>
-
-                                        <p class="truncate text-xs text-on-surface-variant">
-                                            {{ saved_book.author }}
-                                        </p>
-
-
-                                        <div
-                                            class="mt-4 flex items-center justify-between gap-2"
-                                        >
-
-                                            <a
-                                                href="{% url detail_url saved_book.id %}"
-                                                class="text-xs font-bold uppercase tracking-widest text-primary hover:underline"
-                                            >
-                                                View
-                                            </a>
-
-
-                                            <form
-                                                method="post"
-                                                action="{% url 'remove_from_wishlist' item.id %}"
-                                            >
-
-                                                {% csrf_token %}
-
-                                                <button
-                                                    type="submit"
-                                                    class="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-error"
-                                                    aria-label="Remove {{ saved_book.title }} from wishlist"
-                                                >
-                                                    Remove
-                                                </button>
-
-                                            </form>
-
-                                        </div>
-
-                                    </div>
-
-                                </article>
-
-                            {% endwith %}
-
-
-                        {% elif item.exchange_book %}
-
-                            {% with saved_book=item.exchange_book.book %}
-
-                                <article
-                                    class="book-tile overflow-hidden border border-outline-variant bg-[#fffdfa]"
-                                >
-
-                                    <div class="aspect-3/4 bg-[#f0eded]">
-
-                                        {% if saved_book.cover_image %}
-
-                                            <img
-                                                src="{{ saved_book.cover_image.url }}"
-                                                alt="{{ saved_book.title }}"
-                                                class="h-full w-full object-cover"
-                                            />
-
-                                        {% else %}
-
-                                            <div class="flex h-full items-center justify-center">
-
-                                                <span class="material-symbols-outlined text-4xl text-[#b9a89a]">
-                                                    sync_alt
-                                                </span>
-
-                                            </div>
-
-                                        {% endif %}
-
-                                    </div>
-
-
-                                    <div class="p-3 sm:p-4">
-
-                                        <h3 class="truncate text-lg text-on-surface">
-                                            {{ saved_book.title }}
-                                        </h3>
-
-                                        <p class="truncate text-xs text-on-surface-variant">
-                                            Exchange book
-                                        </p>
-
-
-                                        <div
-                                            class="mt-4 flex items-center justify-between gap-2"
-                                        >
-
-                                            <a
-                                                href="{% url 'client_exchange_book_detail' item.exchange_book.id %}"
-                                                class="text-xs font-bold uppercase tracking-widest text-primary hover:underline"
-                                            >
-                                                View
-                                            </a>
-
-
-                                            <form
-                                                method="post"
-                                                action="{% url 'remove_from_wishlist' item.id %}"
-                                            >
-
-                                                {% csrf_token %}
-
-                                                <button
-                                                    type="submit"
-                                                    class="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-error"
-                                                    aria-label="Remove {{ saved_book.title }} from wishlist"
-                                                >
-                                                    Remove
-                                                </button>
-
-                                            </form>
-
-                                        </div>
-
-                                    </div>
-
-                                </article>
-
-                            {% endwith %}
+                        </div>
 
                         {% endif %}
 
-                    {% endfor %}
+                    </div>
 
-                </div>
+
+                    <div class="p-3 sm:p-4">
+
+                        <h3 class="truncate text-lg text-on-surface">
+                            {{ saved_book.title }}
+                        </h3>
+
+                        <p class="truncate text-xs text-on-surface-variant">
+                            {{ saved_book.author }}
+                        </p>
+
+
+                        <div class="mt-4 flex items-center justify-between gap-2">
+
+                            <a href="{% url detail_url saved_book.id %}"
+                                class="text-xs font-bold uppercase tracking-widest text-primary hover:underline">
+                                View
+                            </a>
+
+
+                            <form method="post" action="{% url 'remove_from_wishlist' item.id %}">
+
+                                {% csrf_token %}
+
+                                <button type="submit"
+                                    class="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-error"
+                                    aria-label="Remove {{ saved_book.title }} from wishlist">
+                                    Remove
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                {% endwith %}
+
+
+                {% elif item.exchange_book %}
+
+                {% with saved_book=item.exchange_book.book %}
+
+                <article class="book-tile overflow-hidden border border-outline-variant bg-[#fffdfa]">
+
+                    <div class="aspect-3/4 bg-[#f0eded]">
+
+                        {% if saved_book.cover_image %}
+
+                        <img src="{{ saved_book.cover_image.url }}" alt="{{ saved_book.title }}"
+                            class="h-full w-full object-cover" />
+
+                        {% else %}
+
+                        <div class="flex h-full items-center justify-center">
+
+                            <span class="material-symbols-outlined text-4xl text-[#b9a89a]">
+                                sync_alt
+                            </span>
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="p-3 sm:p-4">
+
+                        <h3 class="truncate text-lg text-on-surface">
+                            {{ saved_book.title }}
+                        </h3>
+
+                        <p class="truncate text-xs text-on-surface-variant">
+                            Exchange book
+                        </p>
+
+
+                        <div class="mt-4 flex items-center justify-between gap-2">
+
+                            <a href="{% url 'client_exchange_book_detail' item.exchange_book.id %}"
+                                class="text-xs font-bold uppercase tracking-widest text-primary hover:underline">
+                                View
+                            </a>
+
+
+                            <form method="post" action="{% url 'remove_from_wishlist' item.id %}">
+
+                                {% csrf_token %}
+
+                                <button type="submit"
+                                    class="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-error"
+                                    aria-label="Remove {{ saved_book.title }} from wishlist">
+                                    Remove
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                {% endwith %}
+
+                {% endif %}
+
+                {% endfor %}
+
+            </div>
 
             {% else %}
 
-                <div
-                    class="border border-dashed border-outline-variant px-6 py-12 text-center"
-                >
+            <div class="border border-dashed border-outline-variant px-6 py-12 text-center">
 
-                    <span class="material-symbols-outlined text-4xl text-[#b9a89a]">
-                        favorite_border
-                    </span>
+                <span class="material-symbols-outlined text-4xl text-[#b9a89a]">
+                    favorite_border
+                </span>
 
-                    <h3 class="mt-3 text-2xl text-primary">
-                        Your wishlist is quiet
-                    </h3>
+                <h3 class="mt-3 text-2xl text-primary">
+                    Your wishlist is quiet
+                </h3>
 
-                    <p class="mt-1 text-sm text-on-surface-variant">
-                        Save books here while you decide where they belong.
-                    </p>
+                <p class="mt-1 text-sm text-on-surface-variant">
+                    Save books here while you decide where they belong.
+                </p>
 
-                    <a
-                        href="{% url 'browse' %}"
-                        class="mt-5 inline-flex bg-primary px-4 py-2 text-xs font-bold uppercase tracking-widest text-white"
-                    >
-                        Find a book
-                    </a>
+                <a href="{% url 'browse' %}"
+                    class="mt-5 inline-flex bg-primary px-4 py-2 text-xs font-bold uppercase tracking-widest text-white">
+                    Find a book
+                </a>
 
-                </div>
+            </div>
 
             {% endif %}
 
@@ -1141,14 +1109,9 @@
              MY EXCHANGE BOOKS
              ================================================== -->
 
-        <section
-            id="my-exchange-books"
-            class="section-card mt-8 scroll-mt-36 p-5 sm:p-7"
-        >
+        <section id="my-exchange-books" class="section-card mt-8 scroll-mt-36 p-5 sm:p-7">
 
-            <div
-                class="flex flex-wrap items-end justify-between gap-4 border-b border-outline-variant pb-5"
-            >
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-outline-variant pb-5">
 
                 <div>
 
@@ -1163,10 +1126,8 @@
                 </div>
 
 
-                <a
-                    href="{% url 'seller_add_exchange' %}"
-                    class="inline-flex items-center gap-1 bg-secondary px-4 py-2 text-xs font-bold uppercase tracking-widest text-white hover:bg-[#3d5444]"
-                >
+                <a href="{% url 'seller_add_exchange' %}"
+                    class="inline-flex items-center gap-1 bg-secondary px-4 py-2 text-xs font-bold uppercase tracking-widest text-white hover:bg-[#3d5444]">
 
                     <span class="material-symbols-outlined text-base">
                         add
@@ -1183,83 +1144,79 @@
 
                 {% for exchange_book in my_exchange_books %}
 
-                    <article
-                        class="flex flex-wrap items-center justify-between gap-4 py-4 first:pt-0 last:pb-0"
-                    >
+                <article class="flex flex-wrap items-center justify-between gap-4 py-4 first:pt-0 last:pb-0">
 
-                        <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-4">
 
-                            <div
-                                class="flex h-12 w-10 items-center justify-center overflow-hidden bg-[#f0eded]"
-                            >
+                        <div class="flex h-12 w-10 items-center justify-center overflow-hidden bg-[#f0eded]">
 
-                                {% if exchange_book.book.cover_image %}
+                            {% if exchange_book.book.cover_image %}
 
-                                    <img
-                                        src="{{ exchange_book.book.cover_image.url }}"
-                                        alt="{{ exchange_book.book.title }}"
-                                        class="h-full w-full object-cover"
-                                    />
+                            <img src="{{ exchange_book.book.cover_image.url }}" alt="{{ exchange_book.book.title }}"
+                                class="h-full w-full object-cover" />
 
-                                {% else %}
+                            {% else %}
 
-                                    <span class="material-symbols-outlined text-xl text-[#b9a89a]">
-                                        menu_book
-                                    </span>
-
-                                {% endif %}
-
-                            </div>
-
-
-                            <div>
-
-                                <h3 class="text-xl text-on-surface">
-                                    {{ exchange_book.book.title }}
-                                </h3>
-
-                                <p class="text-xs text-on-surface-variant">
-                                    {{ exchange_book.book.author }}
-                                    ·
-                                    {{ exchange_book.get_status_display }}
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="flex gap-3">
-
-                            <a
-                                href="{% url 'seller_edit_exchange' exchange_book.id %}"
-                                class="border border-outline-variant px-3 py-2 text-xs font-bold uppercase tracking-widest text-primary hover:border-primary"
-                            >
-                                Edit
-                            </a>
-
-
-                            {% if exchange_book.status == 'published' %}
-
-                                <a
-                                    href="{% url 'client_exchange_book_detail' exchange_book.id %}"
-                                    class="bg-primary px-3 py-2 text-xs font-bold uppercase tracking-widest text-white"
-                                >
-                                    View
-                                </a>
+                            <span class="material-symbols-outlined text-xl text-[#b9a89a]">
+                                menu_book
+                            </span>
 
                             {% endif %}
 
                         </div>
 
-                    </article>
+
+                        <div>
+
+                            <h3 class="text-xl text-on-surface">
+                                {{ exchange_book.book.title }}
+                            </h3>
+
+                            <p class="text-xs text-on-surface-variant">
+                                {{ exchange_book.book.author }}
+                                ·
+                                {{ exchange_book.get_status_display }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="flex gap-3">
+
+                        <a href="{% url 'seller_edit_exchange' exchange_book.id %}"
+                            class="border border-outline-variant px-3 py-2 text-xs font-bold uppercase tracking-widest text-primary hover:border-primary">
+                            Edit
+                        </a>
+
+                        <form method="post" action="{% url 'seller_delete_exchange' exchange_book.id %}" onsubmit="return confirm('Are you sure you want to delete this exchange listing?');">
+                            {% csrf_token %}
+                            <button type="submit" class="border border-[#b3261e] px-3 py-2 text-xs font-bold uppercase tracking-widest text-[#b3261e] hover:bg-[#b3261e] hover:text-white transition">
+                                Delete
+                            </button>
+                        </form>
+
+
+                        {% if exchange_book.status == 'published' %}
+
+                        <a href="{% url 'client_exchange_book_detail' exchange_book.id %}"
+                            class="bg-primary px-3 py-2 text-xs font-bold uppercase tracking-widest text-white">
+                            View
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </article>
 
                 {% empty %}
 
-                    <p class="py-8 text-sm text-on-surface-variant">
-                        You have no exchange listings yet.
-                        Add one when a book is ready for its next reader.
-                    </p>
+                <p class="py-8 text-sm text-on-surface-variant">
+                    You have no exchange listings yet.
+                    Add one when a book is ready for its next reader.
+                </p>
 
                 {% endfor %}
 
@@ -1269,13 +1226,131 @@
 
 
         <!-- ==================================================
+             MY SELL BOOKS
+             ================================================== -->
+
+        <section id="my-sell-books" class="section-card mt-8 scroll-mt-36 p-5 sm:p-7">
+
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-outline-variant pb-5">
+
+                <div>
+
+                    <p class="eyebrow">
+                        Your store
+                    </p>
+
+                    <h2 class="mt-1 text-3xl text-primary">
+                        My sell listings
+                    </h2>
+
+                </div>
+
+
+                <a href="{% url 'seller_add_book' %}"
+                    class="inline-flex items-center gap-1 bg-secondary px-4 py-2 text-xs font-bold uppercase tracking-widest text-white hover:bg-[#3d5444]">
+
+                    <span class="material-symbols-outlined text-base">
+                        add
+                    </span>
+
+                    Add listing
+
+                </a>
+
+            </div>
+
+
+            <div class="mt-5 divide-y divide-outline-variant">
+
+                {% for sell_book in my_sell_books %}
+
+                <article class="flex flex-wrap items-center justify-between gap-4 py-4 first:pt-0 last:pb-0">
+
+                    <div class="flex items-center gap-4">
+
+                        <div class="flex h-12 w-10 items-center justify-center overflow-hidden bg-[#f0eded]">
+
+                            {% if sell_book.cover_image %}
+
+                            <img src="{{ sell_book.cover_image.url }}" alt="{{ sell_book.title }}"
+                                class="h-full w-full object-cover" />
+
+                            {% else %}
+
+                            <span class="material-symbols-outlined text-xl text-[#b9a89a]">
+                                menu_book
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div>
+
+                            <h3 class="text-xl text-on-surface">
+                                {{ sell_book.title }}
+                            </h3>
+
+                            <p class="text-xs text-on-surface-variant">
+                                {{ sell_book.author }}
+                                ·
+                                {{ sell_book.get_status_display }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="flex gap-3">
+
+                        <a href="{% url 'seller_edit_book' sell_book.id %}"
+                            class="border border-outline-variant px-3 py-2 text-xs font-bold uppercase tracking-widest text-primary hover:border-primary">
+                            Edit
+                        </a>
+
+                        <form method="post" action="{% url 'seller_delete_book' sell_book.id %}" onsubmit="return confirm('Are you sure you want to delete this listing?');">
+                            {% csrf_token %}
+                            <button type="submit" class="border border-[#b3261e] px-3 py-2 text-xs font-bold uppercase tracking-widest text-[#b3261e] hover:bg-[#b3261e] hover:text-white transition">
+                                Delete
+                            </button>
+                        </form>
+
+
+                        {% if sell_book.status == 'published' %}
+
+                        <a href="{% url 'sell_book_detail' sell_book.id %}"
+                            class="bg-primary px-3 py-2 text-xs font-bold uppercase tracking-widest text-white">
+                            View
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </article>
+
+                {% empty %}
+
+                <p class="py-8 text-sm text-on-surface-variant">
+                    You have no sell listings yet.
+                    Add one to start selling!
+                </p>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
              EXCHANGE ACTIVITY
              ================================================== -->
 
-        <section
-            id="exchange-requests"
-            class="mt-8 scroll-mt-36"
-        >
+        <section id="exchange-requests" class="mt-8 scroll-mt-36">
 
             <div class="mb-5">
 
@@ -1314,105 +1389,90 @@
 
                         {% for exchange_request in received_requests %}
 
-                            <article
-                                class="border border-outline-variant bg-[#fffdfa] p-4"
-                            >
+                        <article class="border border-outline-variant bg-[#fffdfa] p-4">
 
-                                <div
-                                    class="flex flex-wrap items-start justify-between gap-3"
-                                >
+                            <div class="flex flex-wrap items-start justify-between gap-3">
 
-                                    <div>
+                                <div>
 
-                                        <h4 class="text-xl text-on-surface">
-                                            {{ exchange_request.exchange_book.book.title }}
-                                        </h4>
+                                    <h4 class="text-xl text-on-surface">
+                                        {{ exchange_request.exchange_book.book.title }}
+                                    </h4>
 
-                                        <p class="text-sm text-on-surface-variant">
-                                            {{ exchange_request.requester.username }}
-                                            offers
-                                            {{ exchange_request.offered_book.title|default:'a book' }}
-                                        </p>
-
-                                    </div>
-
-
-                                    <span
-                                        class="border border-outline-variant px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-secondary"
-                                    >
-                                        {{ exchange_request.get_status_display }}
-                                    </span>
+                                    <p class="text-sm text-on-surface-variant">
+                                        {{ exchange_request.requester.username }}
+                                        offers
+                                        {{ exchange_request.offered_book.title|default:'a book' }}
+                                    </p>
 
                                 </div>
 
 
-                                {% if exchange_request.note %}
+                                <span
+                                    class="border border-outline-variant px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-secondary">
+                                    {{ exchange_request.get_status_display }}
+                                </span>
 
-                                    <p
-                                        class="mt-3 border-l-2 border-secondary pl-3 text-sm italic text-on-surface-variant"
-                                    >
-                                        {{ exchange_request.note }}
-                                    </p>
+                            </div>
+
+
+                            {% if exchange_request.note %}
+
+                            <p class="mt-3 border-l-2 border-secondary pl-3 text-sm italic text-on-surface-variant">
+                                {{ exchange_request.note }}
+                            </p>
+
+                            {% endif %}
+
+
+                            <div class="mt-4 flex flex-wrap gap-2">
+
+                                <a href="{% url 'exchange_chat' exchange_request.id %}"
+                                    class="bg-primary px-3 py-2 text-xs font-bold uppercase tracking-widest text-white">
+                                    Open chat
+                                </a>
+
+
+                                {% if exchange_request.status == 'pending' %}
+
+                                <form method="post"
+                                    action="{% url 'exchange_request_status' exchange_request.id 'accepted' %}">
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        class="bg-secondary px-3 py-2 text-xs font-bold uppercase tracking-widest text-white"
+                                        type="submit">
+                                        Accept
+                                    </button>
+
+                                </form>
+
+
+                                <form method="post"
+                                    action="{% url 'exchange_request_status' exchange_request.id 'rejected' %}">
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        class="border border-error px-3 py-2 text-xs font-bold uppercase tracking-widest text-error"
+                                        type="submit">
+                                        Reject
+                                    </button>
+
+                                </form>
 
                                 {% endif %}
 
+                            </div>
 
-                                <div class="mt-4 flex flex-wrap gap-2">
-
-                                    <a
-                                        href="{% url 'exchange_chat' exchange_request.id %}"
-                                        class="bg-primary px-3 py-2 text-xs font-bold uppercase tracking-widest text-white"
-                                    >
-                                        Open chat
-                                    </a>
-
-
-                                    {% if exchange_request.status == 'pending' %}
-
-                                        <form
-                                            method="post"
-                                            action="{% url 'exchange_request_status' exchange_request.id 'accepted' %}"
-                                        >
-
-                                            {% csrf_token %}
-
-                                            <button
-                                                class="bg-secondary px-3 py-2 text-xs font-bold uppercase tracking-widest text-white"
-                                                type="submit"
-                                            >
-                                                Accept
-                                            </button>
-
-                                        </form>
-
-
-                                        <form
-                                            method="post"
-                                            action="{% url 'exchange_request_status' exchange_request.id 'rejected' %}"
-                                        >
-
-                                            {% csrf_token %}
-
-                                            <button
-                                                class="border border-error px-3 py-2 text-xs font-bold uppercase tracking-widest text-error"
-                                                type="submit"
-                                            >
-                                                Reject
-                                            </button>
-
-                                        </form>
-
-                                    {% endif %}
-
-                                </div>
-
-                            </article>
+                        </article>
 
                         {% empty %}
 
-                            <p class="py-8 text-sm text-on-surface-variant">
-                                No one has requested your exchange books yet.
-                            </p>
+                        <p class="py-8 text-sm text-on-surface-variant">
+                            No one has requested your exchange books yet.
+                        </p>
 
                         {% endfor %}
 
@@ -1442,50 +1502,45 @@
 
                         {% for exchange_request in sent_requests %}
 
-                            <article
-                                class="flex flex-wrap items-center justify-between gap-3 border-b border-outline-variant pb-3 last:border-0"
-                            >
+                        <article
+                            class="flex flex-wrap items-center justify-between gap-3 border-b border-outline-variant pb-3 last:border-0">
 
-                                <div>
+                            <div>
 
-                                    <h4 class="text-lg text-on-surface">
-                                        {{ exchange_request.exchange_book.book.title }}
-                                    </h4>
+                                <h4 class="text-lg text-on-surface">
+                                    {{ exchange_request.exchange_book.book.title }}
+                                </h4>
 
-                                    <p class="text-sm text-on-surface-variant">
-                                        Offering
-                                        {{ exchange_request.offered_book.title|default:'a book' }}
-                                        to
-                                        {{ exchange_request.exchange_book.seller.user.username }}
-                                    </p>
+                                <p class="text-sm text-on-surface-variant">
+                                    Offering
+                                    {{ exchange_request.offered_book.title|default:'a book' }}
+                                    to
+                                    {{ exchange_request.exchange_book.seller.user.username }}
+                                </p>
 
-                                </div>
+                            </div>
 
 
-                                <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-3">
 
-                                    <span
-                                        class="text-[10px] font-bold uppercase tracking-widest text-secondary"
-                                    >
-                                        {{ exchange_request.get_status_display }}
-                                    </span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-secondary">
+                                    {{ exchange_request.get_status_display }}
+                                </span>
 
-                                    <a
-                                        href="{% url 'exchange_chat' exchange_request.id %}"
-                                        class="border border-primary px-3 py-2 text-xs font-bold uppercase tracking-widest text-primary"
-                                    >
-                                        Chat
-                                    </a>
+                                <a href="{% url 'exchange_chat' exchange_request.id %}"
+                                    class="border border-primary px-3 py-2 text-xs font-bold uppercase tracking-widest text-primary">
+                                    Chat
+                                </a>
 
-                                </div>
+                            </div>
 
-                            </article>
+                        </article>
 
                         {% empty %}
 
-                            <p class="py-8 text-sm text-on-surface-variant">
-                                You have not sent any exchange requests.
-                            </p>
+                        <p class="py-8 text-sm text-on-surface-variant">
+                            You have not sent any exchange requests.
+                        </p>
 
                         {% endfor %}
 

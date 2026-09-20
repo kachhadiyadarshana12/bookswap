@@ -5,7 +5,7 @@ class BlockSellerMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.user.is_authenticated and hasattr(request.user, "seller_profile"):
+        if request.user.is_authenticated and hasattr(request.user, "seller_profile") and not hasattr(request.user, "reader_profile"):
             allowed_prefixes = [
                 '/seller',
                 '/all_sell_books',
@@ -15,7 +15,9 @@ class BlockSellerMiddleware:
                 '/static',
                 '/admin',
                 '/login',
-                '/registration'
+                '/registration',
+                '/exchange-request',
+                '/notifications'
             ]
             if not any(request.path.startswith(prefix) for prefix in allowed_prefixes):
                 return redirect('seller_profile')

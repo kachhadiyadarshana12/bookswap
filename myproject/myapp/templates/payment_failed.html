@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>BookSwap - Payment Failed</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: 'class',
+
+            theme: {
+                extend: {
+                    colors: {
+                        'on-primary-fixed-variant': '#8e0f28',
+                        'on-secondary': '#ffffff',
+                        error: '#ba1a1a',
+                        'inverse-primary': '#ffb3b5',
+                        'on-secondary-container': '#576959',
+                        'surface-container-highest': '#e4e2e1',
+                        'surface-container': '#f0eded',
+                        'secondary-fixed-dim': '#b8ccb8',
+                        'outline-variant': '#e0bfbf',
+                        'tertiary-fixed': '#ffe088',
+                        'on-tertiary-container': '#4f3d00',
+                        'primary-fixed-dim': '#ffb3b5',
+
+                        surface: '#fcf9f8',
+                        'surface-container-lowest': '#ffffff',
+                        background: '#fcf9f8',
+                        'on-surface': '#1b1c1c',
+                        'surface-container-high': '#eae7e7',
+
+                        'on-tertiary-fixed': '#241a00',
+                        'primary-container': '#800020',
+                        'on-error-container': '#93000a',
+                        'tertiary-fixed-dim': '#e9c349',
+                        'on-background': '#1b1c1c',
+
+                        tertiary: '#735c00',
+                        'surface-variant': '#e4e2e1',
+                        'secondary-container': '#d4e8d4',
+                        'surface-bright': '#fcf9f8',
+
+                        'on-error': '#ffffff',
+                        primary: '#570013',
+                        'secondary-fixed': '#d4e8d4',
+                        'surface-dim': '#dcd9d9',
+                        'primary-fixed': '#ffdada',
+
+                        'on-secondary-fixed-variant': '#3a4b3c',
+                        'on-secondary-fixed': '#0f1f13',
+                        'on-primary-fixed': '#40000b',
+
+                        'inverse-on-surface': '#f3f0f0',
+                        secondary: '#516353',
+                        outline: '#8c7071',
+
+                        'surface-container-low': '#f6f3f2',
+                        'on-tertiary-fixed-variant': '#574500',
+                        'surface-tint': '#af2b3e',
+                        'on-primary-container': '#ff828a',
+                        'on-primary': '#ffffff',
+                        'on-surface-variant': '#584141',
+
+                        'inverse-surface': '#303030',
+                        'tertiary-container': '#cca730',
+                        'on-tertiary': '#ffffff',
+                        'error-container': '#ffdad6'
+                    },
+
+                    borderRadius: {
+                        DEFAULT: '0.25rem',
+                        lg: '0.5rem',
+                        xl: '0.75rem',
+                        full: '9999px'
+                    },
+
+                    spacing: {
+                        'container-max': '1280px',
+                        gutter: '24px',
+                        'margin-mobile': '16px',
+                        base: '8px',
+                        'margin-desktop': '48px'
+                    },
+
+                    fontFamily: {
+                        'headline-sm': ['Playfair Display'],
+                        'headline-md': ['Playfair Display'],
+                        'label-caps': ['Inter'],
+                        'body-lg': ['Inter'],
+                        'body-md': ['Inter'],
+                        'display-lg': ['Playfair Display'],
+                        'display-lg-mobile': ['Playfair Display'],
+                        'body-sm': ['Inter']
+                    },
+
+                    fontSize: {
+                        'headline-sm': [
+                            '24px',
+                            {
+                                lineHeight: '1.3',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'headline-md': [
+                            '32px',
+                            {
+                                lineHeight: '1.2',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'label-caps': [
+                            '12px',
+                            {
+                                lineHeight: '1',
+                                letterSpacing: '0.08em',
+                                fontWeight: '600'
+                            }
+                        ],
+
+                        'body-lg': [
+                            '18px',
+                            {
+                                lineHeight: '1.6',
+                                fontWeight: '400'
+                            }
+                        ],
+
+                        'body-md': [
+                            '16px',
+                            {
+                                lineHeight: '1.5',
+                                fontWeight: '400'
+                            }
+                        ],
+
+                        'display-lg': [
+                            '48px',
+                            {
+                                lineHeight: '1.1',
+                                letterSpacing: '-0.02em',
+                                fontWeight: '700'
+                            }
+                        ],
+
+                        'display-lg-mobile': [
+                            '32px',
+                            {
+                                lineHeight: '1.2',
+                                fontWeight: '700'
+                            }
+                        ],
+
+                        'body-sm': [
+                            '14px',
+                            {
+                                lineHeight: '1.4',
+                                fontWeight: '400'
+                            }
+                        ]
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- BookSwap Global Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcf9f8;
+            color: #1b1c1c;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .book-shadow {
+            box-shadow: 0px 12px 24px rgba(128, 0, 32, 0.04);
+        }
+
+        .book-hover-shadow:hover {
+            box-shadow: 0px 16px 32px rgba(128, 0, 32, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .text-truncate-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .sell-book-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sell-book-card-image {
+            flex: 0 0 270px;
+        }
+
+        .sell-book-card-meta {
+            min-height: 24px;
+        }
+
+        /* =========================================================
+         SCROLLBAR
+      ========================================================= */
+
+      ::-webkit-scrollbar {
+        width: 7px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #d5c5c5;
+        border-radius: 999px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #8c7071;
+      }
+      
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    {% include 'navbar.html' %}
+
+    <!-- Subtle BookSwap Texture -->
+    <div class="texture-overlay"></div>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+
+        <div
+            class="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg border border-[#e0bfbf] text-center"
+        >
+
+            <!-- Error Icon & Heading -->
+            <div>
+
+                <div class="flex justify-center mb-5">
+                    <span
+                        class="material-symbols-outlined flex items-center justify-center text-6xl text-[#ba1a1a] bg-[#ffdad6] p-4 rounded-full"
+                    >
+                        error
+                    </span>
+                </div>
+
+                <h1 class="text-3xl font-bold text-[#570013]">
+                    Payment Failed
+                </h1>
+
+                <p class="mt-3 text-sm leading-6 text-[#584141]">
+                    Your payment could not be completed.
+                    No order will be marked as paid until the payment is verified.
+                </p>
+
+            </div>
+
+            <!-- Order Details -->
+            {% if order %}
+
+            <div
+                class="bg-[#fcf9f8] p-5 rounded-lg border border-[#e0bfbf] text-left"
+            >
+
+                <p class="text-sm font-semibold text-[#800020] mb-4">
+                    Order Details
+                </p>
+
+                <div class="space-y-3 text-sm">
+
+                    <div class="flex justify-between gap-4">
+                        <span class="text-[#584141]">
+                            Order Number:
+                        </span>
+
+                        <span class="font-semibold text-[#1b1c1c]">
+                            #{{ order.id }}
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between gap-4">
+                        <span class="text-[#584141]">
+                            Book:
+                        </span>
+
+                        <span class="font-semibold text-[#1b1c1c] text-right max-w-[220px]">
+                            {{ order.book.title }}
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between gap-4">
+                        <span class="text-[#584141]">
+                            Amount:
+                        </span>
+
+                        <span class="font-semibold text-[#800020]">
+                            ₹{{ order.amount }}
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col gap-3 mt-6">
+
+                {% if order %}
+
+                <!-- Try Again -->
+                <a
+                    href="{% url 'order_payment' order.id %}"
+                    class="w-full flex justify-center items-center gap-2 py-3 px-4 rounded-lg shadow-sm text-sm font-semibold text-white bg-[#800020] hover:bg-[#570013] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#800020]"
+                >
+                    <span class="material-symbols-outlined text-[20px]">
+                        refresh
+                    </span>
+
+                    Try Again
+                </a>
+
+                <!-- Back to Book -->
+                <a
+                    href="{% url 'sell_book_detail' order.book.id %}"
+                    class="w-full flex justify-center items-center gap-2 py-3 px-4 border border-[#e0bfbf] rounded-lg shadow-sm text-sm font-semibold text-[#570013] bg-white hover:bg-[#fcf9f8] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#800020]"
+                >
+                    <span class="material-symbols-outlined text-[20px]">
+                        arrow_back
+                    </span>
+
+                    Back to Book
+                </a>
+
+                {% endif %}
+
+                <!-- Continue Browsing -->
+                <a
+                    href="{% url 'browse' %}"
+                    class="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                >
+                    <span class="material-symbols-outlined text-[20px]">
+                        menu_book
+                    </span>
+
+                    Continue Browsing
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+</body>
+</html>

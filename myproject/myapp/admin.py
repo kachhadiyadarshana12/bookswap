@@ -115,10 +115,12 @@ class BookOrderAdmin(admin.ModelAdmin):
         "payment_method",
         "payment_status",
         "status",
+        "razorpay_order_id",
+        "razorpay_payment_id",
         "created_at",
     )
     list_filter = ("payment_method", "payment_status", "status", "created_at")
-    search_fields = ("book__title", "buyer__username", "buyer__email")
+    search_fields = ("book__title", "buyer__username", "buyer__email", "razorpay_order_id", "razorpay_payment_id")
     readonly_fields = ("created_at", "updated_at")
 
 
@@ -259,3 +261,8 @@ class SupportTicketAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+@admin.register(WebhookEvent)
+class WebhookEventAdmin(admin.ModelAdmin):
+    list_display = ('event_id', 'event_type', 'processed', 'created_at')
+    search_fields = ('event_id', 'event_type')
