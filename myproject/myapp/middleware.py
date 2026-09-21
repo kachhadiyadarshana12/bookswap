@@ -17,7 +17,8 @@ class BlockSellerMiddleware:
                 '/login',
                 '/registration',
                 '/exchange-request',
-                '/notifications'
+                '/notifications',
+                '/profile/edit'
             ]
             if not any(request.path.startswith(prefix) for prefix in allowed_prefixes):
                 return redirect('seller_profile')

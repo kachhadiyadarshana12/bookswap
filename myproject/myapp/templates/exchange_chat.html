@@ -450,21 +450,109 @@
 
     <section class="mt-5 overflow-hidden rounded-xl border border-[#e0bfbf] bg-white shadow-sm">
       <!--  =================================================
-                 CHAT HEADER
+                 EXCHANGE ROOM HEADER & SUMMARY
             ==================================================  -->
 
       <header class="bg-[#570013] p-6 text-white">
-        <p class="text-xs font-semibold uppercase tracking-widest text-[#ffdada]">Private exchange room</p>
+        <div class="flex items-start justify-between">
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#ffdada]">BookSwap Exchange Room</p>
+                <h1 class="mt-2 text-3xl font-semibold text-white">Exchange Details</h1>
+            </div>
+            <!-- Status Badge -->
+            <span class="inline-flex rounded-full bg-[#800020] border border-[#ffb3b5] px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-white shadow-sm">
+                {{ exchange_request.get_status_display }}
+            </span>
+        </div>
 
-        <h1 class="mt-2 text-3xl font-semibold text-white">{{ exchange_request.exchange_book.book.title }}</h1>
+        <!-- Exchange Book Cards -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-6 rounded-lg bg-white/5 p-6 border border-white/10">
+            <!-- Requester Book -->
+            <div class="flex items-center gap-4">
+                {% if exchange_request.offered_book.cover_image %}
+                <img src="{{ exchange_request.offered_book.cover_image.url }}" alt="Cover" class="h-24 w-16 object-cover rounded shadow-md border border-white/20">
+                {% else %}
+                <div class="h-24 w-16 bg-[#800020] rounded flex items-center justify-center border border-white/20"><span class="material-symbols-outlined text-white/50">book</span></div>
+                {% endif %}
+                <div>
+                    <p class="text-xs font-semibold text-[#ffdada] uppercase tracking-wider">
+                        {% if is_owner %}THEY GIVE{% else %}YOU GIVE{% endif %}
+                    </p>
+                    <p class="mt-1 font-semibold text-lg line-clamp-1">{{ exchange_request.offered_book.title }}</p>
+                    <p class="text-sm text-white/80 line-clamp-1">{{ exchange_request.offered_book.author }}</p>
+                </div>
+            </div>
 
-        <p class="mt-2 text-sm text-[#ffdada]">{{ exchange_request.requester.username }}
-          offered
-          {{ exchange_request.offered_book.title|default:'a book' }}</p>
+            <!-- Swap Icon -->
+            <div class="flex justify-center md:py-0 py-4">
+                <div class="h-12 w-12 rounded-full bg-[#800020] flex items-center justify-center border-2 border-[#570013] shadow-lg">
+                    <span class="material-symbols-outlined text-white text-2xl">swap_horiz</span>
+                </div>
+            </div>
 
-        <!-- Status -->
-        <span
-          class="mt-4 inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white">{{ exchange_request.get_status_display }}</span>
+            <!-- Owner Book -->
+            <div class="flex items-center gap-4 justify-end text-right">
+                <div>
+                    <p class="text-xs font-semibold text-[#ffdada] uppercase tracking-wider">
+                        {% if is_owner %}YOU GIVE{% else %}THEY GIVE{% endif %}
+                    </p>
+                    <p class="mt-1 font-semibold text-lg line-clamp-1">{{ exchange_request.exchange_book.book.title }}</p>
+                    <p class="text-sm text-white/80 line-clamp-1">{{ exchange_request.exchange_book.book.author }}</p>
+                </div>
+                {% if exchange_request.exchange_book.book.cover_image %}
+                <img src="{{ exchange_request.exchange_book.book.cover_image.url }}" alt="Cover" class="h-24 w-16 object-cover rounded shadow-md border border-white/20">
+                {% else %}
+                <div class="h-24 w-16 bg-[#800020] rounded flex items-center justify-center border border-white/20"><span class="material-symbols-outlined text-white/50">book</span></div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Exchange Checklist -->
+        <div class="mt-6 border-t border-white/10 pt-6">
+            <h3 class="text-sm font-semibold uppercase tracking-widest text-[#ffdada] mb-4">Exchange Checklist</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-6 text-sm">
+                <!-- Request Sent -->
+                <div class="flex items-center gap-2 text-white">
+                    <span class="material-symbols-outlined text-[#ffdada]">check_box</span>
+                    <span>Exchange request sent</span>
+                </div>
+                <!-- Accepted -->
+                <div class="flex items-center gap-2 {% if exchange_request.status != 'pending' and exchange_request.status != 'cancelled' and exchange_request.status != 'rejected' %}text-white{% else %}text-white/40{% endif %}">
+                    <span class="material-symbols-outlined {% if exchange_request.status != 'pending' and exchange_request.status != 'cancelled' and exchange_request.status != 'rejected' %}text-[#ffdada]{% endif %}">
+                        {% if exchange_request.status != 'pending' and exchange_request.status != 'cancelled' and exchange_request.status != 'rejected' %}check_box{% else %}check_box_outline_blank{% endif %}
+                    </span>
+                    <span>Exchange accepted</span>
+                </div>
+                <!-- Delivery Method -->
+                <div class="flex items-center gap-2 {% if exchange_request.logistics_choice %}text-white{% else %}text-white/40{% endif %}">
+                    <span class="material-symbols-outlined {% if exchange_request.logistics_choice %}text-[#ffdada]{% endif %}">
+                        {% if exchange_request.logistics_choice %}check_box{% else %}check_box_outline_blank{% endif %}
+                    </span>
+                    <span>Delivery method selected</span>
+                </div>
+                <!-- Books Sent -->
+                <div class="flex items-center gap-2 {% if exchange_request.requester_shipped or exchange_request.owner_shipped %}text-white{% else %}text-white/40{% endif %}">
+                    <span class="material-symbols-outlined {% if exchange_request.requester_shipped or exchange_request.owner_shipped %}text-[#ffdada]{% endif %}">
+                        {% if exchange_request.requester_shipped and exchange_request.owner_shipped %}check_box{% elif exchange_request.requester_shipped or exchange_request.owner_shipped %}indeterminate_check_box{% else %}check_box_outline_blank{% endif %}
+                    </span>
+                    <span>Books sent</span>
+                </div>
+                <!-- Book Received -->
+                <div class="flex items-center gap-2 {% if exchange_request.requester_received or exchange_request.owner_received %}text-white{% else %}text-white/40{% endif %}">
+                    <span class="material-symbols-outlined {% if exchange_request.requester_received or exchange_request.owner_received %}text-[#ffdada]{% endif %}">
+                        {% if exchange_request.requester_received and exchange_request.owner_received %}check_box{% elif exchange_request.requester_received or exchange_request.owner_received %}indeterminate_check_box{% else %}check_box_outline_blank{% endif %}
+                    </span>
+                    <span>Books received</span>
+                </div>
+                <!-- Completed -->
+                <div class="flex items-center gap-2 {% if exchange_request.status == 'completed' %}text-white{% else %}text-white/40{% endif %}">
+                    <span class="material-symbols-outlined {% if exchange_request.status == 'completed' %}text-[#ffdada]{% endif %}">
+                        {% if exchange_request.status == 'completed' %}check_box{% else %}check_box_outline_blank{% endif %}
+                    </span>
+                    <span>Exchange completed</span>
+                </div>
+            </div>
+        </div>
       </header>
 
       <!--  =================================================
@@ -567,7 +655,7 @@
                      MESSAGE FORM
                 ==================================================  -->
 
-        {% if exchange_request.status == 'accepted' %}
+        {% if exchange_request.status != 'pending' and exchange_request.status != 'rejected' and exchange_request.status != 'cancelled' %}
         <form method="post" class="flex gap-3">
           {% csrf_token %}
 
@@ -595,44 +683,94 @@
                 ==================================================  -->
 
         <div class="mt-4 flex flex-wrap gap-3">
-          <!-- OWNER ACTIONS -->
-          {% if is_owner and exchange_request.status == 'pending' %}
-          <!-- Accept -->
-          <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'accepted' %}">
-            {% csrf_token %}
-
-            <button type="submit"
-              class="inline-flex items-center gap-2 rounded bg-[#516353] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#3a4b3c]">
-              <span class="material-symbols-outlined text-base">check_circle</span>
-
-              Accept exchange
-            </button>
-          </form>
-
-          <!-- Reject -->
-          <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'rejected' %}">
-            {% csrf_token %}
-
-            <button type="submit"
-              class="inline-flex items-center gap-2 rounded border border-[#ba1a1a] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#ba1a1a] hover:bg-[#ba1a1a] hover:text-white">
-              <span class="material-symbols-outlined text-base">close</span>
-
-              Reject
-            </button>
-          </form>
-
-          <!-- REQUESTER ACTION -->
-          {% elif not is_owner and exchange_request.status == 'pending' %}
-          <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'cancelled' %}">
-            {% csrf_token %}
-
-            <button type="submit"
-              class="inline-flex items-center gap-2 rounded border border-[#8c7071] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#584141] hover:bg-[#f0eded]">
-              <span class="material-symbols-outlined text-base">cancel</span>
-
-              Cancel request
-            </button>
-          </form>
+          {% if exchange_request.status == 'pending' %}
+              {% if is_owner %}
+              <!-- Accept / Reject for Owner -->
+              <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'accepted' %}">
+                {% csrf_token %}
+                <button type="submit" class="inline-flex items-center gap-2 rounded bg-[#516353] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#3a4b3c]">
+                  <span class="material-symbols-outlined text-base">check_circle</span>
+                  Accept exchange
+                </button>
+              </form>
+              <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'rejected' %}">
+                {% csrf_token %}
+                <button type="submit" class="inline-flex items-center gap-2 rounded border border-[#ba1a1a] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#ba1a1a] hover:bg-[#ba1a1a] hover:text-white">
+                  <span class="material-symbols-outlined text-base">close</span>
+                  Reject
+                </button>
+              </form>
+              {% else %}
+              <!-- Cancel for Requester -->
+              <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'cancelled' %}">
+                {% csrf_token %}
+                <button type="submit" class="inline-flex items-center gap-2 rounded border border-[#8c7071] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#584141] hover:bg-[#f0eded]">
+                  <span class="material-symbols-outlined text-base">cancel</span>
+                  Cancel request
+                </button>
+              </form>
+              {% endif %}
+          {% elif exchange_request.status == 'accepted' %}
+              <!-- Confirm Exchange (Agreement/Logistics) -->
+              <a href="{% url 'exchange_logistics' exchange_request.id %}" class="inline-flex items-center gap-2 rounded bg-[#570013] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#800020]">
+                  <span class="material-symbols-outlined text-base">handshake</span>
+                  Confirm Exchange
+              </a>
+              <!-- Cancel -->
+              <form method="post" action="{% url 'exchange_request_status' exchange_request.id 'cancelled' %}">
+                {% csrf_token %}
+                <button type="submit" class="inline-flex items-center gap-2 rounded border border-[#8c7071] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#584141] hover:bg-[#f0eded]">
+                  <span class="material-symbols-outlined text-base">cancel</span>
+                  Cancel
+                </button>
+              </form>
+          {% elif exchange_request.status == 'ready_to_exchange' or exchange_request.status == 'in_transit' or exchange_request.status == 'arranging' %}
+              {% if is_owner %}
+                  {% if not exchange_request.owner_shipped %}
+                  <form method="post" action="{% url 'exchange_mark_sent' exchange_request.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="inline-flex items-center gap-2 rounded bg-[#516353] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#3a4b3c]">
+                          <span class="material-symbols-outlined text-base">send</span>
+                          Mark as Sent
+                      </button>
+                  </form>
+                  {% endif %}
+                  {% if not exchange_request.owner_received and exchange_request.requester_shipped %}
+                  <form method="post" action="{% url 'exchange_mark_received' exchange_request.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="inline-flex items-center gap-2 rounded bg-[#800020] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#570013]">
+                          <span class="material-symbols-outlined text-base">inventory_2</span>
+                          Mark as Received
+                      </button>
+                  </form>
+                  {% endif %}
+              {% else %}
+                  {% if not exchange_request.requester_shipped %}
+                  <form method="post" action="{% url 'exchange_mark_sent' exchange_request.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="inline-flex items-center gap-2 rounded bg-[#516353] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#3a4b3c]">
+                          <span class="material-symbols-outlined text-base">send</span>
+                          Mark as Sent
+                      </button>
+                  </form>
+                  {% endif %}
+                  {% if not exchange_request.requester_received and exchange_request.owner_shipped %}
+                  <form method="post" action="{% url 'exchange_mark_received' exchange_request.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="inline-flex items-center gap-2 rounded bg-[#800020] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#570013]">
+                          <span class="material-symbols-outlined text-base">inventory_2</span>
+                          Mark as Received
+                      </button>
+                  </form>
+                  {% endif %}
+              {% endif %}
+          {% endif %}
+          
+          {% if exchange_request.status != 'pending' and exchange_request.status != 'cancelled' and exchange_request.status != 'rejected' and exchange_request.status != 'completed' %}
+          <a href="{% url 'exchange_report_issue' exchange_request.id %}" class="inline-flex items-center gap-2 rounded border border-[#ba1a1a] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#ba1a1a] hover:bg-[#ba1a1a] hover:text-white">
+            <span class="material-symbols-outlined text-base">report_problem</span>
+            Report Issue
+          </a>
           {% endif %}
         </div>
       </div>
@@ -649,7 +787,7 @@
        AUTO SCROLL SCRIPT
   ==========================================================  -->
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       const chatContainer = document.getElementById("chat-container");
       if (chatContainer) {
         chatContainer.scrollTop = chatContainer.scrollHeight;

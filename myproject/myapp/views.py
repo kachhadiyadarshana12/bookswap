@@ -1117,12 +1117,14 @@ def cancel_order(request, order_id):
 
 @login_required
 def edit_profile(request):
-    profile = getattr(request.user, "reader_profile", None) or getattr(
-        request.user, "seller_profile", None
+    profile = getattr(request.user, "seller_profile", None) or getattr(
+        request.user, "reader_profile", None
     )
     if profile is None:
         messages.error(request, "Profile not found.")
         return redirect("user_profile")
+
+    is_seller = hasattr(profile, "store_name")
 
     if request.method == "POST":
         full_name = request.POST.get("full_name", "").strip()
@@ -1130,25 +1132,37 @@ def edit_profile(request):
         location = request.POST.get("location", "").strip()
         photo = request.FILES.get("profile_photo")
 
+        store_name = request.POST.get("store_name", "").strip() if is_seller else None
+        seller_description = request.POST.get("seller_description", "").strip() if is_seller else None
+
         if not full_name:
             messages.error(request, "Full name is required.")
         elif not phone.isdigit() or len(phone) != 10:
             messages.error(request, "Phone number must be exactly 10 digits.")
         elif not location:
             messages.error(request, "Address or city is required.")
+        elif is_seller and not store_name:
+            messages.error(request, "Store name is required.")
+        elif is_seller and not seller_description:
+            messages.error(request, "Store description is required.")
         else:
             profile.full_name = full_name
             profile.phone = phone
             profile.location = location
             if photo:
                 profile.profile_photo = photo
+                
+            if is_seller:
+                profile.store_name = store_name
+                profile.seller_description = seller_description
+                
             profile.save()
             messages.success(request, "Profile and contact details updated.")
-            if hasattr(request.user, "seller_profile"):
+            if is_seller:
                 return redirect("seller_profile")
             return redirect("user_profile")
 
-    return render(request, "edit_profile.html", {"profile": profile})
+    return render(request, "edit_profile.html", {"profile": profile, "is_seller": is_seller})
 
 
 @login_required
@@ -1292,7 +1306,8 @@ def exchange_request_status(request, request_id, status):
 def exchange_chat(request, request_id):
     exchange_request = get_exchange_request_for_user(request, request_id)
     if request.method == "POST":
-        if exchange_request.status != "accepted":
+        active_statuses = ["accepted", "arranging", "ready_to_exchange", "in_transit", "received", "completed"]
+        if exchange_request.status not in active_statuses:
             messages.error(request, "You can only send messages after the exchange request is accepted.")
             return redirect("exchange_chat", request_id=request_id)
         
@@ -1340,9 +1355,119 @@ def exchange_chat(request, request_id):
             "is_owner": exchange_request.exchange_book.seller.user_id
             == request.user.id,
             "other_profile": other_profile,
-            "contact_shared": exchange_request.status == "accepted",
+            "contact_shared": exchange_request.status in ["accepted", "arranging", "ready_to_exchange", "in_transit", "received", "completed"],
         },
     )
+@login_required
+def exchange_logistics(request, request_id):
+    exchange_request = get_exchange_request_for_user(request, request_id)
+    if exchange_request.status != "accepted":
+        messages.error(request, "Logistics can only be arranged for accepted exchanges.")
+        return redirect("exchange_chat", request_id=request_id)
+    
+    if request.method == "POST":
+        choice = request.POST.get("logistics_choice")
+        if choice == "shipping":
+            exchange_request.logistics_choice = choice
+            exchange_request.status = "ready_to_exchange"
+            exchange_request.save()
+            messages.success(request, "Shipping selected as delivery method.")
+            return redirect("exchange_chat", request_id=request_id)
+        elif choice == "meetup":
+            proposed_date = request.POST.get("proposed_date")
+            proposed_time = request.POST.get("proposed_time")
+            location = request.POST.get("location")
+            note = request.POST.get("note", "")
+            
+            if proposed_date and proposed_time and location:
+                meetup, created = ExchangeMeetup.objects.get_or_create(
+                    exchange_request=exchange_request
+                )
+                meetup.proposed_date = proposed_date
+                meetup.proposed_time = proposed_time
+                meetup.location = location
+                meetup.note = note
+                meetup.save()
+                
+                exchange_request.logistics_choice = choice
+                exchange_request.status = "ready_to_exchange"
+                exchange_request.save()
+                
+                messages.success(request, "Meetup details proposed.")
+                return redirect("exchange_chat", request_id=request_id)
+            else:
+                messages.error(request, "Please provide date, time, and location for the meetup.")
+    
+    return render(request, "exchange_logistics.html", {"exchange_request": exchange_request})
+
+@login_required
+def exchange_mark_sent(request, request_id):
+    exchange_request = get_exchange_request_for_user(request, request_id)
+    if exchange_request.status not in ["arranging", "ready_to_exchange", "in_transit"]:
+        messages.error(request, "Cannot mark as sent at this stage.")
+        return redirect("exchange_chat", request_id=request_id)
+        
+    is_owner = exchange_request.exchange_book.seller.user_id == request.user.id
+    if request.method == "POST":
+        if is_owner:
+            exchange_request.owner_shipped = True
+        else:
+            exchange_request.requester_shipped = True
+        
+        if exchange_request.status == "arranging" or exchange_request.status == "ready_to_exchange":
+            exchange_request.status = "in_transit"
+            
+        exchange_request.save()
+        messages.success(request, "Book marked as sent!")
+        
+    return redirect("exchange_chat", request_id=request_id)
+
+@login_required
+def exchange_mark_received(request, request_id):
+    exchange_request = get_exchange_request_for_user(request, request_id)
+    if exchange_request.status not in ["in_transit", "ready_to_exchange", "arranging"]:
+        messages.error(request, "Cannot mark as received at this stage.")
+        return redirect("exchange_chat", request_id=request_id)
+        
+    is_owner = exchange_request.exchange_book.seller.user_id == request.user.id
+    if request.method == "POST":
+        if is_owner:
+            exchange_request.owner_received = True
+        else:
+            exchange_request.requester_received = True
+            
+        if exchange_request.owner_received and exchange_request.requester_received:
+            exchange_request.status = "completed"
+            
+        exchange_request.save()
+        messages.success(request, "Book marked as received!")
+        
+    return redirect("exchange_chat", request_id=request_id)
+
+@login_required
+def exchange_report_issue(request, request_id):
+    exchange_request = get_exchange_request_for_user(request, request_id)
+    if exchange_request.status in ["pending", "rejected", "cancelled", "completed"]:
+        messages.error(request, "You cannot report an issue for this exchange right now.")
+        return redirect("exchange_chat", request_id=request_id)
+        
+    if request.method == "POST":
+        issue_type = request.POST.get("issue_type")
+        description = request.POST.get("description", "").strip()
+        
+        if issue_type and description:
+            ExchangeIssue.objects.create(
+                exchange_request=exchange_request,
+                reporter=request.user,
+                issue_type=issue_type,
+                description=description
+            )
+            messages.success(request, "Issue reported. We will review it shortly.")
+            return redirect("exchange_chat", request_id=request_id)
+        else:
+            messages.error(request, "Please select an issue type and provide a description.")
+            
+    return render(request, "exchange_report_issue.html", {"exchange_request": exchange_request})
 
 
 # seller
@@ -2215,14 +2340,11 @@ def seller_add_exchange(request):
 
             # SAVE DRAFT
             if is_draft:
-
                 messages.success(request, "Exchange book saved as draft.")
-
                 return redirect("user_profile" if user_side else "all_exchange_books")
 
-            # Continue to delivery; exchange listings do not use a selling price.
+            # Continue directly to condition (step 2)
             return redirect("seller_exchange_condition", book_id=book.id)
-            return redirect("seller_exchange_delivery", book_id=book.id)
         except Exception as e:
 
             messages.error(request, f"Unable to save exchange book: {str(e)}")
@@ -2362,10 +2484,10 @@ def seller_exchange_condition(request, book_id):
             return redirect("user_profile")
 
         # --------------------------------------------------
-        # CONTINUE STEP 3
+        # CONTINUE STEP 3 (REVIEW)
         # --------------------------------------------------
 
-        return redirect("seller_exchange_delivery", book_id=book.id)
+        return redirect("seller_exchange_review", book_id=book.id)
 
     return render(
         request,
@@ -2455,7 +2577,7 @@ def seller_exchange_pricing(request, book_id):
     # Keep this legacy URL working for old bookmarks, but skip pricing entirely.
     seller = get_object_or_404(sellerprofile, user=request.user)
     book = get_object_or_404(Book, id=book_id, seller=seller)
-    return redirect("seller_exchange_delivery", book_id=book.id)
+    return redirect("seller_exchange_review", book_id=book.id)
 
 
 # ============================================================
@@ -2522,7 +2644,7 @@ def seller_exchange_delivery(request, book_id):
         {
             "book": book,
             "exchange_book": exchange_book,
-            "current_step": 4,
+            "current_step": 3,
             "edit_mode": True,
             "exchange_mode": True,
             "user_side": hasattr(request.user, "reader_profile"),
@@ -2629,7 +2751,7 @@ def seller_exchange_review(request, book_id):
                         "book": book,
                         "exchange_book": exchange_book,
                         "photos": photos,
-                        "current_step": 5,
+                        "current_step": 3,
                         "edit_mode": True,
                         "exchange_mode": True,
                     },
@@ -2654,7 +2776,7 @@ def seller_exchange_review(request, book_id):
             "book": book,
             "exchange_book": exchange_book,
             "photos": photos,
-            "current_step": 5,
+            "current_step": 3,
             "edit_mode": True,
             "exchange_mode": True,
         },

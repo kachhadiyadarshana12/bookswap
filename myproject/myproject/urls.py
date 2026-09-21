@@ -63,6 +63,27 @@ urlpatterns = [
         name="create_exchange_request",
     ),
     path("exchange-request/<int:request_id>/chat", exchange_chat, name="exchange_chat"),
+
+    path(
+        "exchange-request/<int:request_id>/logistics",
+        exchange_logistics,
+        name="exchange_logistics",
+    ),
+    path(
+        "exchange-request/<int:request_id>/mark-sent",
+        exchange_mark_sent,
+        name="exchange_mark_sent",
+    ),
+    path(
+        "exchange-request/<int:request_id>/mark-received",
+        exchange_mark_received,
+        name="exchange_mark_received",
+    ),
+    path(
+        "exchange-request/<int:request_id>/report-issue",
+        exchange_report_issue,
+        name="exchange_report_issue",
+    ),
     path(
         "exchange-request/<int:request_id>/<str:status>",
         exchange_request_status,

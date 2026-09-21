@@ -363,9 +363,20 @@ class BookOrder(models.Model):
 class ExchangeRequest(models.Model):
     STATUS_CHOICES = [
         ("pending", "Pending"),
+        ("negotiating", "Negotiating"),
         ("accepted", "Accepted"),
+        ("arranging", "Arranging"),
+        ("ready_to_exchange", "Ready to Exchange"),
+        ("in_transit", "In Transit"),
+        ("received", "Received"),
+        ("completed", "Completed"),
         ("rejected", "Rejected"),
         ("cancelled", "Cancelled"),
+    ]
+
+    LOGISTICS_CHOICES = [
+        ("meetup", "Local Meetup"),
+        ("shipping", "Shipping"),
     ]
 
     exchange_book = models.ForeignKey(
@@ -383,6 +394,22 @@ class ExchangeRequest(models.Model):
     )
     note = models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
+    logistics_choice = models.CharField(max_length=20, choices=LOGISTICS_CHOICES, blank=True, null=True)
+    
+    # Tracking for shipping
+    requester_tracking = models.CharField(max_length=100, blank=True)
+    owner_tracking = models.CharField(max_length=100, blank=True)
+    
+    # Tracking state
+    requester_shipped = models.BooleanField(default=False)
+    owner_shipped = models.BooleanField(default=False)
+    requester_received = models.BooleanField(default=False)
+    owner_received = models.BooleanField(default=False)
+
+    # Condition check upon receipt
+    requester_condition_ok = models.BooleanField(default=True)
+    owner_condition_ok = models.BooleanField(default=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -500,4 +527,49 @@ class PasswordResetOTP(models.Model):
 
     def is_valid(self):
         return timezone.now() < self.created_at + timedelta(minutes=5)
+
+
+class ExchangeMeetup(models.Model):
+    exchange_request = models.OneToOneField(ExchangeRequest, on_delete=models.CASCADE, related_name="meetup")
+    proposed_date = models.DateField(null=True, blank=True)
+    proposed_time = models.TimeField(null=True, blank=True)
+    location = models.CharField(max_length=255, blank=True)
+    note = models.TextField(blank=True)
+    is_accepted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Meetup for {self.exchange_request}"
+
+
+class ExchangeIssue(models.Model):
+    ISSUE_CHOICES = [
+        ("not_received", "Book not received"),
+        ("condition_differs", "Book condition differs"),
+        ("wrong_book", "Wrong book received"),
+        ("damaged", "Damaged during shipping"),
+        ("unresponsive", "User stopped responding"),
+        ("other", "Other"),
+    ]
+    exchange_request = models.ForeignKey(ExchangeRequest, on_delete=models.CASCADE, related_name="issues")
+    reporter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reported_exchange_issues")
+    issue_type = models.CharField(max_length=50, choices=ISSUE_CHOICES)
+    description = models.TextField()
+    is_resolved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Issue by {self.reporter.username} on {self.exchange_request}"
+
+
+class ExchangeRating(models.Model):
+    exchange_request = models.ForeignKey(ExchangeRequest, on_delete=models.CASCADE, related_name="ratings")
+    rater = models.ForeignKey(User, on_delete=models.CASCADE, related_name="given_exchange_ratings")
+    ratee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_exchange_ratings")
+    rating = models.PositiveIntegerField() # 1 to 5
+    review = models.TextField(blank=True)
+    tags = models.JSONField(default=list, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.rating} stars by {self.rater.username} for {self.ratee.username}"
 

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>BookSwap - Exchange Chat</title>
+
+  <!--  =========================================================
+         GOOGLE FONTS
+    ==========================================================  -->
+
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet" />
+
+  <!--  =========================================================
+         MATERIAL SYMBOLS
+    ==========================================================  -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!--  =========================================================
+         TAILWIND CSS
+    ==========================================================  -->
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!--  =========================================================
+         TAILWIND CONFIG
+    ==========================================================  -->
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+
+      theme: {
+        extend: {
+          /* =========================
+                           BOOKSWAP COLORS
+                        ========================= */
+
+          colors: {
+            'surface-container-highest': '#e4e2e1',
+            'on-secondary': '#ffffff',
+            'tertiary-fixed': '#ffe088',
+
+            error: '#ba1a1a',
+
+            primary: '#570013',
+            'primary-container': '#800020',
+
+            'surface-bright': '#fcf9f8',
+
+            'secondary-container': '#d4e8d4',
+            'on-secondary-container': '#576959',
+
+            'primary-fixed': '#ffdada',
+
+            background: '#fcf9f8',
+            'on-background': '#1b1c1c',
+
+            'secondary-fixed': '#d4e8d4',
+
+            'on-error': '#ffffff',
+
+            outline: '#8c7071',
+
+            'inverse-on-surface': '#f3f0f0',
+
+            'on-secondary-fixed-variant': '#3a4b3c',
+
+            'on-primary-fixed-variant': '#8e0f28',
+
+            'surface-container': '#f0eded',
+            'surface-container-high': '#eae7e7',
+            'surface-container-low': '#f6f3f2',
+            'surface-container-lowest': '#ffffff',
+
+            'primary-fixed-dim': '#ffb3b5',
+
+            'on-tertiary-fixed-variant': '#574500',
+
+            secondary: '#516353',
+
+            'on-primary-container': '#ff828a',
+
+            'tertiary-fixed-dim': '#e9c349',
+
+            'on-surface-variant': '#584141',
+            'on-surface': '#1b1c1c',
+
+            'on-error-container': '#93000a',
+
+            'on-tertiary': '#ffffff',
+
+            'tertiary-container': '#cca730',
+
+            'surface-dim': '#dcd9d9',
+
+            'inverse-primary': '#ffb3b5',
+
+            'error-container': '#ffdad6',
+
+            'on-primary-fixed': '#40000b',
+
+            'on-primary': '#ffffff',
+
+            'surface-tint': '#af2b3e',
+
+            surface: '#fcf9f8',
+
+            tertiary: '#735c00',
+
+            'on-tertiary-fixed': '#241a00',
+
+            'on-tertiary-container': '#4f3d00',
+
+            'outline-variant': '#e0bfbf',
+
+            'surface-variant': '#e4e2e1',
+
+            'secondary-fixed-dim': '#b8ccb8',
+
+            'on-secondary-fixed': '#0f1f13',
+
+            'inverse-surface': '#303030'
+          },
+
+          /* =========================
+                           BORDER RADIUS
+                        ========================= */
+
+          borderRadius: {
+            DEFAULT: '0.25rem',
+            lg: '0.5rem',
+            xl: '0.75rem',
+            full: '9999px'
+          },
+
+          /* =========================
+                           SPACING
+                        ========================= */
+
+          spacing: {
+            gutter: '24px',
+            'margin-mobile': '16px',
+            'container-max': '1280px',
+            base: '8px',
+            'margin-desktop': '48px'
+          },
+
+          /* =========================
+                           FONT FAMILY
+                        ========================= */
+
+          fontFamily: {
+            'display-lg-mobile': ['Playfair Display'],
+
+            'display-lg': ['Playfair Display'],
+
+            'headline-sm': ['Playfair Display'],
+
+            'headline-md': ['Playfair Display'],
+
+            'body-lg': ['Inter'],
+
+            'body-md': ['Inter'],
+
+            'body-sm': ['Inter'],
+
+            'label-caps': ['Inter']
+          },
+
+          /* =========================
+                           FONT SIZE
+                        ========================= */
+
+          fontSize: {
+            'display-lg-mobile': [
+              '32px',
+              {
+                lineHeight: '1.2',
+                fontWeight: '700'
+              }
+            ],
+
+            'display-lg': [
+              '48px',
+              {
+                lineHeight: '1.1',
+                letterSpacing: '-0.02em',
+                fontWeight: '700'
+              }
+            ],
+
+            'headline-sm': [
+              '24px',
+              {
+                lineHeight: '1.3',
+                fontWeight: '600'
+              }
+            ],
+
+            'headline-md': [
+              '32px',
+              {
+                lineHeight: '1.2',
+                fontWeight: '600'
+              }
+            ],
+
+            'body-lg': [
+              '18px',
+              {
+                lineHeight: '1.6',
+                fontWeight: '400'
+              }
+            ],
+
+            'body-md': [
+              '16px',
+              {
+                lineHeight: '1.5',
+                fontWeight: '400'
+              }
+            ],
+
+            'body-sm': [
+              '14px',
+              {
+                lineHeight: '1.4',
+                fontWeight: '400'
+              }
+            ],
+
+            'label-caps': [
+              '12px',
+              {
+                lineHeight: '1',
+                letterSpacing: '0.08em',
+                fontWeight: '600'
+              }
+            ]
+          }
+        }
+      }
+    }
+  </script>
+
+  <!--  =========================================================
+         GLOBAL CSS
+    ==========================================================  -->
+
+  <style>
+    /* ==============================
+                 GLOBAL DESIGN SYSTEM
+              ============================== */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+
+      background-color: #fcf9f8;
+
+      color: #1b1c1c;
+
+      font-family: 'Inter', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ==============================
+                 INPUTS
+              ============================== */
+
+    input,
+    select,
+    textarea {
+      font-family: 'Inter', sans-serif;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #8c7071;
+      opacity: 0.75;
+    }
+
+    /* ==============================
+                 TEXT SELECTION
+              ============================== */
+
+    ::selection {
+      background: #800020;
+      color: #ffffff;
+    }
+
+    /* ==============================
+                 SCROLLBAR
+              ============================== */
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #e4e2e1;
+      border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #8c7071;
+    }
+
+    /* ==============================
+                 CHAT SCROLLBAR
+              ============================== */
+
+    .chat-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .chat-scroll::-webkit-scrollbar-thumb {
+      background: #e0bfbf;
+      border-radius: 9999px;
+    }
+
+    .chat-scroll::-webkit-scrollbar-thumb:hover {
+      background: #8c7071;
+    }
+
+    /* ==============================
+                 FORM ELEMENTS
+              ============================== */
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #570013 !important;
+
+      box-shadow: 0 0 0 2px rgba(87, 0, 19, 0.08) !important;
+
+      outline: none;
+    }
+
+    /* ==============================
+                 SMOOTH TRANSITIONS
+              ============================== */
+
+    input,
+    select,
+    textarea,
+    button,
+    a {
+      transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    /* ==============================
+                 CHAT BUBBLE
+              ============================== */
+
+    .chat-message {
+      word-break: break-word;
+    }
+
+    /* ==============================
+                 RESPONSIVE
+              ============================== */
+
+    @media (max-width: 1024px) {
+      main {
+        margin-left: 0 !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .chat-message {
+        max-width: 90%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding-top: 24px !important;
+        padding-bottom: 24px !important;
+      }
+
+      .chat-message {
+        max-width: 95%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+{% include "navbar.html" %}
+
+<div class="min-h-screen bg-[#fcf9f8] px-4 py-12 font-['Inter'] sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-2xl">
+    <div class="mb-8">
+      <a href="{% url 'exchange_chat' exchange_request.id %}" class="inline-flex items-center text-sm font-medium text-[#570013] hover:text-[#800020]">
+        <span class="material-symbols-outlined mr-1 text-base">arrow_back</span>
+        Back to Exchange Room
+      </a>
+    </div>
+
+    <div class="rounded-xl border border-[#e5dcd3] bg-white p-8 shadow-sm">
+      <div class="mb-8 border-b border-[#e5dcd3] pb-6">
+        <h1 class="font-['Playfair_Display'] text-3xl font-bold text-[#2d2424]">Arrange Logistics</h1>
+        <p class="mt-2 text-sm text-[#584141]">How would you like to exchange these books?</p>
+      </div>
+
+      <form method="post" class="space-y-8" id="logisticsForm">
+        {% csrf_token %}
+        
+        <!-- Option 1: Shipping -->
+        <div class="relative rounded-lg border border-[#e5dcd3] p-4 transition-colors hover:border-[#570013]">
+          <label class="flex cursor-pointer items-start">
+            <div class="flex h-6 items-center">
+              <input type="radio" name="logistics_choice" value="shipping" class="h-4 w-4 border-[#e5dcd3] text-[#570013] focus:ring-[#570013]" onchange="toggleMeetupFields(false)" required>
+            </div>
+            <div class="ml-3">
+              <span class="block text-sm font-medium text-[#2d2424]">Ship by Mail</span>
+              <span class="block text-sm text-[#584141]">You will mail the book to each other's addresses.</span>
+            </div>
+          </label>
+        </div>
+
+        <!-- Option 2: Meetup -->
+        <div class="relative rounded-lg border border-[#e5dcd3] p-4 transition-colors hover:border-[#570013]">
+          <label class="flex cursor-pointer items-start">
+            <div class="flex h-6 items-center">
+              <input type="radio" name="logistics_choice" value="meetup" class="h-4 w-4 border-[#e5dcd3] text-[#570013] focus:ring-[#570013]" onchange="toggleMeetupFields(true)">
+            </div>
+            <div class="ml-3">
+              <span class="block text-sm font-medium text-[#2d2424]">In-Person Meetup</span>
+              <span class="block text-sm text-[#584141]">Meet locally to exchange the books.</span>
+            </div>
+          </label>
+        </div>
+
+        <!-- Meetup Details (Hidden by default) -->
+        <div id="meetupFields" class="hidden space-y-4 rounded-lg bg-[#f9f5f0] p-6">
+          <h3 class="font-['Playfair_Display'] text-lg font-semibold text-[#2d2424]">Propose Meetup Details</h3>
+          
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label for="proposed_date" class="block text-sm font-medium text-[#2d2424]">Date</label>
+              <input type="date" name="proposed_date" id="proposed_date" class="mt-1 block w-full rounded border-[#e5dcd3] px-3 py-2 shadow-sm focus:border-[#570013] focus:outline-none focus:ring-1 focus:ring-[#570013] sm:text-sm">
+            </div>
+            <div>
+              <label for="proposed_time" class="block text-sm font-medium text-[#2d2424]">Time</label>
+              <input type="time" name="proposed_time" id="proposed_time" class="mt-1 block w-full rounded border-[#e5dcd3] px-3 py-2 shadow-sm focus:border-[#570013] focus:outline-none focus:ring-1 focus:ring-[#570013] sm:text-sm">
+            </div>
+          </div>
+          
+          <div>
+            <label for="location" class="block text-sm font-medium text-[#2d2424]">Location</label>
+            <input type="text" name="location" id="location" placeholder="e.g. Central Library, Downtown Coffee Shop" class="mt-1 block w-full rounded border-[#e5dcd3] px-3 py-2 shadow-sm focus:border-[#570013] focus:outline-none focus:ring-1 focus:ring-[#570013] sm:text-sm">
+          </div>
+          
+          <div>
+            <label for="note" class="block text-sm font-medium text-[#2d2424]">Note (Optional)</label>
+            <textarea name="note" id="note" rows="2" class="mt-1 block w-full rounded border-[#e5dcd3] px-3 py-2 shadow-sm focus:border-[#570013] focus:outline-none focus:ring-1 focus:ring-[#570013] sm:text-sm"></textarea>
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-4">
+          <button type="submit" class="rounded bg-[#570013] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#800020] focus:outline-none focus:ring-2 focus:ring-[#570013] focus:ring-offset-2">
+            Confirm Selection
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleMeetupFields(show) {
+    const fields = document.getElementById('meetupFields');
+    const inputs = fields.querySelectorAll('input:not([type="hidden"]), textarea');
+    
+    if (show) {
+        fields.classList.remove('hidden');
+        inputs.forEach(input => {
+            if (input.name !== 'note') {
+                input.required = true;
+            }
+        });
+    } else {
+        fields.classList.add('hidden');
+        inputs.forEach(input => {
+            input.required = false;
+        });
+    }
+}
+</script>
+
+
+
+</body>
+</html>

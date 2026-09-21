@@ -86,8 +86,8 @@
       Condition
     </li>
 
-    <!-- STEP 4 : EXCHANGE -->
-    <li class="flex w-full items-center
+    <!-- STEP 3 : REVIEW -->
+    <li class="flex items-center
       {% if current_step >= 3 %}
         
         text-primary-container
@@ -95,16 +95,6 @@
       {% else %}
         
         text-secondary
-
-      {% endif %}
-      after:content-[''] after:w-full after:h-px after:mx-4
-      {% if current_step > 3 %}
-        
-        after:border-b after:border-primary-container
-
-      {% else %}
-        
-        after:border-b after:border-outline-variant
 
       {% endif %}">
       <span class="flex items-center justify-center w-6 h-6 rounded-full shrink-0 mr-2
@@ -121,78 +111,6 @@
           <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
         {% else %}
           3
-        {% endif %}
-      </span>
-
-      Exchange
-    </li>
-
-    <!-- STEP 5 : DELIVERY -->
-    <li class="flex w-full items-center
-      {% if current_step >= 4 %}
-        
-        text-primary-container
-
-      {% else %}
-        
-        text-secondary
-
-      {% endif %}
-      after:content-[''] after:w-full after:h-px after:mx-4
-      {% if current_step > 4 %}
-        
-        after:border-b after:border-primary-container
-
-      {% else %}
-        
-        after:border-b after:border-outline-variant
-
-      {% endif %}">
-      <span class="flex items-center justify-center w-6 h-6 rounded-full shrink-0 mr-2
-        {% if current_step >= 4 %}
-          
-          bg-primary-container text-on-primary
-
-        {% else %}
-          
-          border-2 border-outline-variant
-
-        {% endif %}">
-        {% if current_step > 4 %}
-          <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
-        {% else %}
-          4
-        {% endif %}
-      </span>
-
-      Delivery
-    </li>
-
-    <!-- STEP 6 : REVIEW -->
-    <li class="flex items-center
-      {% if current_step >= 5 %}
-        
-        text-primary-container
-
-      {% else %}
-        
-        text-secondary
-
-      {% endif %}">
-      <span class="flex items-center justify-center w-6 h-6 rounded-full shrink-0 mr-2
-        {% if current_step >= 5 %}
-          
-          bg-primary-container text-on-primary
-
-        {% else %}
-          
-          border-2 border-outline-variant
-
-        {% endif %}">
-        {% if current_step > 5 %}
-          <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
-        {% else %}
-          5
         {% endif %}
       </span>
 

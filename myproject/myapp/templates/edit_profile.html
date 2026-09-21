@@ -511,6 +511,30 @@
 
             </div>
 
+            {% if is_seller %}
+            <!-- =================================================
+                 STORE NAME
+            ================================================== -->
+            <div>
+                <label for="store_name" class="mb-2 block text-sm font-semibold text-[#1b1c1c]">
+                    Store name
+                </label>
+                <input id="store_name" name="store_name" value="{{ profile.store_name }}" maxlength="100" required
+                    class="w-full rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]">
+            </div>
+
+            <!-- =================================================
+                 SELLER DESCRIPTION
+            ================================================== -->
+            <div>
+                <label for="seller_description" class="mb-2 block text-sm font-semibold text-[#1b1c1c]">
+                    Store description
+                </label>
+                <textarea id="seller_description" name="seller_description" rows="4" required
+                    class="w-full resize-none rounded border border-[#e0bfbf] bg-white px-4 py-3 text-sm text-[#1b1c1c] outline-none focus:border-[#570013]">{{ profile.seller_description }}</textarea>
+            </div>
+            {% endif %}
+
 
             <!-- =================================================
                  PROFILE PHOTO

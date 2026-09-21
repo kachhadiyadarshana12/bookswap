@@ -435,8 +435,9 @@
                     <select name="offered_book" required
                         class="w-full rounded border border-outline-variant bg-white px-3 py-3">
                         <option value="">Choose your exchange book to offer</option>
-                        {% for offered_book in offered_books %}<option value="{{ offered_book.id }}">{{
-                            offered_book.title }} by {{ offered_book.author }}</option>{% endfor %}
+                        {% for offered_book in offered_books %}
+                        <option value="{{ offered_book.id }}">{{ offered_book.title }} by {{ offered_book.author }}</option>
+                        {% endfor %}
                     </select>
                     <textarea name="note" maxlength="2000" rows="3" placeholder="Add a note for the owner (optional)"
                         class="w-full rounded border border-outline-variant bg-white px-3 py-3"></textarea>
